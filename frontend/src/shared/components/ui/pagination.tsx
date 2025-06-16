@@ -6,7 +6,7 @@ import {
 } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/shared/components/ui/button'
 import { Link } from 'react-router'
 
 function Pagination({ className, ...props }: React.ComponentProps<'nav'>) {
@@ -43,29 +43,6 @@ type PaginationLinkProps = {
   path: string
 } & Pick<React.ComponentProps<typeof Button>, 'size'> &
   React.ComponentProps<'a'>
-
-/* function PaginationLink({
-  className,
-  isActive,
-  size = 'icon',
-  ...props
-}: PaginationLinkProps) {
-  return (
-    <a
-      aria-current={isActive ? 'page' : undefined}
-      data-slot='pagination-link'
-      data-active={isActive}
-      className={cn(
-        buttonVariants({
-          variant: isActive ? 'outline' : 'ghost',
-          size,
-        }),
-        className
-      )}
-      {...props}
-    />
-  )
-} */
 
 function PaginationLink({
   children,
