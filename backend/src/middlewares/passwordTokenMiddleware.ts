@@ -1,5 +1,5 @@
-import User from '../models/userModel'
-import { UserDb, UserDocument } from '../types/userTypes'
+import User from '../models/userModel.js'
+import { UserDb, UserDocument } from '../types/userTypes.js'
 import { NextFunction, Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 

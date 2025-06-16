@@ -3,7 +3,7 @@ import {
   removeItemCartById,
   addItemById,
   updateItemById
-} from '../controllers/cartController'
+} from '../controllers/cartController.js'
 import express from 'express'
 
 const cartRoutes = express.Router()

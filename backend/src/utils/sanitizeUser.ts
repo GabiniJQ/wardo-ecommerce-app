@@ -1,5 +1,4 @@
-import { UserDb, UserResponse } from "../types/userTypes";
-
+import { UserDb, UserResponse } from '../types/userTypes.js'
 
 const sanitizeUser = (user: UserDb): UserResponse => {
   return {

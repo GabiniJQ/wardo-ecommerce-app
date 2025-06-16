@@ -1,19 +1,19 @@
 import asyncHandler from 'express-async-handler'
 import { Response, Request } from 'express'
-import User from '../models/userModel'
+import User from '../models/userModel.js'
 import bcrypt from 'bcrypt'
 import crypto from 'crypto'
-import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie'
+import { generateTokenAndSetCookie } from '../utils/generateTokenAndSetCookie.js'
 import {
   sendPasswordResetEmail,
   sendResetSuccessEmail,
   sendVerificationEmail,
   sendWelcomeEmail,
-} from '../mailtrap/emails'
-import PendingUser from '../models/pendingUserModel'
-import sanitizeUser from '../utils/sanitizeUser'
-import { AppError } from '../types/appError'
-import { UserDocument } from '../types/userTypes'
+} from '../mailtrap/emails.js'
+import PendingUser from '../models/pendingUserModel.js'
+import sanitizeUser from '../utils/sanitizeUser.js'
+import { AppError } from '../types/appError.js'
+import { UserDocument } from '../types/userTypes.js'
 
 // POST /
 export const registerUser = asyncHandler(

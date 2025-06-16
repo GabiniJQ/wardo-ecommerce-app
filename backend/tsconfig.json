@@ -8,12 +8,6 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "plugins": [
-      {
-        "transform": "@zerollup/ts-transform-paths",
-        "exclude": ["*"]
-      }
-    ]
   },
   "include": ["src/**/*"],
   "exclude": ["src/utils/dbScripts/**"]

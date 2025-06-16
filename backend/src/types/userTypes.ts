@@ -1,4 +1,4 @@
-import { CartDb } from './cartTypes'
+import { CartDb } from './cartTypes.js'
 import { Types, Document } from 'mongoose'
 
 export type Address = {

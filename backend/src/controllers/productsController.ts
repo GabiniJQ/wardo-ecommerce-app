@@ -1,6 +1,6 @@
-import { ErrorResponse } from '../middlewares/errorMiddleware'
-import Product from '../models/productModel'
-import { PaginatedSearchResult, ProductDb, SearchFilters, SearchQueryParams } from '../types/productTypes'
+import { ErrorResponse } from '../middlewares/errorMiddleware.js'
+import Product from '../models/productModel.js'
+import { PaginatedSearchResult, ProductDb, SearchFilters, SearchQueryParams } from '../types/productTypes.js'
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 
