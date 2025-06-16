@@ -11,9 +11,8 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "exclude": [
-      "src/utils/dbScripts/**"
-    ]
-  }
+    }
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/utils/dbScripts/**"]
 }
