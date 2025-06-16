@@ -1,4 +1,4 @@
-import { UserDb } from '@/types/userTypes'
+import { UserDb } from '../types/userTypes'
 import mongoose, { Types } from 'mongoose'
 
 const addressSchema = new mongoose.Schema({

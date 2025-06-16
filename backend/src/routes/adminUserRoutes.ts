@@ -1,6 +1,6 @@
 import express from 'express'
-import admin from '@/middlewares/adminMiddleware'
-import { getUsers } from '@/controllers/adminUserController'
+import admin from '../middlewares/adminMiddleware'
+import { getUsers } from '../controllers/adminUserController'
 
 const adminRouter = express.Router()
 

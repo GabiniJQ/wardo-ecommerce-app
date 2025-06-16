@@ -1,11 +1,11 @@
 import express from 'express'
-import customerRoutes from '@/routes/customerUserRoutes'
-import adminRoutes from '@/routes/adminUserRoutes'
-import { errorHandler } from '@/middlewares/errorMiddleware'
-import connectDB from '@/config/db'
+import customerRoutes from './routes/customerUserRoutes'
+import adminRoutes from './routes/adminUserRoutes'
+import { errorHandler } from './middlewares/errorMiddleware'
+import connectDB from './config/db'
 import cookieParser from 'cookie-parser'
-import productsRoutes from '@/routes/productsRoutes'
-import cartRoutes from '@/routes/cartRoutes'
+import productsRoutes from './routes/productsRoutes'
+import cartRoutes from './routes/cartRoutes'
 import dotenv from 'dotenv'
 dotenv.config()
 

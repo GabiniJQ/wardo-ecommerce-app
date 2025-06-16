@@ -2,8 +2,8 @@ import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
-} from '@/mailtrap/emailTemplates'
-import { mailtrapClient, sender } from '@/mailtrap/mailtrapConfig'
+} from './emailTemplates'
+import { mailtrapClient, sender } from './mailtrapConfig'
 
 export const sendVerificationEmail = async (
   email: string,

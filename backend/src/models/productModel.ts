@@ -1,4 +1,4 @@
-import { ProductDb } from '@/types/productTypes'
+import { ProductDb } from '../types/productTypes'
 import mongoose from 'mongoose'
 
 const reviewSchema = new mongoose.Schema({

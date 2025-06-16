@@ -15,9 +15,9 @@ import {
   addAddress,
   changeMainAddress,
   checkPasswordToken,
-} from '@/controllers/customerUserController'
-import protect from '@/middlewares/verifyTokenMiddleware'
-import passwordToken from '@/middlewares/passwordTokenMiddleware'
+} from '../controllers/customerUserController'
+import protect from '../middlewares/verifyTokenMiddleware'
+import passwordToken from '../middlewares/passwordTokenMiddleware'
 
 const customerRouter = express.Router()
 

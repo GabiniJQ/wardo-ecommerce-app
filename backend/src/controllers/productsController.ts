@@ -1,6 +1,6 @@
-import { ErrorResponse } from '@/middlewares/errorMiddleware'
-import Product from '@/models/productModel'
-import { PaginatedSearchResult, ProductDb, ProductDocument, SearchFilters, SearchQueryParams } from '@/types/productTypes'
+import { ErrorResponse } from '../middlewares/errorMiddleware'
+import Product from '../models/productModel'
+import { PaginatedSearchResult, ProductDb, SearchFilters, SearchQueryParams } from '../types/productTypes'
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 
@@ -119,15 +119,6 @@ export const getProductsBySearch = asyncHandler(async (
         Product.find(filters, null, options),
         Product.countDocuments(filters)
       ])
-
-      /* const filteredBrands: string[] = []
-      products.map((product) => {
-        if (filteredBrands.includes(product.brand)) {
-          return
-        } else {
-          filteredBrands.push(product.brand)
-        }
-      }) */
       
       res.json({
         message: 'Productos filtrados correctamente',

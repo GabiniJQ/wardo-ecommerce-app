@@ -1,6 +1,6 @@
-import User from '@/models/userModel'
-import { CartDb, CartItemDb } from '@/types/cartTypes'
-import { UserDocument } from '@/types/userTypes'
+import User from '../models/userModel'
+import { CartDb, CartItemDb } from '../types/cartTypes'
+import { UserDocument } from '../types/userTypes'
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
 import { Document } from 'mongoose'
@@ -42,7 +42,7 @@ export const addItemById = asyncHandler(async (req: Request, res: Response) => {
   }
   
   // Check product already exists
-  const existing = user.cart.items.find((item) => 
+  const existing = user.cart.items.find((item: CartItemDb) => 
     item.productId.toString() === cartItem.productId
   )
 
@@ -66,7 +66,7 @@ export const removeItemCartById = asyncHandler(async (req: Request, res: Respons
 
   const user = await User.findById(userId).select('cart') as Document & UserDocument
   
-  const updatedItems = user.cart.items.filter((item) =>
+  const updatedItems = user.cart.items.filter((item: CartItemDb) =>
     item.productId.toString() !== productId
   )
 
@@ -89,7 +89,7 @@ export const updateItemById = asyncHandler(async (req: Request, res: Response) =
 
   const user = await User.findById(userId).select('cart') as Document & UserDocument
 
-  const productUpdated = user.cart.items.find((item) => item._id.toString() === _id)
+  const productUpdated = user.cart.items.find((item: CartItemDb) => item._id.toString() === _id)
 
   if (!productUpdated) {
     res.status(404)
