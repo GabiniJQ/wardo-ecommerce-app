@@ -1,5 +1,5 @@
 import { RootState } from '@/app/store'
-import { Button } from '@/components/ui/button'
+import { Button } from '@/shared/components/ui/button'
 import {
   Pagination,
   PaginationContent,
@@ -16,7 +16,7 @@ export function PaginationSection() {
     state.products.filteredResults.search
   )
 
-  const pagesArray = Array.from({ length: pagination.pages}).map((page, i) => {
+  const pagesArray = Array.from({ length: pagination.pages}).map((_, i) => {
     const nextIndex = i + 1
     if (i < pagination.pages) {
       return nextIndex

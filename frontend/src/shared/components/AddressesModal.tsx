@@ -16,14 +16,13 @@ import { Address } from '@/shared/types/authTypes'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/store'
 import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router'
+import { useNavigate } from 'react-router'
 import { changeMainAddress } from '@/features/auth/authSlice'
 import Loader from '@/shared/components/Loader'
 import { toast } from 'sonner'
 import { ToastNotification, ToastNotificationButton, ToastNotificationMessage } from '@/shared/components/ToastNotification'
 import { ROUTES } from '@/consts/routes'
 import { AddressOption, AddressOptionAction, AddressOptionIcon, AddressOptionInfo } from '@/shared/components/AddressOption'
-import AddAddressButton from '@/shared/components/AddAddressButton'
 
 const AddressesModal = ({ defaultOpen }: { defaultOpen?: boolean }) => {
   const { user } = useSelector((state: RootState) => state.auth)

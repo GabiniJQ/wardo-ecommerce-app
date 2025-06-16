@@ -80,7 +80,7 @@ const CartItem = ({ id }: { id: string }) => {
           </ToastNotification>
         )
       }
-    } catch (error) {
+    } catch {
       toast(
         <ToastNotification className='text-red-500'>
           <ToastNotificationMessage type='error'>
