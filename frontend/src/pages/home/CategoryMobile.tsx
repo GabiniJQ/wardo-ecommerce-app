@@ -27,18 +27,19 @@ const CategoryMobile = ({ header, category }: { header: string, category: string
     
   }, [dispatch, category, products, isLoading, isError, hasBeenAttempted])
 
-  if (isLoading) {
+  if (isLoading || isError) {
     return (
-      <div>
-        <Skeleton className='w-full h-[600px]' />
-      </div>
-    )
-  }
-
-  if (isError) {
-    return (
-      <div>
-        <Skeleton className='w-full h-[600px]' />
+      <div className='grid grid-cols-2 gap-2 bg-white p-4 w-full h-[800px] rounded shadow'>
+        {Array.from({ length: 6 }).map(() => (
+          <div className='size-full'>
+            <Skeleton className='h-2/3' />
+            <div className='flex flex-col gap-2 h-1/3 py-2'>
+              <Skeleton className='size-full' />
+              <Skeleton className='size-full' />
+              <Skeleton className='size-full' />
+            </div>
+          </div>
+        ))}
       </div>
     )
   }

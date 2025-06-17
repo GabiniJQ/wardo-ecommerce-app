@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import { PaginationSection } from '@/shared/components/Pagination'
 import Loader from '@/shared/components/Loader'
+import ProductCardDetailedSkeleton from '@/shared/components/ProductCardDetailedSkeleton'
 
 const SearchResultsPage = () => {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -70,17 +71,9 @@ const SearchResultsPage = () => {
     dispatch(fetchSearchResults(filters))
   }, [currentParams, dispatch, navigate])
 
-  if (isLoading) {
+  if (isLoading || isError) {
     return (
-      <div className='min-h-screen'><Loader className='size-4'/></div>
-    )
-  }
-
-  if (isError) {
-    return (
-      <div>
-        <Skeleton className='h-[400px]'/>
-      </div>
+      <ProductCardDetailedSkeleton />
     )
   }
 

@@ -34,7 +34,20 @@ const Showcase = ({ brand, phrase }: ShowcaseProps) => {
     dispatch(fetchShowcaseResults(filters))
   }, [dispatch, brand])
 
-  if (products.length === 0 || isLoading || isError) return <Skeleton className='size-[400px]' />
+  if (products.length === 0 || isLoading || isError) {
+    return (
+      <div className='showcase bg-white min-h-[500px] w-full p-4 rounded shadow'>
+        <Skeleton className='h-3/4 w-full' />
+
+        <div className='flex items-center justify-center gap-2 h-1/4 bg-white p-4'>
+          <Skeleton className='size-full' />
+          <Skeleton className='size-full' />
+          <Skeleton className='size-full' />
+          <Skeleton className='size-full' />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className='flex flex-col showcase p-4 rounded shadow-sm shadow-gray-500 bg-white justify-between'>

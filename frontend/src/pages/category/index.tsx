@@ -1,7 +1,11 @@
 import { AppDispatch, RootState } from '@/app/store'
 import { CATEGORIES } from '@/consts/productCategories'
 import { fetchProductsByCategory } from '@/features/products/productsSlice'
+import Loader from '@/shared/components/Loader'
 import ProductCardDetailed from '@/shared/components/ProductCardDetailed'
+import ProductCardDetailedSkeleton from '@/shared/components/ProductCardDetailedSkeleton'
+import { Skeleton } from '@/shared/components/ui/skeleton'
+import useScreenSize from '@/shared/hooks/useScreenSize'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router'
@@ -21,10 +25,11 @@ const CategoryPage = () => {
   const { products } = useSelector((state: RootState) => 
     state.products.byCategory[category ?? ''] ?? productBackUp
   )
-  
   const dispatch = useDispatch<AppDispatch>()
 
   const navigate = useNavigate()
+
+  const isMobile = useScreenSize()
   
   useEffect(() => {
     if (!category || !originalCategories.includes(category)){
@@ -57,6 +62,19 @@ const CategoryPage = () => {
           )
         })}
       </div>
+
+      {/* Skeleton */}
+      {isMobile && products.length === 0 && (
+        <ProductCardDetailedSkeleton />
+      )}
+
+      {!isMobile && products.length === 0 && (
+        <div className='grid grid-cols-2 gap-6 size-full'>
+          {Array.from({ length: 2 }).map(() => (
+            <ProductCardDetailedSkeleton />
+          ))}
+        </div>
+      )}
     </div>
   )
 }

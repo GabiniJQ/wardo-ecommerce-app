@@ -49,27 +49,11 @@ const ProductsCarousel = ({
     }
   }, [dispatch, category, products, isLoading, isError, hasBeenAttempted])
 
-  if (isLoading) {
+  if (isLoading || isError) {
     return (
       <div
         className={clsx(
-          'flex bg-white gap-2 rounded-sm overflow-hidden py-[25px] max-h-[420px]',
-          displayed === 'full' ? 'w-[100%]' : 'w-[49%]'
-        )}
-      >
-        <ProductsCarouselSkeleton
-          className='mx-2 h-[400px]'
-          displayed={displayed}
-        />
-      </div>
-    )
-  }
-
-  if (isError) {
-    return (
-      <div
-        className={clsx(
-          'flex bg-white gap-2 rounded-sm overflow-hidden py-[25px] max-h-[420px]',
+          'flex bg-white gap-2 rounded-sm overflow-hidden py-[25px] max-h-[420px] shadow',
           displayed === 'full' ? 'w-[100%]' : 'w-[49%]'
         )}
       >
