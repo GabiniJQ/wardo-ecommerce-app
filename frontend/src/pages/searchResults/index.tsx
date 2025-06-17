@@ -1,7 +1,6 @@
 import { AppDispatch, RootState } from '@/app/store'
 import BuyingOptions from '@/shared/components/BuyingOptions'
 import ProductRating from '@/shared/components/ProductRating'
-import { Skeleton } from '@/shared/components/ui/skeleton'
 import { CONVERSION_RATE } from '@/consts/conversionRate'
 import { fetchSearchResults } from '@/features/products/productsSlice'
 import { formatCategoryText, formatCategoryURL } from '@/shared/utils/utils'
@@ -12,7 +11,6 @@ import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useSearchParams } from 'react-router'
 import { PaginationSection } from '@/shared/components/Pagination'
-import Loader from '@/shared/components/Loader'
 import ProductCardDetailedSkeleton from '@/shared/components/ProductCardDetailedSkeleton'
 
 const SearchResultsPage = () => {
