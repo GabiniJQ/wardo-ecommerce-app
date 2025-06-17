@@ -8,27 +8,30 @@ import { AppDispatch, RootState } from '@/app/store'
 import { Toaster } from '@/shared/components/ui/sonner'
 import api from '@/lib/axios'
 import FullScreenLoader from '@/pages/home/FullScreenLoader'
+import {
+  CACHE_KEY,
+  shouldPingServer } from '@/shared/utils/wakeUpServer'
 
 const Layout = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(shouldPingServer())
 
   const dispatch = useDispatch<AppDispatch>()
   const { user } = useSelector((state: RootState) => state.auth)
 
   useEffect(() => {
     const pingServer = async () => {
-      setIsLoading(true)
       try {
         await api.get('/ping')
-      } catch (error) {
-        console.error('Ping failed:', error)
+        localStorage.setItem(CACHE_KEY, `${Date.now()}`)
+      } catch (err) {
+        console.error('Error pinging server:', err)
       } finally {
         setIsLoading(false)
       }
     }
 
-    pingServer()
-  }, [])
+    if (isLoading) pingServer()
+  }, [isLoading])
 
   useEffect(() => {
     dispatch(checkAuth())
