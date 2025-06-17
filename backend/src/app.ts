@@ -9,6 +9,7 @@ import adminRoutes from './routes/adminUserRoutes.js'
 import { errorHandler } from './middlewares/errorMiddleware.js'
 import productsRoutes from './routes/productsRoutes.js'
 import cartRoutes from './routes/cartRoutes.js'
+import pingRoutes from './routes/pingRoutes.js'
 
 dotenv.config()
 
@@ -32,7 +33,9 @@ app.use(express.urlencoded({ extended: false}))
 app.use('/api/users', customerRoutes, adminRoutes)
 app.use('/api/products', productsRoutes)
 app.use('/api/cart', cartRoutes)
+app.use('/api/ping', pingRoutes)
 app.use(errorHandler)
+
 
 
 app.listen(PORT, ()=> {
