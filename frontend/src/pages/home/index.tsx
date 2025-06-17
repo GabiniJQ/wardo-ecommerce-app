@@ -6,7 +6,6 @@ import ProductsCarousel from '@/pages/home/ProductsCarousel'
 import Showcase from '@/pages/home/Showcase'
 import Tags from '@/pages/home/Tags'
 
-
 const HomePage = () => {
   const isMobile = useScreenSize()
 
