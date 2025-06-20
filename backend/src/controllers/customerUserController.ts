@@ -124,7 +124,12 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
 // POST /logout
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
-  res.clearCookie('token')
+  res.clearCookie('token', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'none',
+  })
+
   res.status(200).json({ message: 'El usuario ha salido de sesión exitosamente' })
 })
 

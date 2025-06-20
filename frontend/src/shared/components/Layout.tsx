@@ -17,6 +17,7 @@ const Layout = () => {
 
   const dispatch = useDispatch<AppDispatch>()
   const { user } = useSelector((state: RootState) => state.auth)
+  const logoutSuccess = useSelector((state: RootState) => state.auth.logout.isSuccess)
 
   useEffect(() => {
     const pingServer = async () => {
@@ -37,6 +38,10 @@ const Layout = () => {
     dispatch(checkAuth())
   }, [dispatch, user])
   
+  useEffect(() => {
+    if (logoutSuccess) window.location.href = '/'
+  }, [logoutSuccess])
+
   if (isLoading) {
     return <FullScreenLoader />
   }

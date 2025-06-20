@@ -16,10 +16,7 @@ const Settings = () => {
 
   const menuItems = [
     { title: 'Mi cuenta', path: ROUTES.MY_ACCOUNT},
-    { title: 'Mis pedidos', path: ROUTES.ORDERS},
-    { title: 'Mis favoritos', path: ROUTES.FAVORITES},
-    { title: 'Productos recomendados', path: ROUTES.RECOMMENDED},
-    { title: 'Ayuda', path: ROUTES.HELP},
+    { title: 'Mi carrito', path: ROUTES.CART},
   ]
 
   return (
@@ -49,7 +46,7 @@ const Settings = () => {
 
         {/* Dropdown menu */}
         {settingsOpen && (
-          <div className='absolute top-full left-1/2 transform -translate-x-1/2 z-50 flex flex-col bg-white pb-4 py-2 px-6 mt-3 shadow-2xl'>
+          <div className='absolute top-full left-1/2 transform -translate-x-1/2 z-50 flex flex-col bg-white pb-4 py-2 px-6 mt-3 min-w-[200px] shadow-2xl'>
             {/* Triangle */}
             <div className='absolute -top-2 left-1/2  -translate-x-1/2 size-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-white'></div>
 

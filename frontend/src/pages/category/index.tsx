@@ -1,6 +1,7 @@
 import { AppDispatch, RootState } from '@/app/store'
 import { CATEGORIES } from '@/consts/productCategories'
 import { fetchProductsByCategory } from '@/features/products/productsSlice'
+import BackButton from '@/shared/components/BackButton'
 import ProductCardDetailed from '@/shared/components/ProductCardDetailed'
 import ProductCardDetailedSkeleton from '@/shared/components/ProductCardDetailedSkeleton'
 import useScreenSize from '@/shared/hooks/useScreenSize'
@@ -49,7 +50,10 @@ const CategoryPage = () => {
 
   return (
     <div className='flex flex-col gap-6 p-4 md:p-10 2xl:mx-40 bg-white'>
-      <h1 className='text-primary title text-center md:text-left'>{currentCategory}</h1>
+      <div className='flex gap-2 items-center'>
+        <BackButton />
+        <h1 className='text-primary title text-center md:text-left'>{currentCategory}</h1>
+      </div>
 
       <div className='grid gap-6 px-2 lg:grid-cols-3 2xl:grid-cols-4'>
         {products.map((product) => {

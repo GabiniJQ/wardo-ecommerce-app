@@ -436,10 +436,12 @@ export const authSlice = createSlice({
       .addCase(logout.fulfilled, (state) => {
         localStorage.removeItem('user')
         state.logout.isSuccess = true
+        state.logout.isError = false
         state.user = null
       })
       .addCase(logout.rejected, (state) => {
         state.logout.isError = true
+        state.logout.isSuccess = false
         state.user = null
       })
       .addCase(login.pending, (state) => {

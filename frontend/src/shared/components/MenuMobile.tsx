@@ -98,6 +98,7 @@ const MenuMobile = ({ onClose }: {
                 <div className='flex flex-col' onClick={onClose}>
                   {categoriesArray.map((cat) => (
                     <Link 
+                      key={cat.ORIGINAL}
                       to={`/${cat.ORIGINAL}`}
                       className='flex items-center h-12  border-b-xs-gray '
                     >

@@ -249,7 +249,7 @@ const Navbar = () => {
                 <div className='flex justify-center items-center h-full w-full px-2'>
                   <button className='flex justify-center items-center gap-1 btn text-black h-full w-full' onClick={() => handleLogout()}>
                     <LogOut className='size-4 ' />
-                    <a href='/' className='text-center text-sm hover:underline w-full '>Cerrar sesión</a>
+                    <span className='text-center text-sm hover:underline w-full '>Cerrar sesión</span>
                   </button>
                 </div>
               </div>
@@ -277,7 +277,7 @@ export const ListItem = ({ title, href, imgSrc }: ListItemProps) => {
 
   return (
     <Link to={href} className='flex gap-2 border rounded-xl'>
-      <div className='flex gap-2 border-r-2 w-1/2 p-4 bg-accent'>
+      <div className='flex gap-2 border-r-2 w-1/2 p-4 bg-accent rounded-l-xl'>
         <img src={imgSrc} alt={title} className='size-20'/>
       </div>
 
