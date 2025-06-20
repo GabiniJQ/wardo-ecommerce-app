@@ -80,7 +80,8 @@ export default function LoginForm() {
               <FormLabel>E-mail</FormLabel>
               <FormControl>
                 <Input 
-                  placeholder='Ingresa tu E-mail'
+                  className='placeholder:text-sm'
+                  placeholder='Ingresa tu e-mail'
                   {...field}
                   onChange={(e) => {
                     clearErrors(['email', 'password'])
@@ -94,7 +95,7 @@ export default function LoginForm() {
           )}
         />
 
-        <div>
+        <div className='flex flex-col gap-4'>
           <FormField
             control={form.control}
             name='password'
@@ -103,6 +104,7 @@ export default function LoginForm() {
                 <FormLabel>Contraseña</FormLabel>
                 <FormControl>
                   <Input 
+                    className='placeholder:text-sm'
                     type='password'
                     placeholder='Ingresa tu contraseña'
                     {...field}

@@ -17,6 +17,7 @@ interface PasswordInputFieldProps<T extends FieldValues> {
   label: string
   maxLength?: number
   formState?: FormState<T>
+  placeholder?: string
 }
 
 export const PasswordInputField = <T extends FieldValues>({
@@ -25,6 +26,7 @@ export const PasswordInputField = <T extends FieldValues>({
   label,
   maxLength = 72,
   formState,
+  placeholder,
 }: PasswordInputFieldProps<T>) => {
   const [isVisible, setIsVisible] = useState(false)
 
@@ -40,10 +42,11 @@ export const PasswordInputField = <T extends FieldValues>({
           <div className='flex'>
             <FormControl>
               <Input
-                className='z-10 border-r-0 rounded-r-none w-[90%]'
+                className='z-10 border-r-0 rounded-r-none w-[90%] placeholder:text-sm'
                 {...field}
                 type={isVisible ? 'text' : 'password'}
                 maxLength={maxLength}
+                placeholder={placeholder ?? ''}
               />
             </FormControl>
             <Button

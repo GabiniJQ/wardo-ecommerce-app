@@ -17,12 +17,10 @@ import {
 import { Input } from '@/shared/components/ui/input'
 import { signupSchema } from '@/schemas/signupSchema'
 import { AppDispatch, RootState } from '@/app/store'
-import { useEffect, useState } from 'react'
-import PasswordStrengthMeter from '@/pages/signup/PasswordStrengthMeter'
-import { HiEye, HiEyeOff } from 'react-icons/hi'
+import { useEffect } from 'react'
+import { PasswordInputField } from '@/shared/components/PasswordInputField'
 
 export default function SignupForm() {
-  const [isVisiblePass, setIsVisiblePass] = useState(false)
 
   // Define form
   const form = useForm<z.infer<typeof signupSchema>>({
@@ -34,8 +32,7 @@ export default function SignupForm() {
     },
   })
 
-  // Password value tracker
-  const password = form.watch('password') || ''
+  const { formState } = form
 
   const navigate = useNavigate()
 
@@ -87,9 +84,14 @@ export default function SignupForm() {
           name='name'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='sr-only'>Nombre</FormLabel>
+              <FormLabel>Nombre completo</FormLabel>
               <FormControl>
-                <Input maxLength={100} placeholder='Nombre completo' {...field} />
+                <Input
+                  className='placeholder:text-sm'
+                  maxLength={100}
+                  placeholder='Ingresar nombre completo'
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -101,44 +103,26 @@ export default function SignupForm() {
           name='email'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='sr-only'>E-mail</FormLabel>
+              <FormLabel>E-mail</FormLabel>
               <FormControl>
-                <Input maxLength={254} placeholder='E-mail' {...field} />
+                <Input
+                  className='placeholder:text-sm'
+                  maxLength={254}
+                  placeholder='Ingresar e-mail'
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <FormField
+        <PasswordInputField 
           control={form.control}
+          label='Contraseña'
           name='password'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='sr-only'>Contraseña</FormLabel>
-              <div className='flex'>
-                <FormControl>
-                  <Input
-                    className='pr-7'
-                    maxLength={72}
-                    type={isVisiblePass ? 'text' : 'password'}
-                    placeholder='Contraseña'
-                    {...field}
-                  />
-                </FormControl>
-
-                <button
-                  type='button'
-                  className='btn -ml-6'
-                  onClick={() => setIsVisiblePass(!isVisiblePass)}
-                >
-                  {isVisiblePass ? <HiEyeOff /> : <HiEye />}
-                </button>
-              </div>
-              <PasswordStrengthMeter password={password} />
-              <FormMessage />
-            </FormItem>
-          )}
+          formState={formState}
+          placeholder='Ingresar contraseña'
         />
 
         <Button type='submit' className='w-full'>
