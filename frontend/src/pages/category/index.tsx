@@ -37,7 +37,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     if (products.length === 0 && category) {
-      dispatch(fetchProductsByCategory(category))
+      dispatch(fetchProductsByCategory({ category }))
     }
   }, [products, dispatch, category])
 
@@ -51,7 +51,7 @@ const CategoryPage = () => {
     <div className='flex flex-col gap-6 p-4 md:p-10 2xl:mx-40 bg-white'>
       <h1 className='text-primary title text-center md:text-left'>{currentCategory}</h1>
 
-      <div className='grid gap-6 md:grid-cols-2'>
+      <div className='grid gap-6 px-2 lg:grid-cols-3 2xl:grid-cols-4'>
         {products.map((product) => {
           return (
             <div key={product._id} className='bg-white shadow rounded'>
@@ -68,8 +68,8 @@ const CategoryPage = () => {
 
       {!isMobile && products.length === 0 && (
         <div className='grid grid-cols-2 gap-6 size-full'>
-          {Array.from({ length: 2 }).map(() => (
-            <ProductCardDetailedSkeleton />
+          {Array.from({ length: 2 }).map((_,i) => (
+            <ProductCardDetailedSkeleton key={i}/>
           ))}
         </div>
       )}

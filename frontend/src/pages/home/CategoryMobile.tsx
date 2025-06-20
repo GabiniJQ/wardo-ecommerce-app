@@ -22,7 +22,7 @@ const CategoryMobile = ({ header, category }: { header: string, category: string
 
   useEffect(() => {
     if (products.length === 0 && !isLoading && !isError && !hasBeenAttempted) {
-      dispatch(fetchProductsByCategory(category))
+      dispatch(fetchProductsByCategory({category}))
     }
     
   }, [dispatch, category, products, isLoading, isError, hasBeenAttempted])
@@ -30,8 +30,8 @@ const CategoryMobile = ({ header, category }: { header: string, category: string
   if (isLoading || isError) {
     return (
       <div className='grid grid-cols-2 gap-2 bg-white p-4 w-full h-[800px] rounded shadow'>
-        {Array.from({ length: 6 }).map(() => (
-          <div className='size-full'>
+        {Array.from({ length: 6 }).map((_, i) => (
+          <div className='size-full' key={i}>
             <Skeleton className='h-2/3' />
             <div className='flex flex-col gap-2 h-1/3 py-2'>
               <Skeleton className='size-full' />
@@ -45,9 +45,9 @@ const CategoryMobile = ({ header, category }: { header: string, category: string
   }
 
   return (
-    <div className='relative flex flex-col justify-between min-w-[240px] mb-4  mx-auto rounded-lg bg-white  shadow-sm shadow-gray-500'>
+    <div className='relative flex flex-col justify-between min-w-[240px] mb-4  mx-auto rounded-lg bg-white shadow-gray-500'>
       <div className='p-2 border-b-xs-gray border-dashed'>
-        <h2 className='text-blue-dark '>{header}</h2>
+        <h2 className='subtitle'>{header}</h2>
       </div>
 
       <div className='grid grid-cols-2 bg-white'>
@@ -55,11 +55,11 @@ const CategoryMobile = ({ header, category }: { header: string, category: string
           const { category, _id, slug } = product
           const productPath = `${formatCategoryURL(category)}/${slug}/${_id}`
           return (
-            <div className='flex items-center even:border-l-[1px]  border-gray-300 border-dashed odd:last:border-r-[1px]' 
+            <div className='flex items-center even:border-l-[1px] size-full border-gray-300 border-dashed odd:last:border-r-[1px]' 
               key={product._id}
             >
               <Link to={productPath} className='size-full'>
-                <ProductCard product={product} className='p-4 border-b-xs-gray border-dashed text-sm'>
+                <ProductCard product={product} className='p-4 border-b-xs-gray border-dashed text-sm size-full'>
                   <ProductCardImage className='size-full'/>
                   <ProductCardInfo />
                 </ProductCard>

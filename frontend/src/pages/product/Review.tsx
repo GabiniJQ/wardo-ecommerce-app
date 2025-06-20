@@ -1,5 +1,6 @@
 import ProductRating from '@/shared/components/ProductRating'
 import { type Review } from '@/shared/types/productTypes'
+import { HiUser } from 'react-icons/hi'
 
 const Review = ({ review }: { review: Review }) => {
   const {
@@ -16,17 +17,22 @@ const Review = ({ review }: { review: Review }) => {
   })
   
   return (
-    <div className='flex flex-col items-start'>
-      <div className=''>
-        <p className='inline-block mr-2'>{reviewerName}</p>
-
-        <p className='text-sm font-extralight text-gray-400 inline-block '>{formatedDate}</p>
+    <div className='flex gap-4'>
+      <div className='flex items-center justify-center rounded-full bg-gray-300 size-16'>
+        <HiUser className='text-black/50 size-10'/>
       </div>
 
-      <ProductRating rating={rating} />
+      <div className='flex flex-col items-start'>
+        <div>
+          <p className='inline-block mr-2'>{reviewerName}</p>
 
-      <p className='text-gray-600'>{comment}</p>
-      
+          <p className='text-sm font-extralight text-gray-400 inline-block '>{formatedDate}</p>
+        </div>
+
+        <ProductRating rating={rating} />
+
+        <p className='text-gray-600'>{comment}</p>
+      </div>
     </div>
   )
 }

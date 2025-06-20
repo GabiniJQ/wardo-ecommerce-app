@@ -27,7 +27,7 @@ const NotFoundPage = () => {
       </div>
 
       <div className='flex justify-center items-center md:w-1/2'>
-        <img src='/404.png' alt='Not found page' />
+        <img src='/img/404.png' alt='Not found page' />
       </div>
     </div>
   )

@@ -76,10 +76,10 @@ const SearchResultsPage = () => {
   }
 
   return (
-    <div className='flex flex-col justify-between min-h-screen pb-4 bg-white '>
-      <div>
+    <div className='flex flex-col justify-between gap-10 min-h-screen pb-4'>
+      <div className='flex flex-col'>
         {/* Filter trigger */}
-        <div className='flex justify-center items-center bg-white shadow z-50 '>
+        <div className='flex justify-center items-center bg-white shadow z-50'>
           <SearchFilters
             onFilterChange={handleFilterChange} 
             initialValues={{
@@ -112,7 +112,7 @@ const SearchResultsPage = () => {
           )}
 
           {/* Searched products */}
-          <div className='flex flex-col px-2'>
+          <div className='grid gap-6 px-2 lg:grid-cols-3 2xl:grid-cols-4'>
             {products.map((product: Product) => {
               const {
                 rating,
@@ -124,18 +124,21 @@ const SearchResultsPage = () => {
                 category,
                 slug,
               } = product
+
+              const productLink = `/${formatCategoryURL(category)}/${slug}/${_id}`
               return (
-                <Link to={`/${formatCategoryURL(category)}/${slug}/${_id}`} key={_id}>
-                  <ProductCard
-                    product={product}
-                    className='flex-row p-2'
-                  >
-                    <div className='flex justify-center items-center bg-gray-100 w-1/2'>
-                      <ProductCardImage/>
-                    </div>
-                    
-                    <div className='flex flex-col justify-between gap-4 px-2 w-1/2 overflow-clip'>
-                      {/* Rating stars */}
+                <ProductCard
+                  key={_id}
+                  product={product}
+                  className='flex-row p-2 size-full shadow rounded lg:flex-col'
+                >
+                  <Link to={productLink} className='flex justify-center items-center bg-gray-100 w-1/2 lg:w-full'>
+                    <ProductCardImage/>
+                  </Link>
+                  
+                  <div className='flex flex-col justify-between gap-4 px-2 w-1/2 lg:w-full'>
+                    {/* Rating stars */}
+                    <Link to={productLink} className='flex flex-col justify-between gap-4'>
                       <div className='flex gap-2'>
                         <p className='text-sm'>{rating}</p>
                         <ProductRating rating={rating}/>
@@ -151,11 +154,11 @@ const SearchResultsPage = () => {
                         <h4 className='font-semibold text-sm'>Envío a nivel nacional</h4>
                         <p className='text-xs'>{shippingInformation}</p>
                       </div>
+                    </Link>
 
-                      <BuyingOptions productId={_id} quantity={1} stock={stock} />
-                    </div>
-                  </ProductCard>
-                </Link>
+                    <BuyingOptions productId={_id} quantity={1} stock={stock} />
+                  </div>
+                </ProductCard>
               )
             })}
           </div>

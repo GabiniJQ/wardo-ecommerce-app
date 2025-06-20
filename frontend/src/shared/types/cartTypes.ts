@@ -8,6 +8,11 @@ export type CartState = {
   items: CartItem[]
   tempMergeItems: CartItem[] | null
   mergeDialogOpen: boolean
+  addItemById: {
+    isSuccess: boolean
+    isLoading: boolean
+    isError: boolean
+  }
   removeItems: {
     isSuccess: boolean,
     isLoading: boolean,

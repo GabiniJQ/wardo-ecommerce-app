@@ -37,7 +37,9 @@ const initialState: ProductsState = {
 
 export const fetchProductsByCategory = createAsyncThunk(
   'products/fetchProductsByCategory',
-  async (category: string, { getState, rejectWithValue }) => {
+  async ({ category, limit = 10 }: {
+    category: string, limit?: number
+  }, { getState, rejectWithValue }) => {
     const state = getState() as { products: ProductsState }
     const categoryData = state.products.byCategory[category]
 
@@ -47,7 +49,7 @@ export const fetchProductsByCategory = createAsyncThunk(
 
     try {
       const res = await api.get(
-        `/products?category=${encodeURIComponent(category)}&limit=10`
+        `/products?category=${encodeURIComponent(category)}&limit=${limit.toString()}`
       )
       if (!res.data.products || res.data.products.length === 0) {
         return rejectWithValue('no_products_found')
@@ -162,7 +164,7 @@ const productsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchProductsByCategory.pending, (state, action) => {
-        const category = action.meta.arg
+        const category = action.meta.arg.category
         state.byCategory[category] = {
           products: state.byCategory[category]?.products || [],
           isLoading: true,
@@ -189,7 +191,7 @@ const productsSlice = createSlice({
         })
       })
       .addCase(fetchProductsByCategory.rejected, (state, action) => {
-        const category = action.meta.arg
+        const category = action.meta.arg.category
         const currentCategory = state.byCategory[category] || {}
 
         state.byCategory[category] = {

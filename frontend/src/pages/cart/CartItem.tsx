@@ -21,42 +21,46 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router'
 import { toast } from 'sonner'
 
-const CartItem = ({ id }: { id: string }) => {
+const CartItem = ({ itemId }: { itemId: string }) => {
   const { user } = useSelector((state: RootState) => state.auth)
-  const { product } = useSelector(selectProductById(id))
+  const { product } = useSelector(selectProductById(itemId))
   const { isError, isLoading } = useSelector((state: RootState) => state.cart.removeItems)
   const dispatch = useDispatch<AppDispatch>()
 
   const localItems: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]')
   const [hasQuantityError, setHasQuantityError] = useState(false)
 
+  // Current item being deleted by RemoveItemCart
+  const [currentDelete, setCurrentDelete] = useState('')
+
   useEffect(() => {
     if (!product) {
-      dispatch(fetchProductById(id))
+      dispatch(fetchProductById(itemId))
     }
-  }, [product, dispatch, id])
+  }, [product, dispatch, itemId])
 
   useEffect(() => {
 
     if (!user && product && localItems.length > 0) {
-      const currentItem = localItems.find((localItem) => localItem.productId === id )
+      const currentItem = localItems.find((localItem) => localItem.productId === itemId )
 
       if (currentItem && currentItem.quantity > product.stock) {
-        dispatch(updateItemQuantity({ productId: id, quantity: 1 }))
+        dispatch(updateItemQuantity({ productId: itemId, quantity: 1 }))
         setHasQuantityError(true)
         return
       }
     }
 
     setHasQuantityError(false)
-  }, [user, product, localItems, setHasQuantityError, dispatch, id])
+  }, [user, product, localItems, setHasQuantityError, dispatch, itemId])
 
   const items = useSelector((state: RootState) => state.cart.items)
 
-  const deleteProduct = async (id: string) => {
+  const deleteProduct = async (itemId: string) => {
     try {
+      setCurrentDelete(itemId)
       if (!user) {
-        dispatch(removeItemCartLocal(id))
+        dispatch(removeItemCartLocal(itemId))
         toast(
           <ToastNotification className='text-mustard-primary'>
             <ToastNotificationMessage type='alert'>
@@ -67,7 +71,7 @@ const CartItem = ({ id }: { id: string }) => {
         
       } else if (user) {
         const resultAction = await dispatch(removeItemCart({
-          userId: user._id, productId: id
+          userId: user._id, productId: itemId
         }))
         toast(
           <ToastNotification className='text-red-500'>
@@ -89,26 +93,29 @@ const CartItem = ({ id }: { id: string }) => {
         </ToastNotification>
       )
     }
+    finally {
+      setCurrentDelete('')
+    }
   }
   if (!product) return
 
   const { category, _id, slug, stock } = product
   const productPath = `${formatCategoryURL(category)}/${slug}/${_id}`
 
-  const cartItem = items.find((item) => item.productId === id)
+  const cartItem = items.find((item) => item.productId === itemId)
   
   if (!cartItem) return
 
   return (
     <ProductCard
       product={product}
-      className='flex-row p-4 justify-center gap-0 max-w-[500px] shadow'
+      className='flex-col justify-center gap-0 p-4 shadow sm:flex-row md:size-full'
     >
-      <Link to={`/${productPath}`} className='flex flex-col items-center justify-center w-1/2'>
+      <Link to={`/${productPath}`} className='flex flex-col items-center justify-center sm:w-1/2'>
         <ProductCardImage className='shrink-0 md:group-hover:-translate-0' />
       </Link>
       
-      <div className='flex flex-col justify-between w-1/2 px-4 sm:mt-4'>
+      <div className='flex flex-col justify-between gap-4 px-4 sm:mt-4 sm:w-1/2 sm:gap-1'>
         <Link to={`/${productPath}`} className='flex flex-col justify-center'>
           <ProductCardInfo className='gap-0'/>
         </Link>
@@ -125,11 +132,11 @@ const CartItem = ({ id }: { id: string }) => {
 
         <div className='flex justify-center items-center'>
           <ProductCardButton
-            className=' hover:bg-red-400 w-full  max-w-60'
-            onClick={() => deleteProduct(id) }
+            className=' hover:bg-red-400 w-full sm:max-w-60'
+            onClick={() => deleteProduct(itemId) }
             disabled={isLoading}
           >
-            {isLoading || isError
+            {currentDelete === itemId && isLoading || isError 
               ? <Loader className='size-6'/>
               : 'Eliminar del carrito'
             }

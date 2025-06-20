@@ -8,13 +8,14 @@ import { Link, useNavigate } from 'react-router'
 
 const LoginPage = () => {
   const { user } = useSelector((state: RootState) => state.auth)
+  const { isChecked } = useSelector((state: RootState) => state.auth.checkAuth)
   const navigate = useNavigate()
 
   useEffect(() => {
-    if (user) {
+    if (isChecked && user?._id) {
       navigate('/')
     }
-  })
+  }, [user, navigate, isChecked])
 
   return (
     <div className='flex flex-col w-2/3 max-w-[400px] mx-auto gap-4'>

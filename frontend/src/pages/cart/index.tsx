@@ -27,9 +27,10 @@ import {
 import { type CartItem as CartItemType } from '@/shared/types/cartTypes'
 
 import { useEffect } from 'react'
-import { HiArrowLeft, HiShoppingCart, HiX } from 'react-icons/hi'
+import { HiShoppingCart, HiX } from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router'
+import BackButton from '@/shared/components/BackButton'
 
 const CartPage = () => {
   const { user } = useSelector((state: RootState) => state.auth)
@@ -124,17 +125,12 @@ const CartPage = () => {
   }
 
   return (
-    <div className='flex flex-col p-4 bg-white min-h-screen xl:mx-40 xl:px-20'>
-      <Button
-        variant='link'
-        className='flex gap-1 items-center link w-1/5'
-        onClick={() => navigate('/')}
-      >
-        <HiArrowLeft />
-        Volver
-      </Button>
+    <div className='flex flex-col p-4 pb-20 bg-white min-h-screen xl:mx-40 xl:px-20'>
+      {/* <BackButton /> */}
 
-      <div className='flex justify-center items-center gap-2'>
+      <div className='relative flex justify-center items-center gap-2 sm:justify-start'>
+        <BackButton className='absolute left-0 sm:relative'/>
+
         <h1 className='title text-primary my-6'>Tu carrito</h1>
 
         <HiShoppingCart className='size-7 text-primary' />
@@ -158,10 +154,10 @@ const CartPage = () => {
 
       {/* Products */}
       {cartItems.length > 0 && (
-        <div className='flex flex-col gap-6 items-center md:grid md:grid-cols-2 md:gap-0 md:place-items-center'>
+        <div className='flex flex-col gap-6 items-center md:grid md:grid-cols-2 md:gap-0'>
           {cartItems.map((item: CartItemType) => {
             const key = `${item.productId}-${item._id ?? ''}`
-            return <CartItem id={item.productId} key={key} />
+            return <CartItem itemId={item.productId} key={key} />
           })}
         </div>
       )}

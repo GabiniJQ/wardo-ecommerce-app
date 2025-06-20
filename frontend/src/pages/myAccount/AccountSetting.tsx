@@ -12,7 +12,7 @@ export const AccountSetting = ({ children, className, path }: AccountSettingProp
   return (
     <Link to={path}>
       <div
-        className={cn('flex min-h-[100px] p-2 border-2 border-primary rounded bg-white hover:bg-accent btn',
+        className={cn('flex flex-col gap-6 h-full p-6 border-2 border-primary border-dashed rounded bg-white hover:bg-accent btn',
         className)}
       >
         {children}
@@ -29,7 +29,7 @@ type AccountSettingIconProps = {
 
 export const AccountSettingIcon = ({ children, className }: AccountSettingIconProps ) => {
   return (
-    <div className={cn('flex justify-center items-center w-1/5', className)}>
+    <div className={cn('flex justify-center items-center', className)}>
       {children}
     </div>
   )
@@ -45,7 +45,7 @@ export const AccountSettingDescription = (
   { title, description, className }: AccountSettingDescriptionProps
 ) => {
   return (
-    <div className={cn('flex flex-col justify-center gap-1 w-4/5 text-sm md:text-base'
+    <div className={cn('flex flex-col gap-2 text-sm md:text-base'
       , className
     )}>
       <h2 className='text-lg font-semibold'>{title}</h2>

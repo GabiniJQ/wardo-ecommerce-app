@@ -17,7 +17,7 @@ const MyAccountPage = () => {
 
   return (
     <div className='flex flex-col gap-4 p-4 bg-white md:mx-20 md:px-10 xl:mx-40 min-h-[550px]'>
-      <h1 className='title text-primary'>Ajustes de cuenta</h1>
+      <h1 className='title text-primary text-center md:text-left'>Ajustes de cuenta</h1>
 
       <Outlet />
     </div>

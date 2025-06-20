@@ -26,11 +26,14 @@ const tags = [
 
 const Tags = () => {
   return (
-    <div className='my-8 flex flex-wrap gap-2 px-2 md:px-20 md:gap-6'>
+    <div className='my-8 flex flex-wrap sm:px-10 gap-4 rounded'>
       {tags.map((tag, i) => (
-        <li key={i} className='flex list-none separated-dash items-center gap-2 text-gray-300 last:after:content-none'>
-          <Link to={`${ROUTES.SEARCH}?q=${tag}`}>
-            <p className='text-xs text-gray-400'>{tag}</p>
+        <li key={i} className='flex list-none separated-dash items-center gap-5 after:text-gray-300 last:after:content-none'>
+          <Link 
+            to={`${ROUTES.SEARCH}?q=${tag}`}
+            className='sm:bg-primary/70 sm:px-4 sm:py-2 sm:rounded-full sm:hover:bg-primary/40'
+          >
+            <p className='text-xs text-gray-300 sm:text-white'>{tag}</p>
           </Link>
         </li>
       ))}

@@ -1,6 +1,6 @@
 import { Button } from '@/shared/components/ui/button'
 import { Input } from '@/shared/components/ui/input'
-import { HiSearch, HiShoppingCart } from 'react-icons/hi'
+import { HiSearch, HiShoppingCart, HiViewGrid } from 'react-icons/hi'
 import { HiBars3 } from 'react-icons/hi2'
 import useScreenSize from '@/shared/hooks/useScreenSize'
 import { useEffect, useRef, useState } from 'react'
@@ -19,6 +19,8 @@ import { ROUTES } from '@/consts/routes'
 import { clearCart } from '@/features/cart/cartSlice'
 import { formatCategoryText } from '@/shared/utils/utils'
 import { setLastSearch } from '@/features/history/historySlice'
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from '@/shared/components/ui/navigation-menu'
+import { CATEGORIES } from '@/consts/productCategories'
 
 const Navbar = () => {
   const [searchParams] = useSearchParams()
@@ -62,10 +64,10 @@ const Navbar = () => {
   return (
     <header className='relative w-full shadow z-30'>
       {/* Primary nav */}
-      <div className='flex justify-between items-center h-[50px] px-2 gap-4 md:px-10 bg-primary text-primary-foreground  '>
+      <div className='flex justify-between items-center gap-4 px-2 bg-primary text-primary-foreground sm:px-10 2xl:px-40'>
         <div className='shrink-0'>
           <a href='/'>
-            <img src='../../wardo-logo2.png' width={50} alt='Wardo logo' />
+            <img src='/img/wardo-logo2.png' className='size-[70px]' alt='Wardo logo' />
           </a>
         </div>
 
@@ -79,7 +81,7 @@ const Navbar = () => {
               placeholder={
                 isMobile ? '' : 'Buscar producto, categoría, marca...'
               }
-              className='bg-white text-black border-blue-dark border-none rounded text-xs active:border-blue-dark placeholder:text-blue-dark/50 md:min-w-[400px] md:text-sm'
+              className='bg-white text-black border-blue-dark border-none rounded-2xl text-xs active:border-blue-dark placeholder:text-blue-dark/50 md:min-w-[400px] md:text-sm'
               onChange={(e) => setInputSearch(e.target.value)}
               value={inputSearch}
               onKeyDown={(e) => {
@@ -91,7 +93,7 @@ const Navbar = () => {
             />
             {!isMobile && (
               <Button 
-                className='absolute right-0 bg-mustard-primary rounded-l-none rounded-r-[4px] cursor-pointer hover:bg-mustard-secondary'
+                className='absolute right-0 bg-mustard-primary rounded-l-none rounded-r-2xl cursor-pointer hover:bg-mustard-secondary'
                 onClick={() => {
                   if (inputSearch !== '') {
                     handleSearch(inputSearch)
@@ -131,7 +133,7 @@ const Navbar = () => {
               {/* Cart items number */}
               {!isMobile && cartItems.length > 0 && (
                 <span
-                className='absolute bottom-[1px] right-1 border-[1px] p-[2px] text-[0.6rem] font-bold text-mustard-primary size-3 rounded flex items-center justify-center'
+                className='absolute bottom-[1px] right-1  text-[0.6rem] font-bold text-white bg-mustard-primary size-3 rounded flex items-center justify-center'
                 >
                   {cartItems.length}
                 </span>
@@ -143,12 +145,12 @@ const Navbar = () => {
 
       {/* Secondary nav */}
       <div
-        className='relative flex justify-center items-center bg-secondary text-secondary-foreground sm:px-2 md:px-10'
+        className='relative flex justify-center items-center px-2 bg-white text-secondary-foreground h-10 sm:px-10 2xl:px-40'
       >
         {!isMobile && (
-          <div className='flex justify-between items-center w-full h-8'>
+          <div className='flex justify-between items-center w-full h-full'>
             {/* Menu bars and nav items */}
-            <div className='flex items-center justify-between gap-4 h-8'>
+            <div className='flex items-center justify-between gap-4 h-full'>
               {!isMobile && (
                 <MenuSheet
                   desktopMenuOpen={desktopMenuOpen}
@@ -171,24 +173,33 @@ const Navbar = () => {
                 className='data-[orientation=vertical]:h-2/3'
               />
 
-              <Link to='/'>
-                <Button className='btn h-6 link text-xs hover:text-black'>
-                  Ofertas del día
-                </Button>
-              </Link>
-
-              <Separator
-                decorative
-                orientation='vertical'
-                className='data-[orientation=vertical]:h-2/3'
-              />
-
-              <Link to='/'>
-                <Button className='btn h-6 link text-xs hover:text-black sm:hidden md:flex'>
-                  Productos populares
-                </Button>
-              </Link>
-
+              {!isMobile && (
+                <NavigationMenu>
+                  <NavigationMenuList>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger className='text-sm gap-2'>
+                        <HiViewGrid />
+                        Categorías
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+                        <ul className='grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
+                          {Object.values(CATEGORIES).map((component) => {
+                            const href = `/${component.ORIGINAL}`
+                            return (
+                              <ListItem
+                                key={component.FORMATED}
+                                title={component.FORMATED}
+                                href={href}
+                                imgSrc={`/img/categories/${component.ORIGINAL}.webp`}
+                              />
+                            )
+                          })}
+                        </ul>
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  </NavigationMenuList>
+                </NavigationMenu>
+              )}
             </div>
 
             {/* User options */}
@@ -229,25 +240,53 @@ const Navbar = () => {
 
             {/* Logout Button */}
             {user && (
-              <div className='flex justify-center items-center px-2 w-40'>
-                <button className='flex justify-center items-center gap-1 btn text-black ' onClick={() => handleLogout()}>
-                  <LogOut className='size-4' />
-                  <a href='/' className='text-center text-xs hover:underline'>Cerrar sesión</a>
-                </button>
+              <div className='flex items-center gap-2 h-full'>
+                <Separator
+                  decorative
+                  orientation='vertical'
+                  className='data-[orientation=vertical]:h-2/3'
+                />
+                <div className='flex justify-center items-center h-full w-full px-2'>
+                  <button className='flex justify-center items-center gap-1 btn text-black h-full w-full' onClick={() => handleLogout()}>
+                    <LogOut className='size-4 ' />
+                    <a href='/' className='text-center text-sm hover:underline w-full '>Cerrar sesión</a>
+                  </button>
+                </div>
               </div>
-            )
-
-            }
+            )}
           </div>
         )}
 
         {/* Mobile secondary content */}
-        {!mobileMenuOpen && isMobile && <AddressesModal />}
-
-        {mobileMenuOpen && isMobile && <MenuMobile onClose={() => setMobileMenuOpen(false)} />}
+        {isMobile && <AddressesModal />}
+        
       </div>
+    {mobileMenuOpen && isMobile && <MenuMobile onClose={() => setMobileMenuOpen(false)} />}
     </header>
   )
 }
+
+type ListItemProps = {
+  title: string
+  href: string
+  imgSrc: string
+  description?: string
+}
+
+export const ListItem = ({ title, href, imgSrc }: ListItemProps) => {
+
+  return (
+    <Link to={href} className='flex gap-2 border rounded-xl'>
+      <div className='flex gap-2 border-r-2 w-1/2 p-4 bg-accent'>
+        <img src={imgSrc} alt={title} className='size-20'/>
+      </div>
+
+      <div className='flex justify-center items-center w-1/2 p-4'>
+        <p className='text-lg font-semibold'>{title}</p>
+      </div>
+    </Link>
+  )
+}
+
 
 export default Navbar

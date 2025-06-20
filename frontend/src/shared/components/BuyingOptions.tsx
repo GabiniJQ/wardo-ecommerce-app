@@ -5,10 +5,11 @@ import  {
   ToastNotificationMessage,
 } from '@/shared/components/ToastNotification'
 import { Button } from '@/shared/components/ui/button'
-import { addItemById, setCart } from '@/features/cart/cartSlice'
+import { addItemById, resetAddItemById, setCart } from '@/features/cart/cartSlice'
 import { CartItem } from '@/shared/types/cartTypes'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
+import Loader from '@/shared/components/Loader'
 
 type BuyingOptionsProps = {
   productId: string
@@ -18,6 +19,7 @@ type BuyingOptionsProps = {
 
 const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
   const user = useSelector((state: RootState) => state.auth.user)
+  const addItemLoading = useSelector((state: RootState) => state.cart.addItemById.isLoading)
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -90,6 +92,7 @@ const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
               </ToastNotificationButton>
             </ToastNotification>
           )
+          dispatch(resetAddItemById())
         } else {
           <ToastNotification className='text-red-500'>
             <ToastNotificationMessage type='error'>
@@ -109,7 +112,7 @@ const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
 
   return (
     <div className='flex flex-col gap-2'>
-      <Button className='w-full btn'>Comprar ahora</Button>
+      <Button className='w-full cursor-not-allowed'>Comprar ahora</Button>
 
       <Button
         className='w-full btn'
@@ -118,7 +121,10 @@ const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
           addToCart({ productId, quantity: 1 })
         }}
       >
-        Agregar al carrito
+        {addItemLoading
+          ? <Loader className='size-4' />
+          : 'Agregar al carrito'
+        }
       </Button>
     </div>
   )

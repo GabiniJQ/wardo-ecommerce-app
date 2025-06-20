@@ -2,7 +2,7 @@ import { RootState } from '@/app/store'
 import { ROUTES } from '@/consts/routes'
 import { AccountSetting, AccountSettingDescription, AccountSettingIcon } from '@/pages/myAccount/AccountSetting'
 import { useEffect } from 'react'
-import { HiLocationMarker, HiOutlineTruck, HiOutlineUserCircle } from 'react-icons/hi'
+import { HiOutlineLocationMarker, HiOutlineUserCircle } from 'react-icons/hi'
 import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router'
 
@@ -18,7 +18,7 @@ const AccountSettingsList = () => {
   }, [user, navigate, isChecked])
 
   return (
-    <div className='flex flex-col gap-4 md:grid md:grid-cols-2'>
+    <div className='grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
       {/* Account data */}
       <AccountSetting path={`${ROUTES.ACCOUNT_INFO}`}>
         <AccountSettingIcon>
@@ -31,22 +31,10 @@ const AccountSettingsList = () => {
         />
       </AccountSetting>
 
-      {/* Orders */}
-      <AccountSetting path={`${ROUTES.ORDERS}`}>
-        <AccountSettingIcon>
-          <HiOutlineTruck className='size-8 text-primary'/>
-        </AccountSettingIcon>
-
-        <AccountSettingDescription
-          title='Pedidos'
-          description='Información sobre tus pedidos realizados y en camino'
-        />
-      </AccountSetting>
-      
       {/* Addresses */}
       <AccountSetting path={`${ROUTES.ADDRESSES}`}>
         <AccountSettingIcon>
-          <HiOutlineUserCircle className='size-8 text-primary'/>
+          <HiOutlineLocationMarker className='size-8 text-primary'/>
         </AccountSettingIcon>
 
         <AccountSettingDescription
@@ -55,17 +43,6 @@ const AccountSettingsList = () => {
         />
       </AccountSetting>
 
-      {/* Cards */}
-      <AccountSetting path={`${ROUTES.CARDS}`}>
-        <AccountSettingIcon>
-          <HiLocationMarker className='size-8 text-primary'/>
-        </AccountSettingIcon>
-
-        <AccountSettingDescription
-          title='Tarjetas'
-          description='Tarjetas guardadas en tu cuenta'
-        />
-      </AccountSetting>
     </div>
   )
 }

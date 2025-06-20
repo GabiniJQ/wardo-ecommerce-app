@@ -20,7 +20,7 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <ProductCardContext.Provider value={{ product }} {...props}>
-      <div className={cn('group flex flex-col gap-0 size-full md:min-w-[220px] btn px-2 md:py-6', className)}>
+      <div className={cn('group flex flex-col btn px-2', className)}>
         {children}
       </div>
     </ProductCardContext.Provider>
@@ -34,10 +34,9 @@ export const ProductCardImage = ({ className }: { className?: string }) => {
 
   const { images, title } = product
   const mainImage = images[0]
-/* size-[140px] sm:h-[200px]  sm:w-[200px] */
   return (
     <div
-      className={cn('bg-gray-100 size-full overflow-hidden self-center transition-transform duration-300 md:group-hover:-translate-y-2',
+      className={cn(' overflow-hidden self-center transition-transform duration-300 md:group-hover:-translate-y-2',
         className)}
     >
       <img

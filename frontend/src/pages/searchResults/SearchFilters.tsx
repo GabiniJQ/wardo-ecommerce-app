@@ -71,9 +71,9 @@ const SearchFilters = ({
   return (
     <div>
       <Sheet>
-        <SheetTrigger className='flex gap-2 justify-center items-center h-8 text-primary text-sm btn'>
-          <HiFilter />
-          Filtrar
+        <SheetTrigger className='flex gap-2 justify-center items-center h-10 text-primary btn'>
+          <HiFilter/>
+          Filtrar búsqueda
         </SheetTrigger>
         <SheetContent side='top'>
           <SheetHeader>

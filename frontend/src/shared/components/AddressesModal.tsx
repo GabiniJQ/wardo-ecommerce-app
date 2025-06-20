@@ -89,11 +89,12 @@ const AddressesModal = ({ defaultOpen }: { defaultOpen?: boolean }) => {
   return (
     <Dialog defaultOpen={defaultOpen}>
       <DialogTrigger
+        className='h-full'
         onClick={() => {
           if (!user?._id) navigate('/login')
         }}
       >
-        <div className='flex justify-center items-center gap-1 h-8 cursor-pointer hover:underline'>
+        <div className='flex justify-center items-center gap-1 h-full cursor-pointer hover:underline'>
           <HiLocationMarker />
 
           <div
@@ -103,7 +104,7 @@ const AddressesModal = ({ defaultOpen }: { defaultOpen?: boolean }) => {
                 : ''
             } leading-3 w-full`}
           >
-            <p className={`text-xs  m-0 `}>
+            <p className={`text-sm  m-0 `}>
               {user ? getMainAddress() : 'Ingresar ubicación'}
             </p>
           </div>

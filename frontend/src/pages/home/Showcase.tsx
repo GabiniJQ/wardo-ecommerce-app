@@ -36,7 +36,7 @@ const Showcase = ({ brand, phrase }: ShowcaseProps) => {
 
   if (products.length === 0 || isLoading || isError) {
     return (
-      <div className='showcase bg-white min-h-[500px] w-full p-4 rounded shadow'>
+      <div className='showcase bg-white min-h-[500px] w-full p-4 rounded border shadow-sm'>
         <Skeleton className='h-3/4 w-full' />
 
         <div className='flex items-center justify-center gap-2 h-1/4 bg-white p-4'>
@@ -50,7 +50,7 @@ const Showcase = ({ brand, phrase }: ShowcaseProps) => {
   }
 
   return (
-    <div className='flex flex-col showcase p-4 rounded shadow-sm shadow-gray-500 bg-white justify-between'>
+    <div className='flex flex-col showcase p-4 rounded border shadow-sm bg-white justify-between'>  
       <div className='flex flex-col'>
         <h3 className='font-medium'>{phrase}</h3>
         

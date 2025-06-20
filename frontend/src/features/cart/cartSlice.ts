@@ -6,6 +6,11 @@ const initialState: CartState = {
   items: JSON.parse(localStorage.getItem('cart') || '[]'),
   tempMergeItems: [],
   mergeDialogOpen: false,
+  addItemById: {
+    isSuccess: false,
+    isLoading: false,
+    isError: false,
+  },
   removeItems: {
     isSuccess: false,
     isLoading: false,
@@ -109,6 +114,11 @@ const cartSlice = createSlice({
       state.items = []
       syncWithLocalStorage(state.items)
     },
+    resetAddItemById: (state) => {
+      state.addItemById.isLoading = false
+      state.addItemById.isError = false
+      state.addItemById.isSuccess = false
+    },
     removeItemCartLocal: (state, action: PayloadAction<string>) => {
       state.items = state.items.filter(item => item.productId !== action.payload)
       syncWithLocalStorage(state.items)
@@ -142,6 +152,11 @@ const cartSlice = createSlice({
         }
         syncWithLocalStorage(state.items)
       })
+      .addCase(addItemById.pending, (state) => {
+        state.addItemById.isLoading = true
+        state.addItemById.isError = false
+        state.addItemById.isSuccess = false
+      })
       .addCase(addItemById.fulfilled, (state, action) => {
         if (action.payload) {
           const { item } = action.payload
@@ -157,6 +172,10 @@ const cartSlice = createSlice({
           }
           state.items.push(item)
           syncWithLocalStorage(state.items)
+
+          state.addItemById.isLoading = false
+          state.addItemById.isError = false
+          state.addItemById.isSuccess = true
         }
       })
       .addCase(removeItemCart.pending, (state) => {
@@ -198,5 +217,6 @@ export const {
   confirmMerge,
   rejectMerge,
   showMergeDialog,
+  resetAddItemById,
 } = cartSlice.actions
 export default cartSlice.reducer

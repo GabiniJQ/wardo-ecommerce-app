@@ -21,19 +21,22 @@ import { fetchProductsByCategory } from '@/features/products/productsSlice'
 import { selectProductByCategory } from '@/features/products/productSelectors'
 import { formatCategoryURL } from '@/shared/utils/utils'
 import { Link } from 'react-router'
+import { cn } from '@/lib/utils'
 
 type Props = {
   header: string
   className?: string
-  displayed: string
   category: string
+  basis?: string
+  limit?: number
 }
 
 const ProductsCarousel = ({
   header,
   className,
-  displayed,
   category,
+  basis,
+  limit = 10,
 }: Props) => {
   const [isButtonShown, setIsButtonShown] = useState<boolean | null>(false)
 
@@ -45,21 +48,20 @@ const ProductsCarousel = ({
   )
   useEffect(() => {
     if (products.length === 0 && !isLoading && !isError && !hasBeenAttempted) {
-      dispatch(fetchProductsByCategory(category))
+      dispatch(fetchProductsByCategory({ category, limit}))
     }
-  }, [dispatch, category, products, isLoading, isError, hasBeenAttempted])
+  }, [dispatch, category, products, isLoading, isError, hasBeenAttempted, limit])
 
   if (isLoading || isError) {
     return (
       <div
         className={clsx(
-          'flex bg-white gap-2 rounded-sm overflow-hidden py-[25px] max-h-[420px] shadow',
-          displayed === 'full' ? 'w-[100%]' : 'w-[49%]'
+          'flex bg-white gap-2 rounded-sm overflow-hidden py-[25px] min-h-[500px]',
+          className
         )}
       >
         <ProductsCarouselSkeleton
           className=' mx-2 h-[420px]'
-          displayed={displayed}
         />
       </div>
     )
@@ -67,9 +69,8 @@ const ProductsCarousel = ({
 
   return (
     <div
-      className={`${
-        className ? className : ''
-      } flex flex-col bg-white rounded-sm py-4 px-4 h-[420px] shadow-sm shadow-gray-500`}
+      className={cn('flex flex-col gap-4'
+        , className)}
       onMouseEnter={() =>
         setIsButtonShown((prevButtonShown) => !prevButtonShown)
       } // pause on hover
@@ -77,38 +78,43 @@ const ProductsCarousel = ({
         setIsButtonShown((prevButtonShown) => !prevButtonShown)
       }
     >
-      <div className='border-l-4 border-primary pl-2'>
+      <div className='line-clamp-1'>
         <h1 className='subtitle'>{header}</h1>
       </div>
 
-      <div className='w-full grow'>
-        <Carousel opts={{ dragFree: true }}>
-          <CarouselContent>
-            {products.map((product: Product) => {
-              const { category, _id, slug } = product
-              const productPath = `${formatCategoryURL(
-                category
-              )}/${slug}/${_id}`
-              return (
-                <CarouselItem
-                  key={product._id}
-                  className='basis-[230px]'
+      <Carousel
+        opts={{ dragFree: true }}
+        className='w-full bg-accent'
+      >
+        <CarouselContent className='-ml-4 p-4'>
+          {products.map((product: Product) => {
+            const { category, _id, slug } = product
+            const productPath = `${formatCategoryURL(category)}/${slug}/${_id}`
+            return (
+              <CarouselItem
+                key={product._id}
+                className={cn('pl-4 last:pr-4 ', basis)}
+              >
+                <Link
+                  to={productPath}
+                  className='size-full p-4 block bg-white rounded-xl hover:shadow-lg hover:shadow-black/10 z-50 transition'
                 >
-                  <Link to={productPath} >
-                    <ProductCard product={product} className='md:py-2'>
-                      <ProductCardImage className='bg-gray-100 size-[220px]' />
-                      <ProductCardInfo />
-                    </ProductCard>
-                  </Link>
-                </CarouselItem>
-              )
-            })}
-          </CarouselContent>
+                  <ProductCard
+                    product={product}
+                    className=''
+                  >
+                    <ProductCardImage className='size-full' />
+                    <ProductCardInfo />
+                  </ProductCard>
+                </Link>
+              </CarouselItem>
+            )
+          })}
+        </CarouselContent>
 
-          <CarouselNext isButtonShown={isButtonShown} />
-          <CarouselPrevious isButtonShown={isButtonShown} />
-        </Carousel>
-      </div>
+        <CarouselNext isButtonShown={isButtonShown} className='translate-x-5 text-primary'/>
+        <CarouselPrevious isButtonShown={isButtonShown} className='-translate-x-5 text-primary'/>
+      </Carousel>
     </div>
   )
 }

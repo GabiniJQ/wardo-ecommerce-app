@@ -43,18 +43,18 @@ const Settings = () => {
         <Button variant='border' className='cursor-pointer border-clean px-1 relative size-full '>
           <IoSettingsSharp className='size-6' />
 
-          {/* Triangle */}
+          {/* Small triangle */}
           <div className='absolute bottom-0 left-1/2 -translate-x-1/2 size-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white group-hover:hidden'></div>
         </Button>
 
         {/* Dropdown menu */}
         {settingsOpen && (
-          <div className='absolute top-full left-1/2 transform -translate-x-1/2 z-40 flex flex-col bg-white pb-4 py-2 px-6 mt-1 shadow-xl'>
+          <div className='absolute top-full left-1/2 transform -translate-x-1/2 z-50 flex flex-col bg-white pb-4 py-2 px-6 mt-3 shadow-2xl'>
             {/* Triangle */}
             <div className='absolute -top-2 left-1/2  -translate-x-1/2 size-0 border-l-8 border-r-8 border-b-8 border-transparent border-b-white'></div>
 
             {/* Spacer */}
-            <div className='absolute -top-2 h-2'></div>
+            <div className='absolute -top-6 left-0 h-6 w-full '></div>
 
             <div className='w-full mx-auto border-b-[1px] py-2'>
               {!user && <UnsignedCTA />}

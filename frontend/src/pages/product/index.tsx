@@ -14,7 +14,7 @@ import ProductNotFound from '@/pages/notFound/ProductNotFound'
 import Quantity from '@/shared/components/Quantity'
 import BuyingOptions from '@/shared/components/BuyingOptions'
 import { CONVERSION_RATE } from '@/consts/conversionRate'
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from '@/shared/components/ui/breadcrumb'
+import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from '@/shared/components/ui/breadcrumb'
 
 const ProductPage = () => {
   const { id } = useParams<{ id: string }>()
@@ -77,13 +77,13 @@ const ProductPage = () => {
 
   if (!id) return <ProductNotFound />
   return (
-    <div className='p-4 md:mx-32 bg-white lg:mx-0 lg:pt-4 lg:px-0 lg:flex lg:flex-col lg:bg-accent 2xl:mx-40'>
+    <div className='p-4 md:mx-32 bg-white lg:mx-0 lg:py-14 lg:px-0 lg:flex lg:flex-col lg:gap-4 lg:bg-accent 2xl:mx-40'>
       {/* Back button and Category */}
       <div className='flex items-center gap-2'>
         <Breadcrumb className='text-primary'>
           <BreadcrumbList className='text-primary'>
             <BreadcrumbItem>
-              <BreadcrumbLink href='/'>Inicio</BreadcrumbLink>
+              <Link to='/'>Inicio</Link>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
@@ -190,11 +190,11 @@ const ProductPage = () => {
 
                     <div className='flex gap-2'>
                       <div className='size-10'>
-                        <img src='/logo-pse.png' className='size-full'/>
+                        <img src='/img/logo-pse.png' className='size-full'/>
                       </div>
 
                       <div className='size-10'>
-                        <img src='/logo-skrill.png' className='size-full'/>
+                        <img src='/img/logo-skrill.png' className='size-full'/>
                       </div>
                     </div>
                   </div>
@@ -215,7 +215,7 @@ const ProductPage = () => {
       </div>
       
       {/* Reviews section */}
-      <div className='flex flex-col gap-4 mt-10 lg:p-4 lg:justify-center lg:mt-20 lg:gap-10 bg-white rounded-t-lg'>
+      <div className='flex flex-col gap-4 mt-10 lg:p-4 lg:justify-center lg:mt-10 lg:gap-10 bg-white rounded-lg'>
         <h4 className='text-lg font-semibold lg:text-center lg:text-3xl'>Reseñas de usuarios</h4>
 
         <div className='flex flex-col gap-4 lg:flex-row lg:justify-evenly lg:gap-10'>

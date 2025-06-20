@@ -9,6 +9,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/shared/components/ui/sheet'
+import { ChevronRight } from 'lucide-react'
 import { HiBars3 } from 'react-icons/hi2'
 import { useNavigate } from 'react-router'
 
@@ -29,10 +30,11 @@ const MenuSheet = ({ desktopMenuOpen, setDesktopMenuOpen }: menuProps) => {
       className='relative flex border-b-[1px] border-gray-300 w-full'
     >
       <span
-        className='flex justify-between w-full btn py-2 px-4 after:content-[">"] after:font-bold hover:text-primary'
+        className='flex justify-between items-center w-full btn py-3 px-4 hover:text-primary hover:bg-accent'
         onClick={() => navigate(`/${category.ORIGINAL}`)}
       >
         {category.FORMATED}
+        <ChevronRight className='size-5'/>
       </span>
     </div>
   ))
@@ -58,7 +60,7 @@ const MenuSheet = ({ desktopMenuOpen, setDesktopMenuOpen }: menuProps) => {
               <div className='shrink-0 self-start'>
                 <a href=''>
                   <img
-                    src='../../wardo-logo2.png'
+                    src='/img/wardo-logo2.png'
                     width={50}
                     alt='Wardo logo'
                   />
@@ -71,17 +73,17 @@ const MenuSheet = ({ desktopMenuOpen, setDesktopMenuOpen }: menuProps) => {
         </SheetHeader>
 
         {/* Main content */}
-        <div className='flex flex-col gap-4 px-8'>
+        <div className='flex flex-col gap-20 px-8'>
           <div className='grid grid-cols-2'>
             <div className='flex flex-col gap-3 p-2'>
               <div>
-                <a href='' className='link'>
+                <a href='/' className='link'>
                   Ver ofertas del día
                 </a>
               </div>
 
               <div>
-                <a href='' className='link'>
+                <a href='/' className='link'>
                   Productos recomendados
                 </a>
               </div>
@@ -96,22 +98,10 @@ const MenuSheet = ({ desktopMenuOpen, setDesktopMenuOpen }: menuProps) => {
                   Mi cuenta
                 </SheetClose>
               </div>
-
-              <div>
-                <a className='link' href=''>
-                  Suscribirse a novedades por correo electrónico
-                </a>
-              </div>
-
-              <div>
-                <a className='link' href=''>
-                  Ayuda
-                </a>
-              </div>
             </div>
           </div>
 
-          {/* Category/Subcategory */}
+          {/* Category */}
           <div className='flex flex-col gap-2'>
             <h2 className='font-semibold'>Buscar por categoría</h2>
 
@@ -120,18 +110,6 @@ const MenuSheet = ({ desktopMenuOpen, setDesktopMenuOpen }: menuProps) => {
             >
               {displayCategories}
             </SheetClose>
-
-            <div className='flex flex-col'>
-              {/* All categories page link button */}
-              <div className='relative'>
-                <Button
-                  className='justify-between w-full btn py-6 hover:text-primary'
-                  variant='ghost'
-                >
-                  Ver más...
-                </Button>
-              </div>
-            </div>
           </div>
         </div>
       </SheetContent>

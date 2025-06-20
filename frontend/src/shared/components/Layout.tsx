@@ -42,9 +42,9 @@ const Layout = () => {
   }
   
   return (
-    <div className='app flex flex-col bg-secondary min-w-[320px] min-h-screen'>
+    <div className='bg-secondary min-w-[320px] min-h-screen'>
       <Navbar />
-      <main className='flex-1 bg-white md:bg-secondary'>
+      <main className='flex-1 mt-[1px] bg-white md:bg-secondary'>
         <Outlet />
       </main>
 

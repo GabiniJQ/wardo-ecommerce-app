@@ -7,7 +7,7 @@ const ProductNotFound = () => {
       <p className='text-xl'>Prueba suerte en el buscador o <a href='/' className='link text-primary'>regresa a la página principal.</a></p>
 
       <div className='flex justify-center items-center'>
-        <img src='/404.png' className='size-40'/>
+        <img src='/img/404.png' className='size-40'/>
       </div>
     </div>
   )
