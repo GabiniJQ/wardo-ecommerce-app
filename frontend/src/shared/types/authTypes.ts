@@ -28,6 +28,13 @@ export type UserData = {
   name: string
   email: string
   password: string
+  recaptchaToken: string
+}
+
+export type LoginData = {
+  email: string
+  password: string
+  recaptchaToken: string
 }
 
 // State type

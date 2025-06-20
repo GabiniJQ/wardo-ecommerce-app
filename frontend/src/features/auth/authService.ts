@@ -7,6 +7,7 @@ import {
   UserResponse,
   LoginResponse,
   LogoutResponse,
+  LoginData,
 } from '@/shared/types/authTypes'
 
 const register = async (userData: UserData): Promise<RegisterResponse> => {
@@ -36,13 +37,13 @@ const checkAuth = async (): Promise<UserResponse> => {
   return response.data
 }
 
-const login = async (userData: Omit<UserData, 'name'>): Promise<LoginResponse> => {
+const login = async (userData: LoginData): Promise<LoginResponse> => {
   const response: AxiosResponse<LoginResponse> = await api.post(
     '/users/login',
     userData,
     { withCredentials: true },
   )
-
+  
   return response.data
 }
 

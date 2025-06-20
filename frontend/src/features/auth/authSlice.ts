@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from '@/features/auth/authService'
-import { Address, AuthState, ChangePassReject, UserData } from '@/shared/types/authTypes'
+import { Address, AuthState, ChangePassReject, LoginData, UserData } from '@/shared/types/authTypes'
 import { AxiosError } from 'axios'
 import { formatUserLocalStorage, getErrorMessage } from '@/shared/utils/utils'
 import { isEqual } from 'lodash'
@@ -138,7 +138,7 @@ export const checkAuth = createAsyncThunk('auth/checkAuth',
 
 // User login
 export const login = createAsyncThunk('auth/login',
-  async (userData: Omit<UserData, 'name'>, 
+  async (userData: LoginData, 
     { rejectWithValue, dispatch, getState }) => {
       try {
         const res = await authService.login(userData)
@@ -435,17 +435,20 @@ export const authSlice = createSlice({
       })
       .addCase(logout.fulfilled, (state) => {
         localStorage.removeItem('user')
+        state.logout.isLoading = false
         state.logout.isSuccess = true
         state.logout.isError = false
         state.user = null
       })
       .addCase(logout.rejected, (state) => {
+        state.logout.isLoading = false
         state.logout.isError = true
         state.logout.isSuccess = false
         state.user = null
       })
       .addCase(login.pending, (state) => {
         state.login.isLoading = true
+        state.login.isSuccess = false
         state.login.isError = false
       })
       .addCase(login.fulfilled, (state, action) => {

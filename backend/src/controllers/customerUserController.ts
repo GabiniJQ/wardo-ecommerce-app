@@ -14,15 +14,38 @@ import PendingUser from '../models/pendingUserModel.js'
 import sanitizeUser from '../utils/sanitizeUser.js'
 import { AppError } from '../types/appError.js'
 import { UserDocument } from '../types/userTypes.js'
+import axios from 'axios'
 
 // POST /
 export const registerUser = asyncHandler(
   async (req: Request, res: Response) => {
-    const { name, email, password } = req.body
+    const { name, email, password, recaptchaToken } = req.body
 
     if (!name || !email || !password) {
       res.status(400)
       throw new Error('Por favor rellena todos los campos')
+    }
+
+    if (!recaptchaToken) {
+      res.status(400)
+      throw new Error('Captcha requerido')
+    }
+
+    // Verify google reCAPTCHA V2
+    const secret = process.env.RECAPTCHA_SECRET_KEY || process.env.RECAPTCHA_SECRET_LOCALHOST_KEY
+    const { data } = await axios.post(`https://www.google.com/recaptcha/api/siteverify`,
+      null,
+      {
+        params: {
+          secret,
+          response: recaptchaToken,
+        }
+      }
+    )
+
+    if (!data.success) {
+      res.status(401)
+      throw new Error('Captcha inválido. Intenta nuevamente')
     }
 
     // Check if user email exists
@@ -101,7 +124,36 @@ export const verifyEmail = asyncHandler(async (req: Request, res: Response) => {
 
 // POST /login
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
-  const { email, password } = req.body
+  const { email, password, recaptchaToken } = req.body
+
+  if (!recaptchaToken) {
+    res.status(401)
+    throw new Error('Captcha inválido. Intenta nuevamente')
+  }
+
+  if (!email || !password) {
+    res.status(401)
+    throw new Error('Usuario e email requeridos')
+  }
+
+
+  // Verify google reCAPTCHA V2
+  const secret = process.env.RECAPTCHA_SECRET_KEY || process.env.RECAPTCHA_SECRET_LOCALHOST_KEY
+  const { data } = await axios.post(
+    `https://www.google.com/recaptcha/api/siteverify`,
+    null,
+    {
+      params: {
+        secret,
+        response: recaptchaToken,
+      },
+    }
+  )
+
+  if (!data.success) {
+    res.status(403)
+    throw new Error('Verificación de CAPTCHA fallida')
+  }
 
   // Get user by email in DB
   const user = await User.findOne({ email })
@@ -124,10 +176,12 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
 // POST /logout
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+  const isProduction = process.env.NODE_ENV === 'production'
+
   res.clearCookie('token', {
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'none',
+    secure: isProduction,
+    sameSite: isProduction ? 'none' : 'lax',
   })
 
   res.status(200).json({ message: 'El usuario ha salido de sesión exitosamente' })

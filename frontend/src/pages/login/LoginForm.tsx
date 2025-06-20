@@ -20,6 +20,11 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router'
 import Loader from '@/shared/components/Loader'
 import { ROUTES } from '@/consts/routes'
+import useRecaptcha from '@/shared/hooks/useRecaptcha'
+import ReCAPTCHA from 'react-google-recaptcha'
+
+const RECAPTCHA_SITE_KEY = 
+  import.meta.env.VITE_RECAPTCHA_SITE_KEY || import.meta.env.VITE_RECAPTCHA_SITE_LOCALHOST_KEY
 
 export default function LoginForm() {
   // Define form
@@ -32,6 +37,8 @@ export default function LoginForm() {
   })
   const { clearErrors  } = form
 
+  const { recaptchaToken, recaptchaRef, handleRecaptcha } = useRecaptcha()
+
   // Dispatch function and Auth States
   const dispatch = useDispatch<AppDispatch>()
   const { isSuccess, isError, isLoading, message } = useSelector((state: RootState) => state.auth.login)
@@ -40,12 +47,13 @@ export default function LoginForm() {
   // Define submit handler
   function onSubmit(values: z.infer<typeof loginSchema>) {
     const { email, password } = values
-    const userData = {
+    const loginData = {
       email,
       password,
+      recaptchaToken,
     }
 
-    dispatch(login(userData))
+    dispatch(login(loginData))
   }
 
   useEffect(() => {
@@ -55,12 +63,16 @@ export default function LoginForm() {
     }
 
     if (isSuccess) {
+      if (recaptchaRef.current) {
+        recaptchaRef.current.reset()
+      }
+
       navigate(-1)
 
       setTimeout(() => dispatch(resetLogin()), 1000)
       
     }
-  }, [isError, isSuccess, navigate, dispatch, form, message])
+  }, [isError, isSuccess, navigate, dispatch, form, message, recaptchaRef])
 
   if (isLoading) {
     return (
@@ -125,6 +137,11 @@ export default function LoginForm() {
             Olvidé mi contraseña
           </Link>
         </div>
+
+        <ReCAPTCHA
+          sitekey={RECAPTCHA_SITE_KEY}
+          onChange={handleRecaptcha}
+        />
 
         <Button type='submit' className='w-full'>
           Ingresar

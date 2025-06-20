@@ -20,6 +20,12 @@ import { AppDispatch, RootState } from '@/app/store'
 import { useEffect } from 'react'
 import { PasswordInputField } from '@/shared/components/PasswordInputField'
 
+import useRecaptcha from '@/shared/hooks/useRecaptcha'
+import ReCAPTCHA from 'react-google-recaptcha'
+
+const recaptchaKey = 
+  import.meta.env.VITE_RECAPTCHA_SITE_KEY || import.meta.env.VITE_RECAPTCHA_SITE_LOCALHOST_KEY
+
 export default function SignupForm() {
 
   // Define form
@@ -33,6 +39,8 @@ export default function SignupForm() {
   })
 
   const { formState } = form
+
+  const { recaptchaToken, recaptchaRef, handleRecaptcha } = useRecaptcha()
 
   const navigate = useNavigate()
 
@@ -50,6 +58,7 @@ export default function SignupForm() {
       name,
       email,
       password,
+      recaptchaToken,
     }
 
     dispatch(register(userData))
@@ -64,11 +73,13 @@ export default function SignupForm() {
 
     if (isSuccess) {
       sessionStorage.setItem('justRegistered', 'true')
+      if (recaptchaRef.current) recaptchaRef.current.reset()
+
       navigate('/verify-email')
     }
 
     dispatch(resetRegister())
-  }, [isError, isSuccess, message, navigate, dispatch, form])
+  }, [isError, isSuccess, message, navigate, dispatch, form, recaptchaRef])
 
   if (isLoading) {
     return (
@@ -123,6 +134,11 @@ export default function SignupForm() {
           name='password'
           formState={formState}
           placeholder='Ingresar contraseña'
+        />
+
+        <ReCAPTCHA 
+          sitekey={recaptchaKey}
+          onChange={handleRecaptcha}
         />
 
         <Button type='submit' className='w-full'>
