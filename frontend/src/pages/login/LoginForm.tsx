@@ -76,8 +76,8 @@ export default function LoginForm() {
 
   if (isLoading) {
     return (
-      <div className='flex justify-center items-center min-w-20'>
-        <Loader />
+      <div className='flex items-center justify-center min-h-[300px]'>
+        <Loader className='size-8' />
       </div>
     )
   }

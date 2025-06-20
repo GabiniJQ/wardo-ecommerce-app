@@ -22,6 +22,7 @@ import { PasswordInputField } from '@/shared/components/PasswordInputField'
 
 import useRecaptcha from '@/shared/hooks/useRecaptcha'
 import ReCAPTCHA from 'react-google-recaptcha'
+import Loader from '@/shared/components/Loader'
 
 const recaptchaKey = 
   import.meta.env.VITE_RECAPTCHA_SITE_KEY || import.meta.env.VITE_RECAPTCHA_SITE_LOCALHOST_KEY
@@ -83,7 +84,9 @@ export default function SignupForm() {
 
   if (isLoading) {
     return (
-      <div className='rounded-full border-primary border-2 animate-spin'></div>
+      <div className='flex items-center justify-center min-h-[300px]'>
+        <Loader className='size-8' />
+      </div>
     )
   }
 
