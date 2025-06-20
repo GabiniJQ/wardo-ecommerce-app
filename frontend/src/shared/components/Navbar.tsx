@@ -177,7 +177,7 @@ const Navbar = () => {
                 <NavigationMenu>
                   <NavigationMenuList>
                     <NavigationMenuItem>
-                      <NavigationMenuTrigger className='text-sm gap-2'>
+                      <NavigationMenuTrigger className='text-sm gap-2 btn'>
                         <HiViewGrid />
                         Categorías
                       </NavigationMenuTrigger>
@@ -213,8 +213,7 @@ const Navbar = () => {
                 <Link to={ROUTES.LOGIN}>
                   <Button
                     variant='ghost'
-                    className='text-xs cursor-pointer hover:underline'
-                    size='sm'
+                    className='h-8'
                   >
                     Ingresar
                   </Button>
@@ -229,8 +228,7 @@ const Navbar = () => {
                 <Link to={ROUTES.SIGNUP}>
                   <Button
                     variant='ghost'
-                    className='text-xs cursor-pointer hover:underline'
-                    size='sm'
+                    className='h-8'
                   >
                     Crear cuenta
                   </Button>

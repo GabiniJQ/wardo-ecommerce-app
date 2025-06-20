@@ -17,7 +17,7 @@ const AuthLayout = () => {
     <div className='flex flex-col justify-between min-h-screen'>
       <div className='max-w-20 mx-auto'>
         <Link to='/'>
-          <img src='../../wardo-logo2.png' width={80} alt='Wardo logo' />
+          <img src='/img/wardo-logo2.png' width={80} alt='Wardo logo' />
         </Link>
       </div>
 

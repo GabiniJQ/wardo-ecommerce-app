@@ -94,7 +94,7 @@ const AddressesModal = ({ defaultOpen }: { defaultOpen?: boolean }) => {
           if (!user?._id) navigate('/login')
         }}
       >
-        <div className='flex justify-center items-center gap-1 h-full cursor-pointer hover:underline'>
+        <div className='flex justify-center items-center gap-1 h-8 px-2 btn rounded-md hover:bg-accent'>
           <HiLocationMarker />
 
           <div
