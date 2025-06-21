@@ -38,7 +38,7 @@ const CategoryPage = () => {
 
   useEffect(() => {
     if (products.length === 0 && category) {
-      dispatch(fetchProductsByCategory({ category }))
+      dispatch(fetchProductsByCategory({ category, limit: 30 }))
     }
   }, [products, dispatch, category])
 
@@ -78,6 +78,8 @@ const CategoryPage = () => {
         </div>
       )}
     </div>
+
+
   )
 }
 

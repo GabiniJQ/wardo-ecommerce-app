@@ -15,6 +15,7 @@ import {
   addAddress,
   changeMainAddress,
   checkPasswordToken,
+  loginDemo,
 } from '../controllers/customerUserController.js'
 import protect from '../middlewares/verifyTokenMiddleware.js'
 import passwordToken from '../middlewares/passwordTokenMiddleware.js'
@@ -26,6 +27,7 @@ customerRouter.post('/', registerUser)
 customerRouter.get('/check-auth', protect, checkAuth)
 
 customerRouter.post('/login', loginUser)
+customerRouter.post('/login-demo', loginDemo)
 customerRouter.post('/logout', logoutUser)
 
 customerRouter.get('/me', protect, getMe)

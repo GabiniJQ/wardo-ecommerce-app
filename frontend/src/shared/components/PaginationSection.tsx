@@ -5,6 +5,7 @@ import {
   PaginationContent,
   PaginationItem,
 } from "@/shared/components/ui/pagination"
+import useScreenSize from '@/shared/hooks/useScreenSize'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { useSelector } from 'react-redux'
 import { useSearchParams } from 'react-router'
@@ -16,6 +17,9 @@ export function PaginationSection() {
     state.products.filteredResults.search
   )
 
+  const isMobile = useScreenSize()
+
+  // Creates an array of numbers until pages length
   const pagesArray = Array.from({ length: pagination.pages}).map((_, i) => {
     const nextIndex = i + 1
     if (i < pagination.pages) {
@@ -27,10 +31,11 @@ export function PaginationSection() {
     <div>
       <Pagination >
         <PaginationContent>
+          {/* Render 'previous' button that changes pagination on URL params and scrolls to top */}
           {pagination.page !== 1 && (
             <PaginationItem onClick={() => window.scrollTo({ top: 0 })}>
               <Button
-                variant='ghost'
+                variant='outline'
                 onClick={() => setSearchParams((prev) => {
                   prev.set('page', String(pagination.page - 1))
                   return prev
@@ -42,8 +47,9 @@ export function PaginationSection() {
             </PaginationItem>
           )}
           
-          {pagesArray
-            .filter((page): page is number => page !== undefined)
+          {/* DESKTOP: Renders pagination buttons with selected page being outline styled */}
+          {!isMobile && pagesArray
+            .filter((page): page is number => page !== undefined) // Filters undefined out of pages array
             .map((page: number) => (
               <PaginationItem key={page} onClick={() => window.scrollTo({ top: 0 })}>
                 <Button
@@ -58,10 +64,27 @@ export function PaginationSection() {
               </PaginationItem>
             ))}
 
+          {/* MOBILE: Renders pagination button with current page */}
+          {isMobile && (
+            <PaginationItem onClick={() => window.scrollTo({ top: 0 })}>
+              <Button
+                variant='outline'
+                onClick={() => setSearchParams((prev) => {
+                  prev.set('page', String(pagination.page))
+                  return prev
+                })}
+              >
+                {pagination.page}
+              </Button>
+            </PaginationItem>
+          )}
+          
+
+          {/* Render 'next' button that changes pagination on URL params and scrolls to top */}
           {pagination.page < pagination.pages && (
             <PaginationItem onClick={() => window.scrollTo({ top: 0 })}>
               <Button
-                variant='ghost'
+                variant='outline'
                 onClick={() => setSearchParams((prev) => {
                   prev.set('page', String(pagination.page + 1))
                   return prev

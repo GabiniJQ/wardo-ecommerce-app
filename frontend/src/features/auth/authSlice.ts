@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import authService from '@/features/auth/authService'
-import { Address, AuthState, ChangePassReject, LoginData, UserData } from '@/shared/types/authTypes'
+import { Address, AuthState, ChangePassReject, LoginData, User, UserData } from '@/shared/types/authTypes'
 import { AxiosError } from 'axios'
 import { formatUserLocalStorage, getErrorMessage } from '@/shared/utils/utils'
 import { isEqual } from 'lodash'
@@ -13,6 +13,12 @@ const storedUser = localStorage.getItem('user')
 const initialState: AuthState = {
   user: storedUser ? JSON.parse(storedUser) : null,
   login: {
+    isLoading: false,
+    isSuccess: false,
+    isError: false,
+    message: '',
+  },
+  loginDemo: {
     isLoading: false,
     isSuccess: false,
     isError: false,
@@ -161,11 +167,38 @@ export const login = createAsyncThunk('auth/login',
   }
 )
 
+// Demo User login
+export const loginDemo = createAsyncThunk('auth/loginDemo',
+  async (_, { rejectWithValue, dispatch, getState }) => {
+      try {
+        const res = await api.post('/users/login-demo')
+        const userId = res.data.user._id as string
+
+        // Merge Guest and DB Carts logic
+        const cartRes = await api.get(`/cart/${userId}`)
+        const userCart = cartRes.data.items
+        const state = getState() as RootState
+
+        if (state.cart.items.length > 0 && userCart.length > 0) {
+          dispatch(showMergeDialog(state.cart.items))
+        } else if (userCart.length > 0) {
+          dispatch(setCart(userCart))
+        }
+
+        return res.data.user as User
+      } catch (error) {
+        return rejectWithValue(getErrorMessage(error))
+      }
+  }
+)
+
 // User logout
 export const logout = createAsyncThunk('auth/logout',
-  async (_, { rejectWithValue }) => {
+  async ({ email, userId }: {
+    email: string, userId: string
+  }, { rejectWithValue }) => {
     try {
-      return await authService.logout()
+      return await authService.logout({ email, userId})
     } catch (error) {
       return rejectWithValue(getErrorMessage(error))
     }
@@ -369,7 +402,24 @@ export const authSlice = createSlice({
       sessionStorage.removeItem('justRegistered')
     },
     resetAddAddress: (state) => {
+      state.addAddress.isLoading = false
+      state.addAddress.isError = false
       state.addAddress.isSuccess = false
+    },
+    resetChangeAddress: (state) => {
+      state.changeAddress.isLoading = false
+      state.changeAddress.isError = false
+      state.changeAddress.isSuccess = false
+    },
+    resetChangeName: (state) => {
+      state.changeName.isLoading = false
+      state.changeName.isError = false
+      state.changeName.isSuccess = false
+    },
+    resetChangePassword: (state) => {
+      state.changePassword.isLoading = false
+      state.changePassword.errorMessage = ''
+      state.changePassword.isSuccess = false
     },
     resetForgotPassword: (state) => {
       state.forgotPassword.isSuccess = false
@@ -464,6 +514,26 @@ export const authSlice = createSlice({
         state.login.isLoading = false
         state.login.isError = true
         state.login.message = action.payload as string
+        state.user = null
+      })
+      .addCase(loginDemo.pending, (state) => {
+        state.loginDemo.isLoading = true
+        state.loginDemo.isSuccess = false
+        state.loginDemo.isError = false
+      })
+      .addCase(loginDemo.fulfilled, (state, action) => {
+        state.loginDemo.isLoading = false
+        state.loginDemo.isSuccess = true
+        state.loginDemo.isError = false
+        state.user = action.payload
+        localStorage.setItem('user', JSON.stringify(
+          formatUserLocalStorage(action.payload)
+        ))
+      })
+      .addCase(loginDemo.rejected, (state, action) => {
+        state.loginDemo.isLoading = false
+        state.loginDemo.isError = true
+        state.loginDemo.message = action.payload as string
         state.user = null
       })
       .addCase(changeName.pending, (state) => {
@@ -658,6 +728,9 @@ export const {
   resetVerifyEmail,
   resetJustRegistered,
   resetAddAddress,
+  resetChangeAddress,
+  resetChangeName,
+  resetChangePassword,
   resetForgotPassword,
   resetCheckPasswordToken,
 } = authSlice.actions

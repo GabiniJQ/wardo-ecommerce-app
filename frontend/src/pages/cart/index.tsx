@@ -125,7 +125,7 @@ const CartPage = () => {
   }
 
   return (
-    <div className='flex flex-col p-4 pb-20 bg-white min-h-screen xl:mx-40 xl:px-20'>
+    <div className='flex flex-col flex-1 p-4 pb-20 bg-white xl:mx-40 xl:px-20'>
       {/* <BackButton /> */}
 
       <div className='relative flex justify-center items-center gap-2 sm:justify-start'>

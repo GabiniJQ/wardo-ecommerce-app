@@ -19,8 +19,14 @@ import { ROUTES } from '@/consts/routes'
 import { clearCart } from '@/features/cart/cartSlice'
 import { formatCategoryText } from '@/shared/utils/utils'
 import { setLastSearch } from '@/features/history/historySlice'
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from '@/shared/components/ui/navigation-menu'
-import { CATEGORIES } from '@/consts/productCategories'
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuList,
+  NavigationMenuTrigger
+} from '@/shared/components/ui/navigation-menu'
+import CategoryCardsMenu from '@/shared/components/CategoryCardsMenu'
 
 const Navbar = () => {
   const [searchParams] = useSearchParams()
@@ -40,8 +46,10 @@ const Navbar = () => {
   const navigate = useNavigate()
 
   const handleLogout = () => {
-    dispatch(logout())
-    dispatch(clearCart())
+    if (user) {
+      dispatch(logout({ userId: user._id, email: user.email }))
+      dispatch(clearCart())
+    }
   }
   
   const handleSearch = (searchQuery: string) => {
@@ -182,22 +190,15 @@ const Navbar = () => {
                         Categorías
                       </NavigationMenuTrigger>
                       <NavigationMenuContent>
-                        <ul className='grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]'>
-                          {Object.values(CATEGORIES).map((component) => {
-                            const href = `/${component.ORIGINAL}`
-                            return (
-                              <ListItem
-                                key={component.FORMATED}
-                                title={component.FORMATED}
-                                href={href}
-                                imgSrc={`/img/categories/${component.ORIGINAL}.webp`}
-                              />
-                            )
-                          })}
-                        </ul>
+
+                        {/* Category Cards component */}
+                        <CategoryCardsMenu />
+
                       </NavigationMenuContent>
                     </NavigationMenuItem>
                   </NavigationMenuList>
+
+                  {/* <NavigationMenuViewport className='-left-52' /> */}
                 </NavigationMenu>
               )}
             </div>
@@ -245,10 +246,14 @@ const Navbar = () => {
                   className='data-[orientation=vertical]:h-2/3'
                 />
                 <div className='flex justify-center items-center h-full w-full px-2'>
-                  <button className='flex justify-center items-center gap-1 btn text-black h-full w-full' onClick={() => handleLogout()}>
+                  <Button
+                    variant='ghost'
+                    className='flex justify-center items-center gap-2 btn text-black h-8 w-full'
+                    onClick={() => handleLogout()}
+                  >
                     <LogOut className='size-4 ' />
-                    <span className='text-center text-sm hover:underline w-full '>Cerrar sesión</span>
-                  </button>
+                    <span className='text-center text-sm w-full '>Cerrar sesión</span>
+                  </Button>
                 </div>
               </div>
             )}
@@ -263,28 +268,5 @@ const Navbar = () => {
     </header>
   )
 }
-
-type ListItemProps = {
-  title: string
-  href: string
-  imgSrc: string
-  description?: string
-}
-
-export const ListItem = ({ title, href, imgSrc }: ListItemProps) => {
-
-  return (
-    <Link to={href} className='flex gap-2 border rounded-xl'>
-      <div className='flex gap-2 border-r-2 w-1/2 p-4 bg-accent rounded-l-xl'>
-        <img src={imgSrc} alt={title} className='size-20'/>
-      </div>
-
-      <div className='flex justify-center items-center w-1/2 p-4'>
-        <p className='text-lg font-semibold'>{title}</p>
-      </div>
-    </Link>
-  )
-}
-
 
 export default Navbar

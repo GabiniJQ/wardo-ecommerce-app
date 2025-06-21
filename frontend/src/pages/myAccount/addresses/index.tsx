@@ -3,7 +3,6 @@ import { ROUTES } from '@/consts/routes'
 import { changeMainAddress, deleteAddress } from '@/features/auth/authSlice'
 import AddAddressButton from '@/shared/components/AddAddressButton'
 import { AddressOption, AddressOptionAction, AddressOptionIcon, AddressOptionInfo } from '@/shared/components/AddressOption'
-import BackButton from '@/shared/components/BackButton'
 import Loader from '@/shared/components/Loader'
 import { ToastNotification, ToastNotificationMessage } from '@/shared/components/ToastNotification'
 import { Button } from '@/shared/components/ui/button'
@@ -74,9 +73,11 @@ const AddressesPage = () => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <BackButton />
+      {user?.addresses.length === 0 && (
+        <p>Comienza agregando una dirección de envío</p>
+      )}
 
-      <div>
+      <div className=''>
         <AddAddressButton path={ROUTES.ADDRESSES_ADD} />
       </div>
 

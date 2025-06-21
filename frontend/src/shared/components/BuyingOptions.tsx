@@ -10,6 +10,7 @@ import { CartItem } from '@/shared/types/cartTypes'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import Loader from '@/shared/components/Loader'
+import { useState } from 'react'
 
 type BuyingOptionsProps = {
   productId: string
@@ -20,6 +21,9 @@ type BuyingOptionsProps = {
 const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
   const user = useSelector((state: RootState) => state.auth.user)
   const addItemLoading = useSelector((state: RootState) => state.cart.addItemById.isLoading)
+
+  // Local button watcher
+  const [addedItemId, setAddedItemId] = useState('')
 
   const dispatch = useDispatch<AppDispatch>()
 
@@ -119,9 +123,10 @@ const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
         variant='secondary'
         onClick={() => {
           addToCart({ productId, quantity: 1 })
+          setAddedItemId(productId)
         }}
       >
-        {addItemLoading
+        {addItemLoading && addedItemId === productId
           ? <Loader className='size-4' />
           : 'Agregar al carrito'
         }

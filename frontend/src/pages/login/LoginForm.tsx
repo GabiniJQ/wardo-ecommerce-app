@@ -22,6 +22,7 @@ import Loader from '@/shared/components/Loader'
 import { ROUTES } from '@/consts/routes'
 import useRecaptcha from '@/shared/hooks/useRecaptcha'
 import ReCAPTCHA from 'react-google-recaptcha'
+import { PasswordInputField } from '@/shared/components/PasswordInputField'
 
 const RECAPTCHA_SITE_KEY = 
   import.meta.env.VITE_RECAPTCHA_SITE_KEY || import.meta.env.VITE_RECAPTCHA_SITE_LOCALHOST_KEY
@@ -35,7 +36,8 @@ export default function LoginForm() {
       password: '',
     },
   })
-  const { clearErrors  } = form
+
+  const { clearErrors, formState } = form
 
   const { recaptchaToken, recaptchaRef, handleRecaptcha } = useRecaptcha()
 
@@ -74,6 +76,16 @@ export default function LoginForm() {
     }
   }, [isError, isSuccess, navigate, dispatch, form, message, recaptchaRef])
 
+  // Watch email input to reset after error
+  const emailInput = form.watch('email')
+  const passwordInput = form.watch('password')
+  useEffect(() => {
+    if (emailInput !== '' && passwordInput !== '') {
+      form.clearErrors('email')
+      form.clearErrors('password')
+    }
+  }, [emailInput, form, passwordInput])
+
   if (isLoading) {
     return (
       <div className='flex items-center justify-center min-h-[300px]'>
@@ -108,27 +120,13 @@ export default function LoginForm() {
         />
 
         <div className='flex flex-col gap-4'>
-          <FormField
-            control={form.control}
+          <PasswordInputField 
             name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Contraseña</FormLabel>
-                <FormControl>
-                  <Input 
-                    className='placeholder:text-sm'
-                    type='password'
-                    placeholder='Ingresa tu contraseña'
-                    {...field}
-                    onChange={(e) => {
-                      clearErrors(['email', 'password'])
-                      field.onChange(e)
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
+            control={form.control}
+            label='Contraseña'
+            formState={formState}
+            clearErrors={clearErrors}
+            placeholder='Ingresa tu contraseña'
           />
           <Link
             to={ROUTES.FORGOT_PASSWORD}

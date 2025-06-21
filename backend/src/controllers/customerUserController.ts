@@ -15,6 +15,7 @@ import sanitizeUser from '../utils/sanitizeUser.js'
 import { AppError } from '../types/appError.js'
 import { UserDocument } from '../types/userTypes.js'
 import axios from 'axios'
+import DEMO_CREDENTIALS from '../consts/demoCredentials.js'
 
 // POST /
 export const registerUser = asyncHandler(
@@ -43,7 +44,7 @@ export const registerUser = asyncHandler(
       }
     )
 
-    if (!data.success) {
+    if (!data.success && email !== DEMO_CREDENTIALS.email) {
       res.status(401)
       throw new Error('Captcha inválido. Intenta nuevamente')
     }
@@ -83,7 +84,7 @@ export const registerUser = asyncHandler(
       await pendingUser.save()
     } catch (error) {
       res.status(500)
-      throw new Error('Error interno al enviar el correo de verificación')
+      throw new Error('Sistema de envío de correos no habilitado')
     }
     
     res.status(200).json({ message: 'Correo de verificación enviado exitosamente'})
@@ -136,7 +137,6 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     throw new Error('Usuario e email requeridos')
   }
 
-
   // Verify google reCAPTCHA V2
   const secret = process.env.RECAPTCHA_SECRET_KEY || process.env.RECAPTCHA_SECRET_LOCALHOST_KEY
   const { data } = await axios.post(
@@ -150,7 +150,7 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
     }
   )
 
-  if (!data.success) {
+  if (!data.success && email !== DEMO_CREDENTIALS.email) {
     res.status(403)
     throw new Error('Verificación de CAPTCHA fallida')
   }
@@ -176,6 +176,18 @@ export const loginUser = asyncHandler(async (req: Request, res: Response) => {
 
 // POST /logout
 export const logoutUser = asyncHandler(async (req: Request, res: Response) => {
+  const { email, userId } = req.body
+
+  if (email === DEMO_CREDENTIALS.email) {
+    await User.findByIdAndUpdate(userId, {
+      name: 'Wardo Demo User',
+      cart: {
+        items: []
+      }, 
+      addresses: [],
+    })
+  }
+
   const isProduction = process.env.NODE_ENV === 'production'
 
   res.clearCookie('token', {
@@ -466,5 +478,28 @@ export const addAddress = asyncHandler(async (req: Request, res: Response) => {
   res.status(200).json({
     message: 'Dirección añadida exitosamente',
     addresses: user.addresses,
+  })
+})
+
+export const loginDemo = asyncHandler(async (req: Request, res: Response) => {
+  const email = process.env.DEMO_EMAIL
+  const password = process.env.DEMO_PASSWORD || ''
+
+  const user = await User.findOne({ email })
+  if (!user) {
+    res.status(401)
+    throw new Error('Usuario demo no encontrado')
+  }
+
+  const isMatch = await bcrypt.compare(password, user.password)
+  if (!isMatch) {
+    res.status(401)
+    throw new Error('Credenciales demo inválidas')
+  }
+
+  generateTokenAndSetCookie(res, user._id)
+  res.status(200).json({
+    mesage: 'Usuario demo ha iniciado sesión',
+    user: sanitizeUser(user.toObject()),
   })
 })

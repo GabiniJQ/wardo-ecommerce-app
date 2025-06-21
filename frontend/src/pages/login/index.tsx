@@ -1,6 +1,8 @@
 import { RootState } from '@/app/store'
 import { ROUTES } from '@/consts/routes'
+import { cn } from '@/lib/utils'
 import LoginForm from '@/pages/login/LoginForm'
+import GuestLoginButton from '@/shared/components/GuestLoginButton'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router'
@@ -30,14 +32,16 @@ const LoginPage = () => {
           <Link to={ROUTES.SIGNUP} className='text-primary link'>Créala aquí.</Link>
         </div>
 
-        {/* <div
+        <div
           className={cn(
             'w-full relative text-center before:absolute before:top-1/2 before:-left-2 before:content-[""] before:w-1/2 before:border-t-[1px] before:border-gray-300',
             'after:absolute after:top-1/2 after:-right-2 after:content-[""] after:w-1/2 after:border-t-[1px] after:border-gray-300'
           )}
         >
           o
-        </div> */}
+        </div>
+
+        <GuestLoginButton />
       </div>
     </div>
   )

@@ -39,7 +39,7 @@ export default function SignupForm() {
     },
   })
 
-  const { formState } = form
+  const { formState, clearErrors } = form
 
   const { recaptchaToken, recaptchaRef, handleRecaptcha } = useRecaptcha()
 
@@ -137,6 +137,7 @@ export default function SignupForm() {
           name='password'
           formState={formState}
           placeholder='Ingresar contraseña'
+          clearErrors={clearErrors}
         />
 
         <ReCAPTCHA 

@@ -18,7 +18,7 @@ const AccountSettingsList = () => {
   }, [user, navigate, isChecked])
 
   return (
-    <div className='grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+    <div className='grid gap-4 lg:grid-cols-3 xl:grid-cols-4'>
       {/* Account data */}
       <AccountSetting path={`${ROUTES.ACCOUNT_INFO}`}>
         <AccountSettingIcon>

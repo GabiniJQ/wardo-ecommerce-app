@@ -5,7 +5,7 @@ import { Button } from '@/shared/components/ui/button'
 import { Form } from '@/shared/components/ui/form'
 import { Input } from '@/shared/components/ui/input'
 import { Label } from '@/shared/components/ui/label'
-import { changeName, changePassword } from '@/features/auth/authSlice'
+import { changeName, changePassword, resetChangeName, resetChangePassword } from '@/features/auth/authSlice'
 import { newPassSchema } from '@/schemas/newPassSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useEffect, useState } from 'react'
@@ -13,7 +13,6 @@ import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import { z } from 'zod'
-import BackButton from '@/shared/components/BackButton'
 import { PasswordInputField } from '@/shared/components/PasswordInputField'
 
 const AccountInformationPage = () => {
@@ -30,6 +29,9 @@ const AccountInformationPage = () => {
 
   const [nameInput, setNameInput] = useState<string | undefined >(user?.name)
 
+  //
+  const isDemoAccount = user?.email === 'wardo@demo.com'
+
   const newPassForm = useForm<z.infer<typeof newPassSchema>>({
     resolver: zodResolver(newPassSchema),
     defaultValues: {
@@ -39,7 +41,7 @@ const AccountInformationPage = () => {
     }
   })
   
-  const { formState } = newPassForm
+  const { formState, clearErrors } = newPassForm
 
   const dispatch = useDispatch<AppDispatch>()
   
@@ -64,6 +66,8 @@ const AccountInformationPage = () => {
           </ToastNotificationMessage>
         </ToastNotification>
       )
+
+      dispatch(resetChangeName())
     }
     
     if (isError) {
@@ -74,6 +78,7 @@ const AccountInformationPage = () => {
           </ToastNotificationMessage>
         </ToastNotification>
       )
+      dispatch(resetChangeName())
     }
 
     if (passIsSuccess) {
@@ -85,6 +90,7 @@ const AccountInformationPage = () => {
         </ToastNotification>
       )
 
+      dispatch(resetChangePassword())
       newPassForm.reset()
     }
 
@@ -114,13 +120,11 @@ const AccountInformationPage = () => {
           })
       }
     }
-  }, [isSuccess, isError, passErrorMessage, passIsSuccess, newPassForm, passErrorCode])
+  }, [isSuccess, isError, passErrorMessage, passIsSuccess, newPassForm, passErrorCode, dispatch])
   
   return (
     <div className='flex flex-col gap-5 mb-10'>
-      <BackButton />
-
-      <div className='sm:grid sm:grid-cols-2 xl:grid-cols-3 gap-10 '>
+      <div className='py-4 space-y-6 sm:grid sm:grid-cols-2 sm:gap-10 xl:grid-cols-3 '>
         <div className='flex flex-col gap-6 '>
           <div className='flex flex-col gap-2'>
             <Label htmlFor=''>Nombre completo</Label>
@@ -166,6 +170,7 @@ const AccountInformationPage = () => {
                 name='currentPass'
                 label='Contraseña actual'
                 formState={formState}
+                clearErrors={clearErrors}
               />
 
               <PasswordInputField 
@@ -173,6 +178,7 @@ const AccountInformationPage = () => {
                 name='newPass'
                 label='Contraseña nueva'
                 formState={formState}
+                clearErrors={clearErrors}
               />
 
               <PasswordInputField 
@@ -180,9 +186,10 @@ const AccountInformationPage = () => {
                 name='newPassConfirmation'
                 label='Confirmar contraseña nueva'
                 formState={formState}
+                clearErrors={clearErrors}
               />
               
-              <Button className='w-full' type='submit'>
+              <Button className='w-full' type='submit' disabled={isDemoAccount}>
                 {
                   passIsLoading ? <Loader className='size-4'/> : 'Cambiar contraseña'
                 }

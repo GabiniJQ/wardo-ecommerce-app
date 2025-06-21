@@ -20,7 +20,7 @@ export const ProductCard = ({
 }: ProductCardProps) => {
   return (
     <ProductCardContext.Provider value={{ product }} {...props}>
-      <div className={cn('group flex flex-col btn px-2', className)}>
+      <div className={cn('group relative flex flex-col btn px-2', className)}>
         {children}
       </div>
     </ProductCardContext.Provider>
@@ -61,28 +61,26 @@ export const ProductCardInfo = ({ className }: { className?: string }) => {
   const finalPriceCOP = Number((finalPrice * CONVERSION_RATE.COP).toFixed(0))
 
   return (
-    <div className={cn('flex flex-col', className)}>
-      <div className='line-clamp-2'>
-        <p className='group-hover:text-primary'>{title}</p>
+    <div className={cn('flex justify-between sm:flex-col', className)}>
+      <div className=''>
+        <div className='line-clamp-2'>
+          <p className='group-hover:text-primary text-sm sm:text-base min-h-10'>{title}</p>
+        </div>
+
+        {/* Discount */}
+        <div>
+          <p className='line-through text-xs mt-2 mb-0 text-gray-500'>
+            {formattedPrice(priceCOP)}
+          </p>
+        </div>
+
+        {/* Price */}
+        <div>
+          <p className='text-base sm:text-lg font-semibold mt-0'>{formattedPrice(finalPriceCOP)}</p>
+        </div>
       </div>
 
-      {/* Discount */}
-      <div>
-        <p className='line-through text-[0.65rem] mt-2 mb-0'>
-          {formattedPrice(priceCOP)}
-        </p>
-      </div>
-
-      {/* Price */}
-      <div>
-        <p className='text-lg font-semibold mt-0'>{formattedPrice(finalPriceCOP)}</p>
-      </div>
-
-      <div className='bg-red-400 transform skew-x-12 w-16'>
-        <p className='text-white text-[0.6rem] text-center '>
-          Ahorras {discountPercentage.toFixed(0)}%
-        </p>
-      </div>
+      
     </div>
   )
 }
@@ -97,5 +95,25 @@ export const ProductCardButton = ({ children, className, ...props }: {
     >
       {children}
     </Button>
+  )
+}
+
+type ProductCardOffTagProps = {
+  className?: string
+}
+
+export const ProductCardOffTag = ({ className }:ProductCardOffTagProps) => {
+  const { product } = useProductCard()
+
+  if (!product) return
+
+  const { discountPercentage } = product
+
+  return (
+    <div className={cn('', className)}>
+      <span className='flex items-center justify-center bg-red-400 px-2 py-3 rounded-full text-white text-xs text-center leading-0'>
+        -{discountPercentage.toFixed(0)}%
+      </span>
+    </div>
   )
 }

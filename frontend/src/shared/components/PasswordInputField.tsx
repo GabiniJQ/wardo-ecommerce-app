@@ -9,7 +9,7 @@ import {
 import { Input } from '@/shared/components/ui/input'
 import { Button } from '@/shared/components/ui/button'
 import { HiEye, HiEyeOff } from 'react-icons/hi'
-import { Control, FieldValues, FormState, Path } from 'react-hook-form'
+import { Control, FieldValues, FormState, Path, UseFormClearErrors } from 'react-hook-form'
 
 interface PasswordInputFieldProps<T extends FieldValues> {
   control: Control<T>
@@ -18,6 +18,7 @@ interface PasswordInputFieldProps<T extends FieldValues> {
   maxLength?: number
   formState?: FormState<T>
   placeholder?: string
+  clearErrors: UseFormClearErrors<T>
 }
 
 export const PasswordInputField = <T extends FieldValues>({
@@ -27,6 +28,7 @@ export const PasswordInputField = <T extends FieldValues>({
   maxLength = 72,
   formState,
   placeholder,
+  clearErrors,
 }: PasswordInputFieldProps<T>) => {
   const [isVisible, setIsVisible] = useState(false)
 
@@ -47,6 +49,10 @@ export const PasswordInputField = <T extends FieldValues>({
                 type={isVisible ? 'text' : 'password'}
                 maxLength={maxLength}
                 placeholder={placeholder ?? ''}
+                onChange={(e) => {
+                  clearErrors(name)
+                  field.onChange(e)
+                }}
               />
             </FormControl>
             <Button

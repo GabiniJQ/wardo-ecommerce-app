@@ -1,6 +1,5 @@
 import { RootState } from '@/app/store'
 import AddressForm from '@/shared/components/AddressForm'
-import BackButton from '@/shared/components/BackButton'
 import { useSelector } from 'react-redux'
 import { useParams } from 'react-router'
 
@@ -17,8 +16,6 @@ const AddressEditPage = () => {
 
   return (
     <div className='flex flex-col gap-6'>
-      <BackButton />
-
       <AddressForm addressData={address}/>
     </div>
   )

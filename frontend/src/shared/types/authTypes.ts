@@ -37,6 +37,11 @@ export type LoginData = {
   recaptchaToken: string
 }
 
+export type LogoutData = {
+  email: string
+  userId: string
+}
+
 // State type
 
 export interface AuthState {
@@ -45,6 +50,12 @@ export interface AuthState {
     isError: boolean
     isSuccess: boolean
     isLoading: boolean
+    message: string
+  }
+  loginDemo: {
+    isLoading: boolean
+    isSuccess: boolean
+    isError: boolean
     message: string
   }
   checkAuth: {

@@ -8,6 +8,7 @@ import {
   LoginResponse,
   LogoutResponse,
   LoginData,
+  LogoutData,
 } from '@/shared/types/authTypes'
 
 const register = async (userData: UserData): Promise<RegisterResponse> => {
@@ -47,10 +48,10 @@ const login = async (userData: LoginData): Promise<LoginResponse> => {
   return response.data
 }
 
-const logout = async (): Promise<LogoutResponse> => {
+const logout = async ({ email, userId }: LogoutData): Promise<LogoutResponse> => {
   const response: AxiosResponse<LogoutResponse> = await api.post(
     '/users/logout',
-    {},
+    { email, userId },
     { withCredentials: true },
   )
 

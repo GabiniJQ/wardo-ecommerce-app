@@ -1,5 +1,5 @@
 import { Button } from '@/shared/components/ui/button'
-import { Link, useNavigate } from 'react-router'
+import { Link } from 'react-router'
 import { ROUTES } from '@/consts/routes'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/store'
@@ -8,6 +8,8 @@ import { HiHome, HiUser, HiViewGrid } from 'react-icons/hi'
 import { LogOut } from 'lucide-react'
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/shared/components/ui/accordion'
 import { CATEGORIES } from '@/consts/productCategories'
+import { clearCart } from '@/features/cart/cartSlice'
+import GuestLoginButton from '@/shared/components/GuestLoginButton'
 
 const MenuMobile = ({ onClose }: {
   onClose?: () => void
@@ -15,14 +17,20 @@ const MenuMobile = ({ onClose }: {
   const { user } = useSelector((state: RootState) => state.auth)
 
   const dispatch = useDispatch<AppDispatch>()
-  const navigate = useNavigate()
 
   const firstLetterName = user?.name.charAt(0)
 
   const categoriesArray = Object.values(CATEGORIES)
 
+  const handleLogout = () => {
+    if (user) {
+      dispatch(logout({ userId: user._id, email: user.email }))
+      dispatch(clearCart())
+    }
+  }
+
   return (
-    <div className='w-full bg-white p-6 border border-t'>
+    <div className='w-full bg-white p-4 border border-t'>
       <div className='flex flex-col gap-2 w-full border-b-[1px] border-gray-300'>
         {!user && (
           <div className='flex flex-col gap-2'>
@@ -50,7 +58,7 @@ const MenuMobile = ({ onClose }: {
         )}
 
         {user && (
-          <div className='flex w-full px-4 pb-4'>
+          <div className='flex w-full pb-4'>
             {/* User Avatar Letter */}
             {user && (
               <div className='flex justify-center items-center w-1/3'>
@@ -116,14 +124,17 @@ const MenuMobile = ({ onClose }: {
             <Button
               className='h-full p-0 text-base has-[>svg]:px-0'
               variant='border'
-              onClick={() => {
-                dispatch(logout())
-                navigate('/')
-              }}
+              onClick={() => handleLogout()}
             >
               <LogOut />
               Cerrar sesión
             </Button>
+          </div>
+        )}
+
+        {!user && (
+          <div className='py-4'>
+            <GuestLoginButton />
           </div>
         )}
       </div>

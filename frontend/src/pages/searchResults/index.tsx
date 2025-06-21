@@ -10,7 +10,7 @@ import { Product } from '@/shared/types/productTypes'
 import { useCallback, useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate, useSearchParams } from 'react-router'
-import { PaginationSection } from '@/shared/components/Pagination'
+import { PaginationSection } from '@/shared/components/PaginationSection'
 import ProductCardDetailedSkeleton from '@/shared/components/ProductCardDetailedSkeleton'
 
 const SearchResultsPage = () => {

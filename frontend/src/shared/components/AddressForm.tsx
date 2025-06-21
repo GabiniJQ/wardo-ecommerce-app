@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/shared/components/ui/button'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '@/app/store'
-import { addAddress, changeAddress, resetAddAddress } from '@/features/auth/authSlice'
+import { addAddress, changeAddress, resetAddAddress, resetChangeAddress } from '@/features/auth/authSlice'
 import { ToastNotification, ToastNotificationMessage } from '@/shared/components/ToastNotification'
 import Loader from '@/shared/components/Loader'
 import { Address } from '@/shared/types/authTypes'
@@ -165,6 +165,7 @@ const AddressForm = ({ addressData }: AddressFormProps) => {
           </ToastNotificationMessage>
         </ToastNotification>
       )
+      dispatch(resetChangeAddress())
     }
 
     if (changeAddressError) {
@@ -186,185 +187,191 @@ const AddressForm = ({ addressData }: AddressFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
-        <FormField
-          control={form.control}
-          name='fullName'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='field-required'>Nombre de quien recibe</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)}  className='space-y-6'>
+        <div className='sm:grid sm:grid-cols-2 gap-6 space-y-6 sm:space-y-0'>
+          <div className='space-y-6'>
+            <FormField
+              control={form.control}
+              name='fullName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='field-required'>Nombre de quien recibe</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <FormField
-          control={form.control}
-          name='addressType'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tipo de dirección</FormLabel>
-              <FormControl>
-                <Select defaultValue='Hogar' onValueChange={field.onChange} value={field.value as string}>
-                  <SelectTrigger className='w-[180px]'>
-                    <SelectValue placeholder='Hogar' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value='hogar'>Hogar</SelectItem>
-                    <SelectItem value='trabajo'>Trabajo</SelectItem>
-                    <SelectItem value='casillero'>Casillero</SelectItem>
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+            <FormField
+              control={form.control}
+              name='addressType'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tipo de dirección</FormLabel>
+                  <FormControl>
+                    <Select defaultValue='Hogar' onValueChange={field.onChange} value={field.value as string}>
+                      <SelectTrigger className='w-[180px]'>
+                        <SelectValue placeholder='Hogar' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value='hogar'>Hogar</SelectItem>
+                        <SelectItem value='trabajo'>Trabajo</SelectItem>
+                        <SelectItem value='casillero'>Casillero</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
 
-        <div className='grid grid-cols-3 gap-2'>
-          <FormField
-            control={form.control}
-            name='addressInfo.street'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className='field-required'>Calle</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='addressInfo.number1'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>#</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name='addressInfo.number2'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>-</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
+            <div className='grid grid-cols-3 gap-2'>
+              <FormField
+                control={form.control}
+                name='addressInfo.street'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className='field-required'>Calle</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='addressInfo.number1'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>#</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='addressInfo.number2'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>-</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <FormField
+              control={form.control}
+              name='addressInfo.additionalInfo'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Información adicional</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className='space-y-6'>
+            <FormField
+              control={form.control}
+              name='department'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='field-required'>Departamento</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} value={field.value}>
+                      <SelectTrigger className='min-w-40'>
+                        <SelectValue placeholder='Seleccionar departamento' />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {departments.map((department) => 
+                          <SelectItem key={department} value={department}>{department}</SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='city'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='field-required'>Ciudad o municipio</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      disabled={availableCities.length === 0}
+                    >
+                      <SelectTrigger className='min-w-40'>
+                        <SelectValue placeholder='Selecciona tu ciudad' />
+                      </SelectTrigger>
+                      <SelectContent >
+                        {availableCities.map((city) => 
+                          <SelectItem key={city} value={city}>{city}</SelectItem>
+                        )}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='addressInfo.postalCode'
+              render={({ field }) => (
+                <FormItem >
+                  <FormLabel>Código postal</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name='phone'
+              render={({ field }) => (
+                <FormItem >
+                  <FormLabel className='field-required'>Teléfono móvil</FormLabel>
+                  <div className='flex'>
+                    <div
+                      className='flex items-center leading-0 justify-center border-input border border-r-gray-100 rounded rounded-r-none p-1'
+                    >
+                      +57
+                    </div>
+                    <FormControl>
+                      <Input {...field} className='border-l-0 rounded-l-none px-2' />
+                    </FormControl>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
-
-        <FormField
-          control={form.control}
-          name='addressInfo.additionalInfo'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Información adicional</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name='department'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='field-required'>Departamento</FormLabel>
-              <FormControl>
-                <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger className='min-w-40'>
-                    <SelectValue placeholder='Seleccionar departamento' />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {departments.map((department) => 
-                      <SelectItem key={department} value={department}>{department}</SelectItem>
-                    )}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name='city'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='field-required'>Ciudad o municipio</FormLabel>
-              <FormControl>
-                <Select
-                  onValueChange={field.onChange}
-                  value={field.value}
-                  disabled={availableCities.length === 0}
-                >
-                  <SelectTrigger className='min-w-40'>
-                    <SelectValue placeholder='Selecciona tu ciudad' />
-                  </SelectTrigger>
-                  <SelectContent >
-                    {availableCities.map((city) => 
-                      <SelectItem key={city} value={city}>{city}</SelectItem>
-                    )}
-                  </SelectContent>
-                </Select>
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name='addressInfo.postalCode'
-          render={({ field }) => (
-            <FormItem className='max-w-40'>
-              <FormLabel>Código postal</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name='phone'
-          render={({ field }) => (
-            <FormItem className='max-w-40'>
-              <FormLabel className='field-required'>Teléfono móvil</FormLabel>
-              <div className='flex'>
-                <div
-                  className='flex items-center leading-0 justify-center border-input border border-r-gray-100 rounded rounded-r-none p-1'
-                >
-                  +57
-                </div>
-                <FormControl>
-                  <Input {...field} className='border-l-0 rounded-l-none px-2' />
-                </FormControl>
-              </div>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
 
         <Button
           type='submit'
-          className='w-full'
+          className='w-full sm:max-w-40 sm:mx-auto sm:block'
         >
           {addAddressLoading || changeAddressLoading
           ? <Loader className='size-4' />

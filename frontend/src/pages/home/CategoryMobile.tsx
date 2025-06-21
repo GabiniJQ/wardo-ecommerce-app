@@ -3,6 +3,7 @@ import {
   ProductCard,
   ProductCardImage,
   ProductCardInfo,
+  ProductCardOffTag,
 } from '@/pages/home/ProductCard'
 import { Product } from '@/shared/types/productTypes'
 import { Skeleton } from '@/shared/components/ui/skeleton'
@@ -45,23 +46,26 @@ const CategoryMobile = ({ header, category }: { header: string, category: string
   }
 
   return (
-    <div className='relative flex flex-col justify-between min-w-[240px] mb-4  mx-auto rounded-lg bg-white shadow-gray-500'>
-      <div className='p-2 border-b-xs-gray border-dashed'>
-        <h2 className='subtitle'>{header}</h2>
+    <div className='relative flex flex-col justify-between min-w-[240px] mb-4 pb-10 mx-auto rounded-lg bg-white shadow-gray-500 shadow-sm'>
+      <div className='p-2 border-b-xs-gray border-dashed '>
+        <h2 className='subtitle text-center'>{header}</h2>
       </div>
 
-      <div className='grid grid-cols-2 bg-white'>
-        {products.map((product: Product) => {
+      <div className='grid grid-cols-2'>
+        {products.map((product: Product, i) => {
           const { category, _id, slug } = product
           const productPath = `${formatCategoryURL(category)}/${slug}/${_id}`
+          
+          if (products.length % 2 === 1 && i === products.length - 1) return
           return (
-            <div className='flex items-center even:border-l-[1px] size-full border-gray-300 border-dashed odd:last:border-r-[1px]' 
+            <div className='flex items-center even:border-l-[1px] size-full border-gray-300 border-dashed odd:last:border-r-[1px] bg-white' 
               key={product._id}
             >
-              <Link to={productPath} className='size-full'>
+              <Link to={productPath} className='size-full '>
                 <ProductCard product={product} className='p-4 border-b-xs-gray border-dashed text-sm size-full'>
                   <ProductCardImage className='size-full'/>
-                  <ProductCardInfo />
+                  <ProductCardInfo className=''/>
+                  <ProductCardOffTag className='absolute top-2 right-2'/>
                 </ProductCard>
               </Link>
             </div>
