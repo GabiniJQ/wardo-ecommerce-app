@@ -34,7 +34,7 @@ const ResetPasswordPage = () => {
     }
   })
 
-  const { formState } = form
+  const { formState, clearErrors } = form
   
   const dispatch = useDispatch<AppDispatch>()
 
@@ -78,6 +78,7 @@ const ResetPasswordPage = () => {
             name='newPass'
             label='Contraseña nueva'
             formState={formState}
+            clearErrors={clearErrors}
           />
 
           <PasswordInputField
@@ -85,6 +86,7 @@ const ResetPasswordPage = () => {
             name='newPassConfirmation'
             label='Confirmar contraseña nueva'
             formState={formState}
+            clearErrors={clearErrors}
           />
 
           <Button
