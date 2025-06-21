@@ -6,7 +6,7 @@ export interface ErrorResponse {
 }
 
 export const errorHandler = (err: any, req: Request, res: Response, next: NextFunction) => {
-  const statusCode = res.statusCode ? res.statusCode : 500
+  const statusCode = err.status ?? res.statusCode ? res.statusCode : 500
   console.log('statusCode :', statusCode)
   
   res.status(statusCode)

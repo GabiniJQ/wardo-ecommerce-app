@@ -10,23 +10,14 @@ import { errorHandler } from './middlewares/errorMiddleware.js'
 import productsRoutes from './routes/productsRoutes.js'
 import cartRoutes from './routes/cartRoutes.js'
 import pingRoutes from './routes/pingRoutes.js'
+import { corsOptions } from './config/cors.js'
 
 dotenv.config()
 
 const PORT = process.env.PORT || 5000
-const allowedOrigins = ['http://localhost:5173', process.env.CLIENT_URL]
 const app = express()
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      console.log('Origin request: ', origin)
-      return callback(null, true)
-    }
-    callback(new Error(`Blocked CORS origin: ${origin}`))
-  },
-  credentials: true,
-}))
+app.use(cors(corsOptions))
 app.use(express.json())
 app.use(cookieParser())
 app.use(express.urlencoded({ extended: false}))
