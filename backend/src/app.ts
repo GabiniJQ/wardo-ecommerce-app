@@ -20,6 +20,7 @@ const app = express()
 app.use(cors({
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.includes(origin)) {
+      console.log('Origin request: ', origin)
       return callback(null, true)
     }
     callback(new Error(`Blocked CORS origin: ${origin}`))
