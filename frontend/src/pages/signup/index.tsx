@@ -1,6 +1,6 @@
 import { RootState } from '@/app/store'
 import { ROUTES } from '@/consts/routes'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils/utils'
 import SignupForm from '@/pages/signup/SignupForm'
 import GuestLoginButton from '@/shared/components/GuestLoginButton'
 import { useEffect } from 'react'

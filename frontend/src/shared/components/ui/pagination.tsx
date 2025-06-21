@@ -5,7 +5,7 @@ import {
   MoreHorizontalIcon,
 } from 'lucide-react'
 
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils/utils'
 import { Button, buttonVariants } from '@/shared/components/ui/button'
 import { Link } from 'react-router'
 

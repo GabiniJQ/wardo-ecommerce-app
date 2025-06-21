@@ -2,6 +2,7 @@ import {
   ProductCard,
   ProductCardImage,
   ProductCardInfo,
+  ProductCardOffTag,
 } from '@/pages/home/ProductCard'
 import BuyingOptions from '@/shared/components/BuyingOptions'
 import ProductRating from '@/shared/components/ProductRating'
@@ -26,7 +27,7 @@ const ProductCardDetailed = ({ product }: { product: Product }) => {
     <ProductCard
       key={_id}
       product={product}
-      className='flex-row p-2 size-full shadow rounded lg:flex-col'
+      className='relative flex-row p-6 size-full shadow rounded lg:flex-col'
     >
       <Link
         to={productLink}
@@ -36,6 +37,9 @@ const ProductCardDetailed = ({ product }: { product: Product }) => {
       </Link>
 
       <div className='flex flex-col justify-between gap-4 px-2 w-1/2 lg:w-full'>
+        {/* Off Tag */}
+        <ProductCardOffTag className='absolute top-10 left-10' />
+
         {/* Rating stars */}
         <Link to={productLink} className='flex flex-col justify-between gap-4'>
           <div className='flex gap-2'>

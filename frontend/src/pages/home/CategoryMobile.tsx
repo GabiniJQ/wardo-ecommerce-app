@@ -65,7 +65,7 @@ const CategoryMobile = ({ header, category }: { header: string, category: string
                 <ProductCard product={product} className='p-4 border-b-xs-gray border-dashed text-sm size-full'>
                   <ProductCardImage className='size-full'/>
                   <ProductCardInfo className=''/>
-                  <ProductCardOffTag className='absolute top-2 right-2'/>
+                  <ProductCardOffTag className='absolute top-4 right-4'/>
                 </ProductCard>
               </Link>
             </div>

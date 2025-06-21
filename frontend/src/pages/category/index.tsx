@@ -55,10 +55,10 @@ const CategoryPage = () => {
         <h1 className='text-primary title text-center md:text-left'>{currentCategory}</h1>
       </div>
 
-      <div className='grid gap-6 px-2 lg:grid-cols-3 2xl:grid-cols-4'>
+      <div className='grid gap-6 lg:grid-cols-3 2xl:grid-cols-4'>
         {products.map((product) => {
           return (
-            <div key={product._id} className='bg-white shadow rounded'>
+            <div key={product._id} className='bg-white rounded'>
               <ProductCardDetailed  product={product}/>
             </div>
           )

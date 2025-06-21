@@ -71,7 +71,7 @@ const SearchFilters = ({
   return (
     <div>
       <Sheet>
-        <SheetTrigger className='flex gap-2 justify-center items-center h-10 text-primary btn'>
+        <SheetTrigger className='flex gap-2 justify-center items-center h-10 text-primary text-sm btn border px-2 py-1 rounded-md'>
           <HiFilter/>
           Filtrar búsqueda
         </SheetTrigger>
@@ -84,10 +84,12 @@ const SearchFilters = ({
             </SheetDescription>
           </SheetHeader>
 
-          <div className='p-4'>
+          <div className='p-6'>
             <Accordion type='multiple'  className='w-full'>
               <AccordionItem value='item-1'>
-                <AccordionTrigger className='font-semibold'>Precio</AccordionTrigger>
+                <AccordionTrigger className='font-semibold'>
+                  Precio
+                </AccordionTrigger>
                 <AccordionContent>
                   <div className='flex gap-4 items-center'>
                     <p className='text-sm'>Rango:</p>

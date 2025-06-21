@@ -10,6 +10,7 @@ import { Separator } from '@/shared/components/ui/separator'
 import { MdStars } from 'react-icons/md'
 import { HiFire, HiSearch, HiShieldCheck, HiTruck } from 'react-icons/hi'
 import { GroceryPromo, WatchesPromo} from '@/pages/home/CategoryBanner'
+import CategoryCardsMenu from '@/shared/components/CategoryCardsMenu'
 
 const HomePage = () => {
   const isMobile = useScreenSize()
@@ -40,6 +41,15 @@ const HomePage = () => {
             <a className='text-xs leading-0'>Primer envío gratis</a>
           </div>
         </div>
+
+        {/* MOBILE: Category cards section */}
+        {isMobile && (
+          <div className='flex flex-col gap-6 px-4 py-10'>
+            <h2 className='subtitle text-primary self-center'>Buscar por categoría</h2>
+
+            <CategoryCardsMenu className='w-full sm:max-w-[50%] sm:mx-auto'/>
+          </div>
+        )}
         
         <div id='explore' className='bg-accent max-w-[1920px] 2xl:mx-auto' >
           {/* Dektop: Categories promotion */}
@@ -151,6 +161,12 @@ const HomePage = () => {
           <section className='px-4 py-5 bg-white'>
             <Tags />
           </section>
+
+          <div className='flex flex-col gap-6 px-4 py-10'>
+            <h2 className='subtitle text-primary self-center'>Buscar por categoría</h2>
+
+            <CategoryCardsMenu className='w-full sm:max-w-[50%] sm:mx-auto'/>
+          </div>
         </div>
       </div>
     </div>

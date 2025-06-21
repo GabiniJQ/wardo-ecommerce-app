@@ -21,7 +21,7 @@ import { fetchProductsByCategory } from '@/features/products/productsSlice'
 import { selectProductByCategory } from '@/features/products/productSelectors'
 import { formatCategoryURL } from '@/shared/utils/utils'
 import { Link } from 'react-router'
-import { cn } from '@/lib/utils'
+import { cn } from '@/shared/utils/utils'
 
 type Props = {
   header: string
