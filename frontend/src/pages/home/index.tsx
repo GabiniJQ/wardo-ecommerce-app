@@ -162,11 +162,14 @@ const HomePage = () => {
             <Tags />
           </section>
 
-          <div className='flex flex-col gap-6 px-4 py-10'>
-            <h2 className='subtitle text-primary self-center'>Buscar por categoría</h2>
+          {/* Desktop: Category cards section */}
+          {!isMobile && (
+            <div className='flex flex-col gap-6 px-4 py-10'>
+              <h2 className='subtitle text-primary self-center'>Buscar por categoría</h2>
 
-            <CategoryCardsMenu className='w-full sm:max-w-[50%] sm:mx-auto'/>
-          </div>
+              <CategoryCardsMenu className='w-full sm:max-w-[50%] sm:mx-auto'/>
+            </div>
+          )}
         </div>
       </div>
     </div>
