@@ -12,6 +12,7 @@ import {
   ProductCard,
   ProductCardImage,
   ProductCardInfo,
+  ProductCardOffTag,
 } from '@/pages/home/ProductCard'
 import ProductsCarouselSkeleton from '@/pages/home/ProductsCarouselSkeleton'
 
@@ -105,6 +106,8 @@ const ProductsCarousel = ({
                   >
                     <ProductCardImage className='size-full' />
                     <ProductCardInfo className='xl:min-h-[100px]' />
+
+                    <ProductCardOffTag className='absolute left-[5%] top-[5%]' />
                   </ProductCard>
                 </Link>
               </CarouselItem>
