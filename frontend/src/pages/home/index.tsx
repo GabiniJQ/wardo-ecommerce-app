@@ -61,7 +61,7 @@ const HomePage = () => {
           )}
 
           {/* Desktop: Related and popular section  Mobile: Category carousel*/}
-          <section className='relative m1-8 p-4 gradient-accent 2xl:px-10'>
+          <section className='relative p-4 gradient-accent 2xl:px-10'>
             <div className='size-full 2xl:pb-10  sm:rounded-none sm:shadow-none'>
               {isMobile ? (
                 <CategoryMobile

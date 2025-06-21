@@ -84,9 +84,9 @@ const ProductsCarousel = ({
 
       <Carousel
         opts={{ dragFree: true }}
-        className='w-full bg-accent'
+        className='w-full bg-accent h-full'
       >
-        <CarouselContent className='-ml-4 p-4'>
+        <CarouselContent className='-ml-4 p-4 h-full'>
           {products.map((product: Product) => {
             const { category, _id, slug } = product
             const productPath = `${formatCategoryURL(category)}/${slug}/${_id}`
@@ -104,7 +104,7 @@ const ProductsCarousel = ({
                     className=''
                   >
                     <ProductCardImage className='size-full' />
-                    <ProductCardInfo />
+                    <ProductCardInfo className='xl:min-h-[100px]' />
                   </ProductCard>
                 </Link>
               </CarouselItem>
