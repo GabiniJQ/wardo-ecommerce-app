@@ -38,7 +38,7 @@ const Settings = () => {
         onMouseLeave={() => setSettingsOpen(false)}
       >
         <Button variant='border' className='cursor-pointer border-clean px-1 relative size-full '>
-          <IoSettingsSharp className='size-6' />
+          <IoSettingsSharp className='size-10' />
 
           {/* Small triangle */}
           <div className='absolute bottom-0 left-1/2 -translate-x-1/2 size-0 border-l-4 border-r-4 border-t-4 border-transparent border-t-white group-hover:hidden'></div>

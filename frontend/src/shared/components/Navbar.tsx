@@ -70,90 +70,10 @@ const Navbar = () => {
   }, [query, dispatch, lastSearch])
 
   return (
-    <header className='relative w-full shadow z-30'>
-      {/* Primary nav */}
-      <div className='flex justify-between items-center gap-4 px-2 bg-primary text-primary-foreground sm:px-10 2xl:px-40'>
-        <div className='shrink-0'>
-          <a href='/'>
-            <img src='/img/wardo-logo2.png' className='size-[70px]' alt='Wardo logo' />
-          </a>
-        </div>
-
-        <div
-          className='flex items-center relative grow'
-        >
-          <div className='flex relative items-center w-full rounded md:focus-within:border-red-500'>
-            <Input
-              ref={searchInputRef}
-              type='text'
-              placeholder={
-                isMobile ? '' : 'Buscar producto, categoría, marca...'
-              }
-              className='bg-white text-black border-blue-dark border-none rounded-2xl text-xs active:border-blue-dark placeholder:text-blue-dark/50 md:min-w-[400px] md:text-sm'
-              onChange={(e) => setInputSearch(e.target.value)}
-              value={inputSearch}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && inputSearch !== '') {
-                  handleSearch(inputSearch)
-                  searchInputRef.current?.blur()
-                }
-              }}
-            />
-            {!isMobile && (
-              <Button 
-                className='absolute right-0 bg-mustard-primary rounded-l-none rounded-r-2xl cursor-pointer hover:bg-mustard-secondary'
-                onClick={() => {
-                  if (inputSearch !== '') {
-                    handleSearch(inputSearch)
-                  }
-                }}
-              >
-                <HiSearch />
-              </Button>
-            )}
-          </div>
-        </div>
-
-        {/* Settings and Cart */}
-        <div className='flex justify-center items-center gap-1 h-full '>
-          {isMobile ? (
-            <Button
-              variant='border'
-              className={`cursor-pointer px-1 ${
-                mobileMenuOpen ? 'bg-accent text-black' : ''
-              }`}
-              size={isMobile ? 'xs' : 'default'}
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            >
-              <HiBars3 className='size-6' />
-            </Button>
-          ) : (
-            <Settings />
-          )}
-          <Link to={ROUTES.CART} className='flex items-center justify-center'>
-            <Button
-              variant='border'
-              className='cursor-pointer px-1 shrink-0 relative size-full'
-              size={isMobile ? 'xs' : 'default'}
-              
-            >
-              <HiShoppingCart className='size-6' />
-              {/* Cart items number */}
-              {!isMobile && cartItems.length > 0 && (
-                <span
-                className='absolute bottom-[1px] right-1  text-[0.6rem] font-bold text-white bg-mustard-primary size-3 rounded flex items-center justify-center'
-                >
-                  {cartItems.length}
-                </span>
-              )}
-            </Button>
-          </Link>
-        </div>
-      </div>
-
+    <header className='relative w-full shadow z-30 bg-primary'>
       {/* Secondary nav */}
       <div
-        className='relative flex justify-center items-center px-2 bg-white text-secondary-foreground h-10 sm:px-10 2xl:px-40'
+        className='relative flex justify-center items-center px-2 bg-white text-secondary-foreground py-2 sm:px-10 2xl:max-w-[1920px] 2xl:mx-auto'
       >
         {!isMobile && (
           <div className='flex justify-between items-center w-full h-full'>
@@ -264,6 +184,89 @@ const Navbar = () => {
         {isMobile && <AddressesModal />}
         
       </div>
+
+      {/* Primary nav */}
+      <div className='flex justify-between items-center gap-4 px-2 bg-primary text-primary-foreground sm:px-10  2xl:max-w-[1920px] 2xl:mx-auto'>
+        <div className='w-[60px] sm:w-[100px] shrink-0'>
+          <a href='/'>
+            <img src='/img/wardo-logo2.png' className='size-full' alt='Wardo logo' />
+          </a>
+        </div>
+
+        <div
+          className='flex items-center relative grow max-w-2/3'
+        >
+          <div className='flex relative items-center w-full rounded md:focus-within:border-red-500'>
+            <Input
+              ref={searchInputRef}
+              type='text'
+              placeholder={
+                isMobile ? '' : 'Buscar producto, categoría, marca...'
+              }
+              className='bg-white text-black border-blue-dark px-6 py-2 border-none rounded-full text-xs active:border-blue-dark placeholder:text-blue-dark/50 sm:py-6 md:min-w-[400px] md:text-sm'
+              onChange={(e) => setInputSearch(e.target.value)}
+              value={inputSearch}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && inputSearch !== '') {
+                  handleSearch(inputSearch)
+                  searchInputRef.current?.blur()
+                }
+              }}
+            />
+            {!isMobile && (
+              <Button
+                className='absolute right-0 bg-mustard-primary h-full rounded-l-none rounded-r-full cursor-pointer overflow-hidden hover:bg-mustard-secondary'
+                onClick={() => {
+                  if (inputSearch !== '') {
+                    handleSearch(inputSearch)
+                  }
+                }}
+                aria-label='Search button'
+              >
+                <HiSearch className='size-6' />
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Settings and Cart */}
+        <div className='flex justify-center items-center gap-1 h-full '>
+          {isMobile ? (
+            <Button
+              variant='border'
+              className={`cursor-pointer px-1 ${
+                mobileMenuOpen ? 'bg-accent text-black' : ''
+              }`}
+              size={isMobile ? 'xs' : 'default'}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <HiBars3 className='size-6' />
+            </Button>
+          ) : (
+            <Settings />
+          )}
+          <Link to={ROUTES.CART} className='flex items-center justify-center'>
+            <Button
+              variant='border'
+              className='cursor-pointer px-1 shrink-0 relative size-full'
+              size={isMobile ? 'xs' : 'default'}
+              
+            >
+              <HiShoppingCart className='size-5 sm:size-10' />
+              {/* Cart items number */}
+              {!isMobile && cartItems.length > 0 && (
+                <span
+                className='absolute bottom-[1px] right-1  text-[0.6rem] font-bold text-white bg-mustard-primary size-3 rounded flex items-center justify-center'
+                >
+                  {cartItems.length}
+                </span>
+              )}
+            </Button>
+          </Link>
+        </div>
+      </div>
+
+      
     {mobileMenuOpen && isMobile && <MenuMobile onClose={() => setMobileMenuOpen(false)} />}
     </header>
   )

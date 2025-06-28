@@ -49,7 +49,7 @@ const Layout = () => {
   return (
     <div className='min-h-screen flex flex-col bg-secondary min-w-[320px]'>
       <Navbar />
-      <main className='flex flex-col flex-1 mt-[1px] bg-white md:bg-secondary'>
+      <main className='flex flex-col flex-1  bg-white md:bg-secondary'>
         <Outlet />
       </main>
 

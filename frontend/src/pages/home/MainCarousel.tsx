@@ -1,4 +1,5 @@
 import { CATEGORIES } from '@/consts/productCategories'
+import { cn } from '@/lib/utils'
 import { Button } from '@/shared/components/ui/button'
 import {
   Carousel,
@@ -14,16 +15,25 @@ import { useNavigate } from 'react-router'
 
 const images = [
   {
-    src: '/img/car1.webp',
-    title: 'Encuentra productos únicos para cada momento de tu vida',
+    title: 'Lo mejor en tecnología -50% de descuento',
+    textClasses: '',
+    src: '/img/carousel1.webp',
+    srcSm: '/img/carousel1short.webp',
+    category: 'Portátiles y computadores',
   },
   {
-    src: '/img/car2.webp',
-    title: 'Revisa las colecciones de las mejores marcas de moda',
+    title: 'Colecciones de moda del 2025',
+    textClasses: '',
+    src: '/img/carousel2.webp',
+    srcSm: '/img/carousel2short.webp',
+    category: 'Ropa de moda',
   },
   {
-    src: '/img/car3.webp',
-    title: 'Encuentra productos únicos para cada momento de tu vida',
+    title: 'Productos únicos para tu hogar',
+    textClasses: '',
+    src: '/img/carousel3.webp',
+    srcSm: '/img/carousel3short.webp',
+    category: 'Decoración de hogar',
   },
 ]
 
@@ -36,7 +46,7 @@ const MainCarousel = () => {
   const navigate = useNavigate()
 
   return (
-    <div className='w-full relative max-w-[1920px] xl:h-[70vh] mx-auto'>
+    <div className='w-full relative max-w-[1920px] mx-auto'>
       <Carousel
         plugins={[
           Autoplay({
@@ -55,26 +65,30 @@ const MainCarousel = () => {
         }} // resume when not hovering
         isAutoplaying={isAutoplaying}
       >
-        <CarouselContent className='max-h-[70vh]'>
+        <CarouselContent className='max-w-screen'>
           {images.map((img, i: number) => (
             <CarouselItem key={i}>
               <div className='relative overflow-hidden size-full'>
-                <div className='absolute size-full top-0 left-0 bg-black/30 z-20'></div>
+                <div className='absolute size-full top-0 left-0  z-20'></div>
 
                 <img
-                  src={img.src}
+                  src={isMobile ? img.src : img.srcSm }
                   alt={`img ${i + 1}`}
                   className='size-full max-h-[305px] sm:max-h-none object-cover'
                 />
 
-                <div className='absolute top-[50%] flex flex-col gap-2 justify-center px-12 w-full z-30 sm:top-[50%] sm:items-center xl:top-2/3'>
-                  <h1 className='text-sm font-semibold max-w-[70%] text-white sm:title sm:max-w-full'>
-                    {img.title}
+                <div className={cn('absolute top-1/2 -translate-y-1/2 flex flex-col gap-1 justify-center pl-10 w-1/2 z-30 sm:items-center xl:px-40',
+                  img.textClasses,
+                )}>
+                  <p className='text-xs self-start text-red-500 font-semibold sm:text-xl'>{img.category}</p>
+
+                  <h1 className='text-sm font-bold self-start  leading-4 text-black sm:text-2xl sm:leading-tight sm:max-w-full xl:text-4xl 2xl:text-5xl'>
+                    {img.title.toUpperCase()}
                   </h1>
 
                   <Button
                     size={isMobile ? 'xs' : 'default'}
-                    className='w-24 sm:w-auto sm:self-start lg:self-center z-30'
+                    className='w-24 mt-2 sm:w-auto sm:self-start z-30'
                     onClick={() => {
                       if (i === 0 || i === 2)
                         document
@@ -104,6 +118,10 @@ const MainCarousel = () => {
         />
         <CarouselNext isButtonShown={isButtonShown} className='text-primary' />
       </Carousel>
+
+      {/* <div className='absolute top-1/2 left-1/2 -translate-x-1/2'>
+        <h1 className='text-6xl text-white font-bold'>Nuevas colecciones de moda</h1>
+      </div> */}
     </div>
   )
 }

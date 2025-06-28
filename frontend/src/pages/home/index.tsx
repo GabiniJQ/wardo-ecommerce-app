@@ -21,7 +21,7 @@ const HomePage = () => {
 
       <div>
         {/* Benefits banner */}
-        <div className='flex justify-evenly items-center bg-blue-200 text-blue-dark font-bold py-2 h-12 2xl:max-w-[1920px] 2xl:mx-auto'>
+        <div className='flex justify-evenly items-center bg-gradient-to-b from-amber-200 via-yellow-100 to-amber-200 text-blue-dark font-bold py-2 h-12 2xl:max-w-[1920px] 2xl:mx-auto'>
           <div className='hidden sm:flex sm:items-center sm:gap-2'>
             <HiFire className='size-4 sm:size-8' />
             <p className='text-sm'>Productos en tendencia</p>
@@ -61,8 +61,8 @@ const HomePage = () => {
           )}
 
           {/* Desktop: Related and popular section  Mobile: Category carousel*/}
-          <section className='relative p-4 gradient-accent 2xl:px-10'>
-            <div className='size-full 2xl:pb-10  sm:rounded-none sm:shadow-none'>
+          <section className='relative p-4 bg-white  sm:bg-accent 2xl:px-10'>
+            <div className='size-full py-20  sm:rounded-none sm:shadow-none'>
               {isMobile ? (
                 <CategoryMobile
                   header='Ofertas populares 🔥'
@@ -75,7 +75,7 @@ const HomePage = () => {
           </section>
 
           {/* Separator Brands showcase */}
-          <div className='py-10 space-y-10'>
+          <div className='pb-10 space-y-10'>
             <Separator className='data-[orientation=horizontal]:w-[90%] mx-auto'/>
 
             <div className='flex flex-col items-center justify-center text-primary'>

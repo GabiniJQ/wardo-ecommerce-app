@@ -115,8 +115,8 @@ const ProductsCarousel = ({
           })}
         </CarouselContent>
 
-        <CarouselNext isButtonShown={isButtonShown} className='translate-x-5 text-primary'/>
-        <CarouselPrevious isButtonShown={isButtonShown} className='-translate-x-5 text-primary'/>
+        <CarouselNext isButtonShown={isButtonShown} className='translate-x-5 text-primary z-50'/>
+        <CarouselPrevious isButtonShown={isButtonShown} className='-translate-x-5 text-primary z-50'/>
       </Carousel>
     </div>
   )

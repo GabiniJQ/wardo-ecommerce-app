@@ -5,7 +5,7 @@ const TopCategory = () => {
   return (
     <div className='relative grid grid-cols-2 gap-8'>
       <ProductsCarousel
-        className='w-full'
+        className='w-full rounded-xl'
         header='Relacionado con tus búsquedas...'
         category={CATEGORIES.PORTATILES.ORIGINAL}
         basis='lg:basis-1/2'
