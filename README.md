@@ -7,6 +7,10 @@
 
 Wardo is a full-stack e-commerce application developed as a personal, educational project. It allows users to explore products, manage authentication, simulate purchases, and more.
 
+## 🎥 Demo Preview (GIF)
+
+![Demo GIF](./Demo.gif)
+
 ---
 
 ## 🚀 Features
