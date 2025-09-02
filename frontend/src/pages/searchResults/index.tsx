@@ -69,7 +69,20 @@ const SearchResultsPage = () => {
 
   if (isLoading || isError) {
     return (
-      <ProductCardDetailedSkeleton />
+      <>
+        <div className='p-4 md:px-40 md:py-10'>
+          Cargando productos para: <span className='italic text-primary'>
+            {formatCategoryText(query)}
+          </span>
+        </div>
+
+        <div className='grid px-4 py-10 md:px-40 md:py-20 md:grid-cols-4 md:gap-10'>
+          <ProductCardDetailedSkeleton orientation='vertical' className='p-4 h-[500px]'/>
+          <ProductCardDetailedSkeleton orientation='vertical' className='p-4 h-[500px]'/>
+          <ProductCardDetailedSkeleton orientation='vertical' className='p-4 h-[500px]'/>
+          <ProductCardDetailedSkeleton orientation='vertical' className='p-4 h-[500px]'/>
+        </div>
+      </>
     )
   }
 

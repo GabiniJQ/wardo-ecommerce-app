@@ -7,7 +7,6 @@ import { checkAuth } from '@/features/auth/authSlice'
 import { AppDispatch, RootState } from '@/app/store'
 import { Toaster } from '@/shared/components/ui/sonner'
 import api from '@/lib/axios'
-import FullScreenLoader from '@/pages/home/FullScreenLoader'
 import {
   CACHE_KEY,
   shouldPingServer } from '@/shared/utils/wakeUpServer'
@@ -42,10 +41,6 @@ const Layout = () => {
     if (logoutSuccess) window.location.href = '/'
   }, [logoutSuccess])
 
-  if (isLoading) {
-    return <FullScreenLoader />
-  }
-  
   return (
     <div className='min-h-screen flex flex-col  min-w-[320px]'>
       <Navbar />
