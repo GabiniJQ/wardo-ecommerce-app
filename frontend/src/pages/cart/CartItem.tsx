@@ -73,10 +73,12 @@ const CartItem = ({ itemId }: { itemId: string }) => {
         const resultAction = await dispatch(removeItemCart({
           userId: user._id, productId: itemId
         }))
+        const removeSuccess = removeItemCart.fulfilled.match(resultAction)
+
         toast(
-          <ToastNotification className='text-red-500'>
-            <ToastNotificationMessage type='error'>
-              {removeItemCart.fulfilled.match(resultAction)
+          <ToastNotification className={`${removeSuccess ? 'text-mustard-primary' : 'text-red-500'}`}>
+            <ToastNotificationMessage type={`${removeSuccess ? 'alert' : 'error'}`}>
+              {removeSuccess
                 ? 'Producto eliminado del carrito'
                 : 'Error al eliminar producto'
               }

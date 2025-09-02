@@ -74,7 +74,7 @@ const SearchResultsPage = () => {
   }
 
   return (
-    <div className='flex flex-col justify-between gap-20 pb-4 p-4'>
+    <div className='flex flex-col justify-between gap-20 pb-4'>
       <div className='flex flex-col gap-6'>
         {/* Not found */}
         {products.length === 0 && (
@@ -89,7 +89,7 @@ const SearchResultsPage = () => {
           </div>
         )}
 
-        <div className='flex flex-col gap-4 bg-white md:mx-40'>
+        <div className='flex flex-col gap-4 p-4 bg-white md:mx-40'>
           {products.length > 0 && (
             <h1 className='text-xl font-semibold line-clamp-1'>Resultados para:{' '}
               <span className=' italic'>{formatCategoryText(query)}</span>

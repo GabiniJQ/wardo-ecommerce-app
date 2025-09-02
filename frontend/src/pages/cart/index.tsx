@@ -154,7 +154,7 @@ const CartPage = () => {
 
       {/* Products */}
       {cartItems.length > 0 && (
-        <div className='flex flex-col gap-6 items-center md:grid md:grid-cols-2 md:gap-0'>
+        <div className='flex flex-col gap-6 items-center md:grid md:grid-cols-2 2xl:grid-cols-3'>
           {cartItems.map((item: CartItemType) => {
             const key = `${item.productId}-${item._id ?? ''}`
             return <CartItem itemId={item.productId} key={key} />

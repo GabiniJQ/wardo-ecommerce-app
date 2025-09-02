@@ -51,10 +51,10 @@ const Showcase = ({ brand, phrase }: ShowcaseProps) => {
 
   return (
     <div className='flex flex-col h-min p-4 rounded-2xl border shadow-sm bg-white '>  
-      <div className='relative flex flex-col min-h-[50px]'>
-        <h3 className='font-medium'>{phrase}</h3>
+      <div className='relative flex flex-col gap-1'>
+        <h3 className='font-medium line-clamp-2 min-h-[50px]'>{phrase}</h3>
         
-        <div className='relative -bottom-6'>
+        <div className='relative w-full'>
           <BrandBadge brand={brand}/>
         </div>
       </div>

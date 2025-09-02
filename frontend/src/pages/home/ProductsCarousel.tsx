@@ -85,7 +85,7 @@ const ProductsCarousel = ({
 
       <Carousel
         opts={{ dragFree: true }}
-        className='w-full bg-accent h-full'
+        className='w-full h-full'
       >
         <CarouselContent className='-ml-4 p-4 h-full'>
           {products.map((product: Product) => {

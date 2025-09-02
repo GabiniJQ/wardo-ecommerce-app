@@ -19,9 +19,8 @@ const HomePage = () => {
     <div>
       <MainCarousel />
 
-      <div>
-        {/* Benefits banner */}
-        <div className='flex justify-evenly items-center bg-gradient-to-b from-amber-200 via-yellow-100 to-amber-200 text-blue-dark font-bold py-2 h-12 2xl:max-w-[1920px] 2xl:mx-auto'>
+      {/* Benefits banner */}
+        <div className='flex justify-evenly items-center bg-primary/40 text-blue-dark font-bold py-2 h-12 2xl:max-w-[1920px] 2xl:mx-auto'>
           <div className='hidden sm:flex sm:items-center sm:gap-2'>
             <HiFire className='size-4 sm:size-8' />
             <p className='text-sm'>Productos en tendencia</p>
@@ -40,8 +39,10 @@ const HomePage = () => {
             <HiTruck className='size-[14px] sm:size-8' />
             <a className='text-xs leading-0'>Primer envío gratis</a>
           </div>
-        </div>
+        </div>  
 
+      <div className='md:px-40 bg-white'>
+        
         {/* MOBILE: Category cards section */}
         {isMobile && (
           <div className='flex flex-col gap-6 px-4 py-10'>
@@ -51,7 +52,7 @@ const HomePage = () => {
           </div>
         )}
         
-        <div id='explore' className='bg-accent max-w-[1920px] 2xl:mx-auto' >
+        <div id='explore' className='bg-white max-w-[1920px] 2xl:mx-auto' >
           {/* Dektop: Categories promotion */}
           {!isMobile && (
             <div className='grid sm:grid-cols-2 gap-6 px-4  py-10 justify-evenly bg-white 2xl:px-10 '>
@@ -61,7 +62,7 @@ const HomePage = () => {
           )}
 
           {/* Desktop: Related and popular section  Mobile: Category carousel*/}
-          <section className='relative p-4 bg-white  sm:bg-accent 2xl:px-10'>
+          <section className='relative p-4 bg-white   2xl:px-10'>
             <div className='size-full py-20  sm:rounded-none sm:shadow-none'>
               {isMobile ? (
                 <CategoryMobile
@@ -138,7 +139,7 @@ const HomePage = () => {
             )}
             {/* Mobile Category*/}
             {isMobile && (
-              <div className='p-2'>
+              <div className='p-4'>
                 <CategoryMobile
                   header='Accesorios de cocina'
                   category={CATEGORIES.ACCESORIOS_DE_COCINA.ORIGINAL}

@@ -77,7 +77,7 @@ const ProductPage = () => {
 
   if (!id) return <ProductNotFound />
   return (
-    <div className='p-4 md:mx-32 bg-white lg:mx-0 lg:py-14 lg:px-0 lg:flex lg:flex-col lg:gap-4 lg:bg-accent 2xl:mx-40'>
+    <div className='p-4 md:mx-32 bg-white lg:mx-0 lg:py-14 lg:px-0 lg:flex lg:flex-col lg:gap-4  2xl:mx-40'>
       {/* Back button and Category */}
       <div className='flex items-center gap-2'>
         <Breadcrumb className='text-primary'>
@@ -129,7 +129,7 @@ const ProductPage = () => {
                   <h1 className='title'>{title}</h1>
                 </div>
 
-                <BrandBadge brand={brand} />
+                <BrandBadge brand={brand} className='w-fit'/>
               </div>
             )}
           </div>

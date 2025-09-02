@@ -82,7 +82,7 @@ const MainCarousel = () => {
                 )}>
                   <p className='text-xs self-start text-red-500 font-semibold sm:text-xl'>{img.category}</p>
 
-                  <h1 className='text-sm font-bold self-start  leading-4 text-black sm:text-2xl sm:leading-tight sm:max-w-full xl:text-4xl 2xl:text-5xl'>
+                  <h1 className='text-sm bad-script-regular self-start leading-4 text-black sm:text-2xl sm:leading-tight sm:max-w-full xl:text-4xl 2xl:text-5xl'>
                     {img.title.toUpperCase()}
                   </h1>
 
@@ -119,9 +119,6 @@ const MainCarousel = () => {
         <CarouselNext isButtonShown={isButtonShown} className='text-primary' />
       </Carousel>
 
-      {/* <div className='absolute top-1/2 left-1/2 -translate-x-1/2'>
-        <h1 className='text-6xl text-white font-bold'>Nuevas colecciones de moda</h1>
-      </div> */}
     </div>
   )
 }

@@ -71,119 +71,7 @@ const Navbar = () => {
 
   return (
     <header className='relative w-full shadow z-30 bg-primary'>
-      {/* Secondary nav */}
-      <div
-        className='relative flex justify-center items-center px-2 bg-white text-secondary-foreground py-2 sm:px-10 2xl:max-w-[1920px] 2xl:mx-auto'
-      >
-        {!isMobile && (
-          <div className='flex justify-between items-center w-full h-full'>
-            {/* Menu bars and nav items */}
-            <div className='flex items-center justify-between gap-4 h-full'>
-              {!isMobile && (
-                <MenuSheet
-                  desktopMenuOpen={desktopMenuOpen}
-                  setDesktopMenuOpen={setDesktopMenuOpen}
-                />
-              )}
-
-              <Separator
-                decorative
-                orientation='vertical'
-                className='data-[orientation=vertical]:h-2/3'
-              />
-
-              {/* location desktop */}
-              {!isMobile && <AddressesModal />}
-
-              <Separator
-                decorative
-                orientation='vertical'
-                className='data-[orientation=vertical]:h-2/3'
-              />
-
-              {!isMobile && (
-                <NavigationMenu>
-                  <NavigationMenuList>
-                    <NavigationMenuItem>
-                      <NavigationMenuTrigger className='text-sm gap-2 btn'>
-                        <HiViewGrid />
-                        Categorías
-                      </NavigationMenuTrigger>
-                      <NavigationMenuContent>
-
-                        {/* Category Cards component */}
-                        <CategoryCardsMenu />
-
-                      </NavigationMenuContent>
-                    </NavigationMenuItem>
-                  </NavigationMenuList>
-
-                  {/* <NavigationMenuViewport className='-left-52' /> */}
-                </NavigationMenu>
-              )}
-            </div>
-
-            {/* User options */}
-            {!user && (
-              <div className='flex items-center gap-1 h-8'>
-                <Separator
-                decorative
-                orientation='vertical'
-                className='data-[orientation=vertical]:h-2/3'
-              />
-                <Link to={ROUTES.LOGIN}>
-                  <Button
-                    variant='ghost'
-                    className='h-8'
-                  >
-                    Ingresar
-                  </Button>
-                </Link>
-
-                <Separator
-                decorative
-                orientation='vertical'
-                className='data-[orientation=vertical]:h-2/3'
-              />
-
-                <Link to={ROUTES.SIGNUP}>
-                  <Button
-                    variant='ghost'
-                    className='h-8'
-                  >
-                    Crear cuenta
-                  </Button>
-                </Link>
-              </div>
-            )}
-
-            {/* Logout Button */}
-            {user && (
-              <div className='flex items-center gap-2 h-full'>
-                <Separator
-                  decorative
-                  orientation='vertical'
-                  className='data-[orientation=vertical]:h-2/3'
-                />
-                <div className='flex justify-center items-center h-full w-full px-2'>
-                  <Button
-                    variant='ghost'
-                    className='flex justify-center items-center gap-2 btn text-black h-8 w-full'
-                    onClick={() => handleLogout()}
-                  >
-                    <LogOut className='size-4 ' />
-                    <span className='text-center text-sm w-full '>Cerrar sesión</span>
-                  </Button>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Mobile secondary content */}
-        {isMobile && <AddressesModal />}
-        
-      </div>
+      
 
       {/* Primary nav */}
       <div className='flex justify-between items-center gap-4 px-2 bg-primary text-primary-foreground sm:px-10  2xl:max-w-[1920px] 2xl:mx-auto'>
@@ -264,6 +152,120 @@ const Navbar = () => {
             </Button>
           </Link>
         </div>
+      </div>
+
+      {/* Secondary nav */}
+      <div
+        className='relative flex justify-center items-center px-2 bg-white text-secondary-foreground py-2 sm:px-10 2xl:max-w-[1920px] 2xl:mx-auto'
+      >
+        {!isMobile && (
+          <div className='flex justify-between items-center w-full h-full'>
+            {/* Menu bars and nav items */}
+            <div className='flex items-center justify-between gap-4 h-full'>
+              {!isMobile && (
+                <MenuSheet
+                  desktopMenuOpen={desktopMenuOpen}
+                  setDesktopMenuOpen={setDesktopMenuOpen}
+                />
+              )}
+
+              <Separator
+                decorative
+                orientation='vertical'
+                className='data-[orientation=vertical]:h-2/3'
+              />
+
+              {/* location desktop */}
+              {!isMobile && <AddressesModal />}
+
+              <Separator
+                decorative
+                orientation='vertical'
+                className='data-[orientation=vertical]:h-2/3'
+              />
+
+              {!isMobile && (
+                <NavigationMenu>
+                  <NavigationMenuList>
+                    <NavigationMenuItem>
+                      <NavigationMenuTrigger className='text-sm gap-2 btn'>
+                        <HiViewGrid />
+                        Categorías
+                      </NavigationMenuTrigger>
+                      <NavigationMenuContent>
+
+                        {/* Category Cards component */}
+                        <CategoryCardsMenu asChild/>
+
+                      </NavigationMenuContent>
+                    </NavigationMenuItem>
+                  </NavigationMenuList>
+
+                  {/* <NavigationMenuViewport className='-left-52' /> */}
+                </NavigationMenu>
+              )}
+            </div>
+
+            {/* User options */}
+            {!user && (
+              <div className='flex items-center gap-1 h-8'>
+                <Separator
+                decorative
+                orientation='vertical'
+                className='data-[orientation=vertical]:h-2/3'
+              />
+                <Link to={ROUTES.LOGIN}>
+                  <Button
+                    variant='ghost'
+                    className='h-8'
+                  >
+                    Ingresar
+                  </Button>
+                </Link>
+
+                <Separator
+                decorative
+                orientation='vertical'
+                className='data-[orientation=vertical]:h-2/3'
+              />
+
+                <Link to={ROUTES.SIGNUP}>
+                  <Button
+                    variant='ghost'
+                    className='h-8'
+                  >
+                    Crear cuenta
+                  </Button>
+                </Link>
+              </div>
+            )}
+
+            {/* Logout Button */}
+            {user && (
+              <div className='flex items-center gap-2 h-full'>
+                <Separator
+                  decorative
+                  orientation='vertical'
+                  className='data-[orientation=vertical]:h-2/3'
+                />
+                <div className='flex justify-center items-center h-full w-full px-2'>
+                  <Button
+                    variant='ghost'
+                    className='flex justify-center items-center gap-2 btn text-black h-8 w-full'
+                    onClick={() => handleLogout()}
+                  >
+                    <LogOut className='size-4' />
+                    <span className='text-center text-sm w-full '>Cerrar sesión</span>
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Mobile secondary content */}
+        {isMobile && <AddressesModal />}
+        
       </div>
 
       

@@ -1,14 +1,13 @@
+import { cn } from '@/lib/utils'
 import { Link } from 'react-router'
 
-const BrandBadge = ({ brand }: { brand: string }) => {
+const BrandBadge = ({ brand, className }: { brand: string, className?: string }) => {
   return (
-    <div>
-      <Link to={`/search?q=${brand}`}>
-        <span className='bg-primary text-primary-foreground rounded text-xs p-1'>
-          {brand}
-        </span>
-      </Link>
-    </div>
+    <Link to={`/search?q=${brand}`} className={cn('w-full block', className)}>
+      <span className='w-full bg-primary text-primary-foreground rounded text-sm p-1 block text-center'>
+        {brand}
+      </span>
+    </Link> 
   )
 }
 
