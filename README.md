@@ -6,6 +6,7 @@
 - 🇪🇸 [Versión en español](README.es.md)
 
 Wardo is a full-stack e-commerce application developed as a personal, educational project. It allows users to explore products, manage authentication, simulate purchases, and more.
+Note: Hosted on free-tier Render server (may take ~30s to wake up from idle).
 
 ## 🎥 Demo Preview (GIF)
 
