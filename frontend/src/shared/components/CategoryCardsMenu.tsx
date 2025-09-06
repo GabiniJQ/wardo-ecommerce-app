@@ -36,7 +36,7 @@ export const ListItem = ({ title, href, imgSrc, asChild }: ListItemProps) => {
 
   if (asChild) {
     return (
-      <NavigationMenuLink className='hover:bg-white'>
+      <NavigationMenuLink className='gap-0 p-0 hover:bg-white'>
         <Link to={href} className='flex flex-col size-full bg-primary/10 border border-primary/10 rounded-xl transition-all last:hidden sm:flex-row sm:last:flex hover:bg-primary'>
           <div className='flex items-center justify-center p-2 h-2/3 sm:w-1/2 sm:h-full'>
             <img src={imgSrc} alt={title} className='object-contain max-h-16  sm:h-24 sm:max-h-none'/>

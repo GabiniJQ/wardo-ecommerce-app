@@ -27,6 +27,7 @@ import {
   NavigationMenuTrigger
 } from '@/shared/components/ui/navigation-menu'
 import CategoryCardsMenu from '@/shared/components/CategoryCardsMenu'
+import NoteBanner from '@/pages/home/NoteBanner'
 
 const Navbar = () => {
   const [searchParams] = useSearchParams()
@@ -71,7 +72,7 @@ const Navbar = () => {
 
   return (
     <header className='relative w-full shadow z-30 bg-primary'>
-      
+      <NoteBanner />
 
       {/* Primary nav */}
       <div className='flex justify-between items-center gap-4 px-2 bg-primary text-primary-foreground sm:px-10  2xl:max-w-[1920px] 2xl:mx-auto'>
