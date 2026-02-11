@@ -18,9 +18,18 @@ const PORT = process.env.PORT || 5000
 const app = express()
 
 app.use(cors(corsOptions))
-app.use(express.json())
+
+// Body parser (except for webhooks)
+app.use((req, res, next) => {
+  if (req.originalUrl === '/api/webhooks/stripe') {
+    next()
+  } else {
+    express.json()(req, res, next)
+  }
+})
+
 app.use(cookieParser())
-app.use(express.urlencoded({ extended: false}))
+app.use(express.urlencoded({ extended: false }))
 
 app.use('/api/users', customerRoutes, adminRoutes)
 app.use('/api/products', productsRoutes)
@@ -28,9 +37,7 @@ app.use('/api/cart', cartRoutes)
 app.use('/api/ping', pingRoutes)
 app.use(errorHandler)
 
-
-
-app.listen(PORT, ()=> {
+app.listen(PORT, () => {
   connectDB()
 
   console.log(`Server running on PORT ${PORT}`)
