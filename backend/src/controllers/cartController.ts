@@ -1,3 +1,4 @@
+import Product from '../models/productModel.js'
 import User from '../models/userModel.js'
 import { CartDb, CartItemDb } from '../types/cartTypes.js'
 import { UserDocument } from '../types/userTypes.js'
@@ -24,6 +25,9 @@ export const getCartById = asyncHandler(async (req: Request, res: Response) => {
     res.status(404)
     throw new Error('Carrito del usuario no disponible')
   }
+  console.log(cartData)
+  // Calculate cart items total price
+  /* const cartItemPrices = await Product.find */
 
   res
     .status(200)

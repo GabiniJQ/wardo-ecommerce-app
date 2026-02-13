@@ -13,7 +13,6 @@ import { selectProductById } from '@/features/products/productSelectors'
 import ProductNotFound from '@/pages/notFound/ProductNotFound'
 import Quantity from '@/shared/components/Quantity'
 import BuyingOptions from '@/shared/components/BuyingOptions'
-import { CONVERSION_RATE } from '@/consts/conversionRate'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from '@/shared/components/ui/breadcrumb'
 
 const ProductPage = () => {
@@ -57,6 +56,7 @@ const ProductPage = () => {
     category,
     price,
     discountPercentage,
+    discountedPrice,
     stock,
     brand,
     images,
@@ -67,13 +67,6 @@ const ProductPage = () => {
 
   const ratingFixed = Math.floor(Number((rating * 10).toFixed(8))) / 10
   const lowStock = stock < 20
-
-  // Price with discount
-   const finalPrice = price - (price * discountPercentage) / 100
-
-  // COP Simulated conversion
-  const priceCOP = Number((price * CONVERSION_RATE.COP).toFixed(0)) // Line-through price
-  const finalPriceCOP = Number((finalPrice * CONVERSION_RATE.COP).toFixed(0))
 
   if (!id) return <ProductNotFound />
   return (
@@ -149,10 +142,11 @@ const ProductPage = () => {
 
                 {/* Price */}
                 <div className='flex flex-col gap-2 mt-6 lg:mt-0'>
-                  <p className='line-through'>{formattedPrice(priceCOP)}</p>
+                  <p className='line-through'>{formattedPrice(price)}</p>
 
                   <div className='flex gap-4 items-center lg:gap-0 lg:flex-col lg:items-start xl:flex-row xl:items-center xl:gap-4'>
-                    <h3 className='text-4xl font-semibold'>{formattedPrice(finalPriceCOP)}</h3>
+                    {/* Price with discount */}
+                    <h3 className='text-4xl font-semibold'>{formattedPrice(discountedPrice)}</h3>
 
                     <p className='text-green-500'>{discountPercentage.toFixed(0)}% OFF</p>
                   </div>

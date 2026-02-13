@@ -3,12 +3,13 @@ import {
   FilteredShowcaseResponse,
   Product,
   ProductByIdResponse,
+  ProductsByIdsResponse,
   ProductsState,
 } from '@/shared/types/productTypes'
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import api from '@/lib/axios'
-import { CONVERSION_RATE } from '@/consts/conversionRate'
 import { AxiosResponse } from 'axios'
+import { CartItem } from '@/shared/types/cartTypes'
 
 const initialState: ProductsState = {
   byCategory: {},
@@ -96,15 +97,8 @@ export const fetchSearchResults = createAsyncThunk(
       if (filters.query) params.append('q', filters.query)
       if (filters.page) params.append('page', filters.page.toString())
       if (filters.limit) params.append('limit', filters.limit.toString())
-      if (filters.minPrice) {
-        const deconverted = filters.minPrice / CONVERSION_RATE.COP
-        params.append('minPrice', deconverted.toString())
-        console.log(deconverted, filters.minPrice)
-      }
-      if (filters.maxPrice) {
-        const deconverted = filters.maxPrice / CONVERSION_RATE.COP
-        params.append('maxPrice', deconverted.toString())
-      }
+      if (filters.minPrice) params.append('minPrice', filters.minPrice.toString())
+      if (filters.maxPrice) params.append('maxPrice', filters.maxPrice.toString())
       if (filters.brands && filters.brands.length > 0) params.append('brands', filters.brands)
       if (filters.minRating) params.append('minRating', filters.minRating.toString())
       if (filters.sortBy) params.append('sortBy', filters.sortBy)
@@ -150,6 +144,28 @@ export const fetchShowcaseResults = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error)
     }
+  }
+)
+
+export const fetchCartProducts = createAsyncThunk(
+  'products/fetchCartProducts',
+  async () => {
+    // Get cart from localstorage
+    const cartItems = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[]
+    
+    if (cartItems.length === 0) {
+      return []
+    }
+    
+    // Extract ID's
+    const productIds = cartItems.map((item) => item.productId)
+    
+    // Fetch products by extacted ID's
+    const response: AxiosResponse<ProductsByIdsResponse> = await api.post('/products/by-ids', {
+      ids: productIds
+    })
+    
+    return response.data.products
   }
 )
 
@@ -285,6 +301,15 @@ const productsSlice = createSlice({
             isError: true,
           }
         }
+      })
+      .addCase(fetchCartProducts.fulfilled, (state, action) => {
+        action.payload.forEach((product) => {
+          state.byId[product._id] = {
+            product: product,
+            isLoading: false,
+            isError: false
+          }
+        })
       })
   },
 })

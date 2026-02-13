@@ -1,5 +1,4 @@
 import { Button } from '@/shared/components/ui/button'
-import { CONVERSION_RATE } from '@/consts/conversionRate'
 import { ProductCardContext, useProductCard } from '@/shared/contexts/productCardContext'
 import {
   formattedPrice,
@@ -53,12 +52,7 @@ export const ProductCardInfo = ({ className }: { className?: string }) => {
 
   if (!product) return
 
-  const { title, price, discountPercentage } = product
-  const finalPrice = price - (price * discountPercentage) / 100
-
-  // COP Simulated conversion
-  const priceCOP = Number((price * CONVERSION_RATE.COP).toFixed(0))
-  const finalPriceCOP = Number((finalPrice * CONVERSION_RATE.COP).toFixed(0))
+  const { title, price, discountedPrice } = product
 
   return (
     <div className={cn('flex justify-between sm:flex-col', className)}>
@@ -67,16 +61,16 @@ export const ProductCardInfo = ({ className }: { className?: string }) => {
           <p className='group-hover:text-primary text-sm sm:text-base min-h-10'>{title}</p>
         </div>
 
-        {/* Discount */}
+        {/* Original Price */}
         <div>
           <p className='line-through text-xs mt-2 mb-0 text-gray-500'>
-            {formattedPrice(priceCOP)}
+            {formattedPrice(price)}
           </p>
         </div>
 
-        {/* Price */}
+        {/* Price with discount */}
         <div>
-          <p className='text-base sm:text-lg font-semibold mt-0'>{formattedPrice(finalPriceCOP)}</p>
+          <p className='text-base sm:text-lg font-semibold mt-0'>{formattedPrice(discountedPrice)}</p>
         </div>
       </div>
 

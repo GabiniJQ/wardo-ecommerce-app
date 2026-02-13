@@ -27,7 +27,7 @@ const ProductCardDetailed = ({ product }: { product: Product }) => {
     <ProductCard
       key={_id}
       product={product}
-      className='relative flex-row p-6 size-full shadow rounded lg:flex-col'
+      className='relative flex-row p-6 size-full shadow rounded lg:flex-col lg:gap-4'
     >
       <Link
         to={productLink}

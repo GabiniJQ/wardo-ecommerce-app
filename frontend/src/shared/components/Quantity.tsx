@@ -26,7 +26,7 @@ const Quantity = ({ onChange, className, quantity, defaultValue, stock }: Quanti
             value={quantity?.toString()}
             onValueChange={(value) => onChange(Number(value))}
           >
-            <SelectTrigger>
+            <SelectTrigger className='text-xs sm:text-base'>
               <SelectValue placeholder="1" />
             </SelectTrigger>
 
@@ -35,7 +35,7 @@ const Quantity = ({ onChange, className, quantity, defaultValue, stock }: Quanti
               {Array.from({ length: 10 }).map((_, i) => {
                 if (i < stock) {
                   const next = i + 1
-                  return <SelectItem value={next.toString()} key={next}>{next}</SelectItem>
+                  return <SelectItem className='text-xs sm:text-base' value={next.toString()} key={next}>{next}</SelectItem>
                 }
               })}
             </SelectContent>

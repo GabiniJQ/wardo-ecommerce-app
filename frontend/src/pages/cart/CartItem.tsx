@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router'
 import { toast } from 'sonner'
+import { TrashIcon } from 'lucide-react'
 
 const CartItem = ({ itemId }: { itemId: string }) => {
   const { user } = useSelector((state: RootState) => state.auth)
@@ -111,38 +112,40 @@ const CartItem = ({ itemId }: { itemId: string }) => {
   return (
     <ProductCard
       product={product}
-      className='flex-col justify-center gap-0 p-4 shadow sm:flex-row md:size-full'
+      className='flex-row shadow p-4 text-sm max-h-52'
     >
       <Link to={`/${productPath}`} className='flex flex-col items-center justify-center sm:w-1/2'>
-        <ProductCardImage className='shrink-0 md:group-hover:-translate-0' />
+        <ProductCardImage className='shrink-0 max-w-52 md:group-hover:-translate-0' />
       </Link>
       
-      <div className='flex flex-col justify-between gap-4 px-4 sm:mt-4 sm:w-1/2 sm:gap-1'>
+      <div className='flex flex-col justify-between gap-2 w-full sm:mt-4 sm:w-1/2 sm:gap-1'>
         <Link to={`/${productPath}`} className='flex flex-col justify-center'>
           <ProductCardInfo className='gap-0'/>
         </Link>
 
-        <Quantity
-          quantity={cartItem?.quantity}
-          onChange={(val) => dispatch(updateItemQuantity({ productId: cartItem?.productId, quantity: val}))}
-          stock={stock}
-        />
+        <div className='flex justify-between md:justify-start lg:gap-2'>
+          <Quantity
+            quantity={cartItem?.quantity}
+            onChange={(val) => dispatch(updateItemQuantity({ productId: cartItem?.productId, quantity: val}))}
+            stock={stock}
+          />
 
-        {hasQuantityError && (
-          <p className='text-red-500 text-xs italic'>Cantidad seleccionada excede el stock disponible</p>
-        )}
+          {hasQuantityError && (
+            <p className='text-red-500 text-xs italic'>Cantidad seleccionada excede el stock disponible</p>
+          )}
 
-        <div className='flex justify-center items-center'>
-          <ProductCardButton
-            className=' hover:bg-red-400 w-full sm:max-w-60'
-            onClick={() => deleteProduct(itemId) }
-            disabled={isLoading}
-          >
-            {currentDelete === itemId && isLoading || isError 
-              ? <Loader className='size-6'/>
-              : 'Eliminar del carrito'
-            }
-          </ProductCardButton>
+          <div className='flex justify-center items-center'>
+            <ProductCardButton
+              className='bg-red-400 sm:bg-primary hover:bg-red-400 w-full sm:max-w-60'
+              onClick={() => deleteProduct(itemId) }
+              disabled={isLoading}
+            >
+              {currentDelete === itemId && isLoading || isError 
+                ? <Loader className='size-6'/>
+                : <TrashIcon />
+              }
+            </ProductCardButton>
+          </div>
         </div>
       </div>
     </ProductCard>

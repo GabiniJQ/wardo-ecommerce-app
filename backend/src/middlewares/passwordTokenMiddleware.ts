@@ -6,7 +6,6 @@ import asyncHandler from 'express-async-handler'
 export const passwordToken = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { token } = req.params
-    console.log(token)
 
     const user = await User.findOne({
       resetPasswordToken: token,

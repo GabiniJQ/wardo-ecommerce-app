@@ -4,6 +4,7 @@ export type Product = {
   description: string
   price: number
   discountPercentage: number
+  discountedPrice: number
   stock: number
   category: string
   images: string[]
@@ -74,6 +75,11 @@ export interface ProductByIdResponse {
 export interface ProductsByCategory {
   message: string
   product: Product[]
+}
+
+export interface ProductsByIdsResponse {
+  message: string
+  products: Product[]
 }
 
 export interface FilteredSearchResponse {

@@ -1,12 +1,17 @@
+import { CONVERSION_RATE } from '../consts/conversionRate.js'
 import { ErrorResponse } from '../middlewares/errorMiddleware.js'
 import Product from '../models/productModel.js'
 import { PaginatedSearchResult, ProductDb, SearchFilters, SearchQueryParams } from '../types/productTypes.js'
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
+import getProductPrice from '../utils/getProductPrice.js'
+import getDiscountedPrice from '../utils/getDiscountedPrice.js'
+import getBasePrice from '../utils/getBasePrice.js'
 
 export const getProducts = asyncHandler(async (req: Request, res: Response) => {
   const category = req.query.category
   const limit = Number(req.query.limit)
+  const currency = 'COP' // Placeholder for future multiple currencies
 
   // Get Products by category
   if (!category) {
@@ -16,31 +21,83 @@ export const getProducts = asyncHandler(async (req: Request, res: Response) => {
     const productsByCategory = await Product
       .find({ category: new RegExp(`^${category}$`, 'i') })
       .limit(limit)
+      .lean()
 
     if (productsByCategory.length === 0) {
       res.status(400)
       throw new Error(`No se encontró la categoría "${category}"`)
     }
-      
+
+    // Adding prices with discount applied and currency conversion
+    const productsPriceConversion = productsByCategory.map((product) => {
+      const convertedPrice = getProductPrice(product.price, currency)
+      return {
+        ...product,
+        price: convertedPrice,
+        discountedPrice: getDiscountedPrice(convertedPrice, product.discountPercentage)
+      }
+    })
 
     res.status(200).json({
       message: 'Productos cargados exitosamente',
-      products: productsByCategory
+      products: productsPriceConversion
     })
   }
 })
 
 export const getProductById = asyncHandler(async (req: Request, res: Response) => {
   const { id } = req.params
+  const currency = 'COP' // Placeholder for future multiple currencies
 
-  const product = await Product.findById(id)
+  const product = await Product.findById(id).lean()
 
+  
   if (!product) {
     res.status(404)
     throw new Error('Producto no encontrado - BE')
   }
+  
+  // Adding prices with discount applied and currency conversion
+  const convertedPrice = getProductPrice(product.price, currency)
+  const productPriceConversion = {
+    ...product,
+    price: convertedPrice,
+    discountedPrice: getDiscountedPrice(convertedPrice, product.discountPercentage)
+  }
+  
+  res.status(200).json({
+    message: 'Producto encontrado', product: productPriceConversion
+  })
+})
 
-  res.status(200).json({ message: 'Producto encontrado', product})
+
+// Get multiple products by their Ids
+export const getProductsByIds = asyncHandler(async (req: Request, res: Response) => {
+  const { ids } = req.body
+  const currency = 'COP'
+  
+  if (!ids || !Array.isArray(ids)) {
+    res.status(400)
+    throw new Error('IDs requeridos')
+  }
+  
+  const products = await Product.find({ _id: { $in: ids } }).lean()
+  console.log(products)
+  
+  // Price conversion
+  const productsWithConversion = products.map((product) => {
+    const convertedPrice = getProductPrice(product.price, currency)
+    return {
+      ...product,
+      price: convertedPrice,
+      discountedPrice: getDiscountedPrice(convertedPrice, product.discountPercentage)
+    }
+  })
+  
+  res.status(200).json({
+    message: 'Productos cargados',
+    products: productsWithConversion
+  })
 })
 
 export const getProductsBySearch = asyncHandler(async (
@@ -59,6 +116,8 @@ export const getProductsBySearch = asyncHandler(async (
     sortOrder = 'desc'
   } = req.query
 
+  const currency = 'COP' // Placeholder for future currency param
+
   const filters: SearchFilters = {}
 
   if (q) {
@@ -67,8 +126,8 @@ export const getProductsBySearch = asyncHandler(async (
 
   if (minPrice || maxPrice) {
     filters.price = {}
-    if (minPrice) filters.price.$gte = Number(minPrice)
-    if (maxPrice) filters.price.$lte = Number(maxPrice)
+    if (minPrice) filters.price.$gte = getBasePrice(Number(minPrice), currency)
+    if (maxPrice) filters.price.$lte = getBasePrice(Number(maxPrice), currency)
   }
 
   if (minRating) {
@@ -116,14 +175,24 @@ export const getProductsBySearch = asyncHandler(async (
 
       // All filters applied query with document count for pagination
       const [products, total] = await Promise.all([
-        Product.find(filters, null, options),
+        Product.find(filters, null, options).lean(),
         Product.countDocuments(filters)
       ])
+
+      // Adding prices with discount applied and currency conversion
+      const productsPriceConversion = products.map((product) => {
+        const convertedPrice = getProductPrice(product.price, currency)
+        return {
+          ...product,
+          price: convertedPrice,
+          discountedPrice: getDiscountedPrice(convertedPrice, product.discountPercentage)
+        }
+      })
       
       res.json({
         message: 'Productos filtrados correctamente',
         searchData: {
-          products,
+          products: productsPriceConversion,
           pagination: {
             total,
             page: Number(page),
@@ -137,12 +206,22 @@ export const getProductsBySearch = asyncHandler(async (
         }
       })
     } else {
-      const products = await Product.find(filters, null, options)
+      const products = await Product.find(filters, null, options).lean()
+
+      // Adding prices with discount applied and currency conversion
+      const productsPriceConversion = products.map((product) => {
+        const convertedPrice = getProductPrice(product.price, currency)
+        return {
+          ...product,
+          price: convertedPrice,
+          discountedPrice: getDiscountedPrice(convertedPrice, product.discountPercentage)
+        }
+      })
 
       res.json({
         message: 'Productos filtrados correctamente',
         searchData: {
-          products
+          products: productsPriceConversion,
         }
       })
     }

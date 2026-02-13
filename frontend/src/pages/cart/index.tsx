@@ -24,18 +24,22 @@ import {
   ProductCardImage,
   ProductCardInfo,
 } from '@/pages/home/ProductCard'
-import { type CartItem as CartItemType } from '@/shared/types/cartTypes'
+import { CartItemWithDetails } from '@/shared/types/cartTypes'
 
 import { useEffect } from 'react'
 import { HiShoppingCart, HiX } from 'react-icons/hi'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link, useNavigate } from 'react-router'
 import BackButton from '@/shared/components/BackButton'
+import { selectCartWithDetails } from '@/features/cart/cartSelectors'
+import CheckoutSummary from '@/pages/cart/CheckoutSummary'
+import { fetchCartProducts } from '@/features/products/productsSlice'
 
 const CartPage = () => {
   const { user } = useSelector((state: RootState) => state.auth)
   const { isLoading } = useSelector((state: RootState) => state.auth.checkAuth)
-  const cartItems = useSelector((state: RootState) => state.cart.items)
+  // const cartItems = useSelector((state: RootState) => state.cart.items)
+  const cartItems = useSelector(selectCartWithDetails)
   const products = useSelector((state: RootState) => state.products.byId)
   const { mergeDialogOpen, tempMergeItems } = useSelector(
     (state: RootState) => state.cart
@@ -54,6 +58,14 @@ const CartPage = () => {
       dispatch(fetchUserCart(user._id))
     }
   }, [user, dispatch, isLoading])
+
+  useEffect(() => {
+    // If no user logged
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+    if (cart.length > 0) {
+      dispatch(fetchCartProducts())
+    }
+  }, [dispatch])
 
   const displayGuestItems = tempMergeItems?.map((tempItem) => {
     const product = products[tempItem.productId].product
@@ -125,9 +137,8 @@ const CartPage = () => {
   }
 
   return (
-    <div className='flex flex-col flex-1 p-4 pb-20 bg-white xl:mx-40 xl:px-20'>
-      {/* <BackButton /> */}
-
+    <div className='flex flex-col flex-1 p-4 gap-2 md:px-20 xl:pb-20 bg-white xl:mx-40 xl:px-20'>
+      {/* Back Btn & Title */}
       <div className='relative flex justify-center items-center gap-2 sm:justify-start'>
         <BackButton className='absolute left-0 sm:relative'/>
 
@@ -135,6 +146,7 @@ const CartPage = () => {
 
         <HiShoppingCart className='size-7 text-primary' />
       </div>
+
       {/* Empty cart*/}
       {cartItems.length === 0 && (
         <div className='text-center'>
@@ -154,11 +166,16 @@ const CartPage = () => {
 
       {/* Products */}
       {cartItems.length > 0 && (
-        <div className='flex flex-col gap-6 items-center md:grid md:grid-cols-2 2xl:grid-cols-3'>
-          {cartItems.map((item: CartItemType) => {
-            const key = `${item.productId}-${item._id ?? ''}`
-            return <CartItem itemId={item.productId} key={key} />
-          })}
+        <div className='grid md:grid-cols-3 md:gap-4 '>
+          <div className='grid gap-4 md:col-span-2'> 
+            {cartItems.map((item: CartItemWithDetails) => {
+              const key = item._id
+              return <CartItem itemId={item._id} key={key} />
+            })}
+          </div>
+          
+          {/* Checkout Container */}
+          <CheckoutSummary />
         </div>
       )}
 
