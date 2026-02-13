@@ -82,7 +82,6 @@ export const getProductsByIds = asyncHandler(async (req: Request, res: Response)
   }
   
   const products = await Product.find({ _id: { $in: ids } }).lean()
-  console.log(products)
   
   // Price conversion
   const productsWithConversion = products.map((product) => {
@@ -117,6 +116,8 @@ export const getProductsBySearch = asyncHandler(async (
   } = req.query
 
   const currency = 'COP' // Placeholder for future currency param
+  const minPriceToBaseCurrency = getBasePrice(Number(minPrice), currency)
+  const maxPriceToBaseCurrency = getBasePrice(Number(maxPrice), currency)
 
   const filters: SearchFilters = {}
 
@@ -126,8 +127,8 @@ export const getProductsBySearch = asyncHandler(async (
 
   if (minPrice || maxPrice) {
     filters.price = {}
-    if (minPrice) filters.price.$gte = getBasePrice(Number(minPrice), currency)
-    if (maxPrice) filters.price.$lte = getBasePrice(Number(maxPrice), currency)
+    if (minPrice) filters.price.$gte = minPriceToBaseCurrency
+    if (maxPrice) filters.price.$lte = maxPriceToBaseCurrency
   }
 
   if (minRating) {
@@ -143,23 +144,26 @@ export const getProductsBySearch = asyncHandler(async (
     limit: Number(limit),
     sort: { [sortBy as string]: sortOrder === 'desc' ? -1 : 1 }
   }
-
   try {
     if (q) {
-      // Check maxPrice is set to average and above filter
+      // Get query products document with price property only
       const productsPriceOnly = await Product.find(
         { $text: { $search: q } }
       ).select('price')
-
+      
+      // Calculate prices average
       let priceSum = 0
       for (const { price } of productsPriceOnly) {
         priceSum += price
       }
       const pricesAverage = parseInt((priceSum / productsPriceOnly.length).toFixed(0))
-
-      if (filters.price && maxPrice && Number(maxPrice) === pricesAverage) {
+      
+      
+      // Check maxPrice is set to average and above filter
+      if (filters.price && maxPriceToBaseCurrency && maxPriceToBaseCurrency === pricesAverage) {
         delete filters.price.$lte
       }
+      
 
       // Get all available brands for text query
       const allBrandsArray = await Product.find(
