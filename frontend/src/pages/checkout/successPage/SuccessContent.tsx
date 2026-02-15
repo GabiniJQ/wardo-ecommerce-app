@@ -48,8 +48,6 @@ const SuccessContent = () => {
           return
         }
 
-        console.log('Payment Intent Status:', paymentIntent.status)
-
         switch (paymentIntent.status) {
           case 'succeeded':
             setStatus('success')
@@ -90,7 +88,6 @@ const SuccessContent = () => {
         `/orders/by-payment-intent/${paymentIntentId}`,
       )
       setOrderDetails(response.data.order)
-      console.log('Order details fetched:', response.data.order)
     } catch (error) {
       console.error('Error fetching order details:', error)
     }

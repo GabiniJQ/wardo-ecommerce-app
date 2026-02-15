@@ -27,8 +27,6 @@ export const getOrderByPaymentIntent = asyncHandler(
         price: getProductPrice(item.price, currency)
       }
     })
-    console.log(order.totalAmount)
-    console.log( getProductPrice(order.totalAmount, currency))
 
     const orderSanitized = {
       _id: order._id.toString(),
