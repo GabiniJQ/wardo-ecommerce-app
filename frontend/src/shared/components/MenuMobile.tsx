@@ -87,10 +87,10 @@ const MenuMobile = ({ onClose }: {
         </div>
 
         <div className='flex items-center h-12  border-b-xs-gray'>
-          <a href={ROUTES.MY_ACCOUNT} className='flex items-center gap-2'>
+          <Link to={ROUTES.MY_ACCOUNT} className='flex items-center gap-2' onClick={onClose}>
             <HiUser />
             Mi cuenta
-          </a>
+          </Link>
         </div>
         
         <div className='flex items-center  border-b-xs-gray '>

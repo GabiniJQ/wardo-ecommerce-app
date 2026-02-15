@@ -2,22 +2,22 @@ import express from 'express'
 import { paymentController } from '../controllers/paymentController'
 import { validateCreatePaymentIntent } from '../middlewares/validateRequest'
 
-const router = express.Router()
+const paymentRoutes = express.Router()
 
-router.post(
+paymentRoutes.post(
   '/create-payment-intent',
   validateCreatePaymentIntent,
   paymentController.createPaymentIntent.bind(paymentController),
 )
 
-router.get(
+paymentRoutes.get(
   '/payment-intent/:paymentIntentId',
   paymentController.getPaymentIntent.bind(paymentController),
 )
 
-router.post(
+paymentRoutes.post(
   '/cancel-payment-intent/:paymentIntentId',
   paymentController.cancelPaymentIntent.bind(paymentController),
 )
 
-export default router
+export default paymentRoutes

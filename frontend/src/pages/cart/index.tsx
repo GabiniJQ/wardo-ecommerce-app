@@ -18,13 +18,11 @@ import {
   updateItemById,
 } from '@/features/cart/cartSlice'
 import { formatCategoryURL } from '@/shared/utils/utils'
-import CartItem from '@/pages/cart/CartItem'
 import {
   ProductCard,
   ProductCardImage,
   ProductCardInfo,
 } from '@/pages/home/ProductCard'
-import { CartItemWithDetails } from '@/shared/types/cartTypes'
 
 import { useEffect } from 'react'
 import { HiShoppingCart, HiX } from 'react-icons/hi'
@@ -33,7 +31,7 @@ import { Link, useNavigate } from 'react-router'
 import BackButton from '@/shared/components/BackButton'
 import { selectCartWithDetails } from '@/features/cart/cartSelectors'
 import CheckoutSummary from '@/pages/cart/CheckoutSummary'
-import { fetchCartProducts } from '@/features/products/productsSlice'
+import CartItemList from '@/shared/components/CartItemList'
 
 const CartPage = () => {
   const { user } = useSelector((state: RootState) => state.auth)
@@ -58,14 +56,6 @@ const CartPage = () => {
       dispatch(fetchUserCart(user._id))
     }
   }, [user, dispatch, isLoading])
-
-  useEffect(() => {
-    // If no user logged
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
-    if (cart.length > 0) {
-      dispatch(fetchCartProducts())
-    }
-  }, [dispatch])
 
   const displayGuestItems = tempMergeItems?.map((tempItem) => {
     const product = products[tempItem.productId].product
@@ -167,15 +157,10 @@ const CartPage = () => {
       {/* Products */}
       {cartItems.length > 0 && (
         <div className='grid md:grid-cols-3 md:gap-4 '>
-          <div className='grid gap-4 md:col-span-2'> 
-            {cartItems.map((item: CartItemWithDetails) => {
-              const key = item._id
-              return <CartItem itemId={item._id} key={key} />
-            })}
-          </div>
+          <CartItemList />
           
           {/* Checkout Container */}
-          <CheckoutSummary />
+          <CheckoutSummary isCheckout={false} />
         </div>
       )}
 

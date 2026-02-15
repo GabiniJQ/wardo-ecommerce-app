@@ -9,7 +9,7 @@ const orderSchema = new Schema<IOrder>(
     },
     items: [
       {
-        product: {
+        productId: {
           type: Schema.Types.ObjectId,
           ref: 'Product',
           required: true,

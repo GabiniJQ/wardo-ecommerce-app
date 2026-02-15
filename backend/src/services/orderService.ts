@@ -59,7 +59,7 @@ export class OrderService {
    */
   private async updateProductStock(order: IOrder): Promise<void> {
     for (const item of order.items) {
-      await Product.findByIdAndUpdate(item.product, {
+      await Product.findByIdAndUpdate(item.productId, {
         $inc: { stock: -item.quantity },
       })
     }

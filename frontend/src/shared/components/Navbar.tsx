@@ -28,6 +28,7 @@ import {
 } from '@/shared/components/ui/navigation-menu'
 import CategoryCardsMenu from '@/shared/components/CategoryCardsMenu'
 import NoteBanner from '@/pages/home/NoteBanner'
+import { selectCartItemsCount } from '@/features/cart/cartSelectors'
 
 const Navbar = () => {
   const [searchParams] = useSearchParams()
@@ -40,7 +41,7 @@ const Navbar = () => {
   const isMobile = useScreenSize()
 
   const { user } = useSelector((state: RootState) => state.auth)
-  const cartItems = useSelector((state: RootState) => state.cart.items)
+  const cartItemsCount = useSelector(selectCartItemsCount)
   const lastSearch = useSelector((state: RootState) => state.history.lastSearch)
   const dispatch = useDispatch<AppDispatch>()
 
@@ -143,11 +144,11 @@ const Navbar = () => {
             >
               <HiShoppingCart className='size-5 sm:size-10' />
               {/* Cart items number */}
-              {!isMobile && cartItems.length > 0 && (
+              {!isMobile && cartItemsCount > 0 && (
                 <span
                 className='absolute bottom-[1px] right-1  text-[0.6rem] font-bold text-white bg-mustard-primary size-3 rounded flex items-center justify-center'
                 >
-                  {cartItems.length}
+                  {cartItemsCount}
                 </span>
               )}
             </Button>

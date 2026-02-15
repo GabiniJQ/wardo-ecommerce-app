@@ -25,9 +25,6 @@ export const getCartById = asyncHandler(async (req: Request, res: Response) => {
     res.status(404)
     throw new Error('Carrito del usuario no disponible')
   }
-  console.log(cartData)
-  // Calculate cart items total price
-  /* const cartItemPrices = await Product.find */
 
   res
     .status(200)

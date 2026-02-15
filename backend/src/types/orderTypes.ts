@@ -1,7 +1,7 @@
 import { Document, Types } from 'mongoose'
 
 export interface IOrderItem {
-  product: string
+  productId: string
   name: string
   price: number
   quantity: number

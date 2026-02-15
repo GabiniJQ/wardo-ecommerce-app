@@ -10,6 +10,8 @@ import api from '@/lib/axios'
 import {
   CACHE_KEY,
   shouldPingServer } from '@/shared/utils/wakeUpServer'
+import { fetchCartProducts } from '@/features/products/productsSlice'
+
 
 const Layout = () => {
   const [isLoading, setIsLoading] = useState(shouldPingServer())
@@ -17,6 +19,7 @@ const Layout = () => {
   const dispatch = useDispatch<AppDispatch>()
   const { user } = useSelector((state: RootState) => state.auth)
   const logoutSuccess = useSelector((state: RootState) => state.auth.logout.isSuccess)
+
 
   useEffect(() => {
     const pingServer = async () => {
@@ -40,6 +43,17 @@ const Layout = () => {
   useEffect(() => {
     if (logoutSuccess) window.location.href = '/'
   }, [logoutSuccess])
+
+  // Cart fetching
+  useEffect(() => {
+    // If no user logged
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]')
+    if (cart.length > 0) {
+      dispatch(fetchCartProducts())
+    }
+  }, [dispatch])
+
+  
 
   return (
     <div className='min-h-screen flex flex-col  min-w-[320px]'>

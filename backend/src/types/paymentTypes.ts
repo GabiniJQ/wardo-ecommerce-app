@@ -1,17 +1,10 @@
+import { CartItemDb } from './cartTypes'
+import { Address } from './userTypes'
+
 export interface CreatePaymentIntentRequest {
-  items: {
-    id: string
-    quantity: number
-  }[]
+  items: CartItemDb[]
   customerEmail?: string
-  shippingAddress?: {
-    line1: string
-    line2?: string
-    city: string
-    state?: string
-    postalCode: string
-    country: string
-  }
+  shippingAddress: Address
 }
 
 export interface PaymentIntentResponse {

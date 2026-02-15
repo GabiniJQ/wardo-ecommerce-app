@@ -11,6 +11,8 @@ import productsRoutes from './routes/productsRoutes.js'
 import cartRoutes from './routes/cartRoutes.js'
 import pingRoutes from './routes/pingRoutes.js'
 import { corsOptions } from './config/cors.js'
+import paymentRoutes from './routes/paymentRoutes.js'
+import webhookRoutes from './routes/webhookRoutes.js'
 
 dotenv.config()
 
@@ -34,6 +36,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use('/api/users', customerRoutes, adminRoutes)
 app.use('/api/products', productsRoutes)
 app.use('/api/cart', cartRoutes)
+app.use('/api/payments', paymentRoutes)
+app.use('/api/webhooks', webhookRoutes)
 app.use('/api/ping', pingRoutes)
 app.use(errorHandler)
 

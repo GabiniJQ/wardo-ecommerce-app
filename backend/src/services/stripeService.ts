@@ -3,6 +3,9 @@ import stripe from '../config/stripe'
 import { CreatePaymentIntentRequest } from '../types/paymentTypes'
 import Product from '../models/productModel'
 import { AppError } from '../types/appError'
+import { CartItemDb } from '../types/cartTypes'
+import { IOrderItem } from '../types/orderTypes'
+import { toSmallestUnit } from '../utils/currency'
 
 export class StripeService {
   /**
@@ -36,12 +39,11 @@ export class StripeService {
         ? {
             name: customerEmail || 'Customer',
             address: {
-              line1: shippingAddress.line1,
-              line2: shippingAddress.line2,
+              line1: shippingAddress.addressInfo.number1,
+              line2: shippingAddress.addressInfo.number2,
               city: shippingAddress.city,
-              state: shippingAddress.state,
-              postal_code: shippingAddress.postalCode,
-              country: shippingAddress.country,
+              state: shippingAddress.department,
+              postal_code: shippingAddress.addressInfo.postalCode,
             },
           }
         : undefined,
@@ -54,16 +56,17 @@ export class StripeService {
    * Calculate order total and validate products
    */
   private async calculateOrderTotal(
-    items: { id: string; quantity: number }[],
-  ): Promise<{ totalAmount: number; orderItems: any[] }> {
+    items: CartItemDb[],
+  ): Promise<{ totalAmount: number; orderItems: IOrderItem[] }> {
     let totalAmount = 0
     const orderItems = []
+    const currency = 'USD' // Default Currency
 
     for (const item of items) {
-      const product = await Product.findById(item.id)
+      const product = await Product.findById(item.productId)
 
       if (!product) {
-        throw new AppError(`Product ${item.id} not found`, 'PRODUCT_NOT_FOUND')
+        throw new AppError(`Product ${item.productId} not found`, 'PRODUCT_NOT_FOUND')
       }
 
       if (product.stock < item.quantity) {
@@ -77,12 +80,15 @@ export class StripeService {
       totalAmount += itemTotal
 
       orderItems.push({
-        product: product._id,
+        productId: product._id.toString(),
         name: product.title,
         price: product.price,
         quantity: item.quantity,
       })
     }
+
+    // Convert total amount to integer (Amount property requires smallest unit)
+    totalAmount = toSmallestUnit(totalAmount, currency)
 
     return { totalAmount, orderItems }
   }

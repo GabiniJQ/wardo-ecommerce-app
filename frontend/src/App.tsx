@@ -22,6 +22,8 @@ import AddressAddPage from '@/pages/myAccount/addresses/addressAdd'
 import ResetPasswordPage from '@/pages/forgotPassword/resetPassword'
 import ForgotPasswordLayout from '@/shared/components/ForgotPasswordLayout'
 import CategoryPage from '@/pages/category'
+import CheckoutPage from '@/pages/checkout'
+import CheckoutSuccessPage from '@/pages/checkout/CheckoutSuccess'
 
 function App() {
   return (
@@ -47,6 +49,10 @@ function App() {
             <Route path={ROUTES.CARDS} element={<CardsPage />} />
           </Route>
         </Route>
+        <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />}>
+          <Route path={ROUTES.SUCCESS} element={<CheckoutSuccessPage />} />
+        </Route>
+        
       </Route>
 
       <Route element={<AuthLayout />}>

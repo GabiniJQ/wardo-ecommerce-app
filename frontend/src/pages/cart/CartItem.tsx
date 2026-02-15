@@ -112,7 +112,7 @@ const CartItem = ({ itemId }: { itemId: string }) => {
   return (
     <ProductCard
       product={product}
-      className='flex-row shadow p-4 text-sm max-h-52'
+      className='flex-row shadow p-4 text-sm max-h-52 bg-white'
     >
       <Link to={`/${productPath}`} className='flex flex-col items-center justify-center sm:w-1/2'>
         <ProductCardImage className='shrink-0 max-w-52 md:group-hover:-translate-0' />

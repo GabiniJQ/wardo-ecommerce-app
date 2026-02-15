@@ -20,5 +20,7 @@ export const ROUTES = {
   FAVORITES: '/favorites',
   RECOMMENDED: '/recommended',
   HELP: '/help',
+  CHECKOUT: '/checkout',
+  SUCCESS: '/checkout/success',
   NOT_FOUND: '*',
 } as const;

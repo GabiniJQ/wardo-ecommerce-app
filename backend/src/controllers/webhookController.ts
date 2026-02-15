@@ -3,6 +3,7 @@ import { stripeService } from '../services/stripeService'
 import { orderService } from '../services/orderService'
 import { OrderStatus } from '../types/orderTypes'
 import Stripe from 'stripe'
+import chalk from 'chalk'
 
 export class WebhookController {
   /**
@@ -21,8 +22,7 @@ export class WebhookController {
         sig,
         process.env.STRIPE_WEBHOOK_SECRET!,
       )
-
-      console.log(`📨 Webhook received: ${event.type}`)
+      console.log(chalk.blue(`Webhook received: ${event.type}`))
 
       // Handle different event types
       switch (event.type) {
@@ -74,7 +74,7 @@ export class WebhookController {
     )
 
     if (order && order.customerEmail) {
-      console.log('Order success: ', order.id)
+      console.log(chalk.red('Order success: ', order.id))
     }
   }
 
@@ -116,7 +116,7 @@ export class WebhookController {
    * Handle refund
    */
   private async handleRefund(charge: Stripe.Charge): Promise<void> {
-    console.log('💰 Refund processed:', charge.payment_intent)
+    console.log('Refund processed:', charge.payment_intent)
 
     if (typeof charge.payment_intent === 'string') {
       await orderService.updateOrderStatus(

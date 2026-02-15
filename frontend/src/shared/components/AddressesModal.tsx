@@ -1,4 +1,3 @@
-import { Button } from '@/shared/components/ui/button'
 import {
   Dialog,
   DialogTrigger,
@@ -24,7 +23,9 @@ import { ToastNotification, ToastNotificationButton, ToastNotificationMessage } 
 import { ROUTES } from '@/consts/routes'
 import { AddressOption, AddressOptionAction, AddressOptionIcon, AddressOptionInfo } from '@/shared/components/AddressOption'
 
-const AddressesModal = ({ defaultOpen }: { defaultOpen?: boolean }) => {
+const AddressesModal = ({ defaultOpen, trigger }: {
+  defaultOpen?: boolean, trigger?: string
+}) => {
   const { user } = useSelector((state: RootState) => state.auth)
   const changeMainLoading = useSelector(
     (state: RootState) => state.auth.changeMainAddress.isLoading
@@ -94,21 +95,26 @@ const AddressesModal = ({ defaultOpen }: { defaultOpen?: boolean }) => {
           if (!user?._id) navigate('/login')
         }}
       >
-        <div className='flex justify-center items-center gap-1 h-8 px-2 btn rounded-md hover:bg-accent'>
-          <HiLocationMarker />
+        {trigger ? (
+          <span className='text-sm m-0 text-primary'>{trigger}</span>
+        ) : (
+          <div className='flex justify-center items-center gap-1 h-8 px-2 btn rounded-md hover:bg-accent'>
+            <HiLocationMarker />
 
-          <div
-            className={`${
-              user
-                ? 'flex flex-col xl:gap-2 justify-center xl:flex-row items-start'
-                : ''
-            } leading-3 w-full`}
-          >
-            <p className={`text-sm  m-0 `}>
-              {user ? getMainAddress() : 'Ingresar ubicación'}
-            </p>
+            <div
+              className={`${
+                user
+                  ? 'flex flex-col xl:gap-2 justify-center xl:flex-row items-start'
+                  : ''
+              } leading-3 w-full`}
+            >
+              <p className={`text-sm  m-0 `}>
+                {user ? getMainAddress() : 'Ingresar ubicación'}
+              </p>
+            </div>
           </div>
-        </div>
+        )}
+
       </DialogTrigger>
       <DialogContent className='sm:max-w-[525px] w-3/4'>
         <DialogHeader className='text-left'>
@@ -121,10 +127,14 @@ const AddressesModal = ({ defaultOpen }: { defaultOpen?: boolean }) => {
           <div>
             {
               user?._id && user.addresses.length > 0 ? (
-                <Button className='text-primary btn' variant='outline'>
-                  <HiPencil />
-                  Editar direcciones
-                </Button>
+                <DialogClose onClick={() => navigate(ROUTES.ADDRESSES)}>
+                  <span
+                    className='flex items-center gap-2 text-primary text-sm border px-3 py-2 rounded btn'
+                  >
+                    <HiPencil />
+                    Editar direcciones
+                  </span>
+                </DialogClose>
               ) : (
                 <DialogClose onClick={() => navigate(ROUTES.ADDRESSES_ADD)}>
                   <span

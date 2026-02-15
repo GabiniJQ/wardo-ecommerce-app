@@ -8,7 +8,7 @@ import { store } from '@/app/store.ts'
 import ScrollToTop from '@/shared/components/ScrollToTop.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  <StrictMode >
     <Provider store={store}>
       <BrowserRouter>
         <ScrollToTop />
