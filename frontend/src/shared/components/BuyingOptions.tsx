@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { toast } from 'sonner'
 import Loader from '@/shared/components/Loader'
 import { useState } from 'react'
+import { useNavigate } from 'react-router'
 
 type BuyingOptionsProps = {
   productId: string
@@ -26,8 +27,11 @@ const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
   const [addedItemId, setAddedItemId] = useState('')
 
   const dispatch = useDispatch<AppDispatch>()
+  const navigate = useNavigate()
 
-  const addToCart = async (product: { productId: string, quantity: number }) => {
+  const addToCart = async (product: { productId: string, quantity: number }
+    , isBuyingNow: boolean = false
+  ) => {
     try {
       if (!user) {
         const currentCart: CartItem[] = JSON.parse(localStorage.getItem('cart') || '[]')
@@ -85,22 +89,24 @@ const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
         const resultAction = await dispatch(addItemById({ userId: user._id, itemData: newItem }))
 
         if (addItemById.fulfilled.match(resultAction)) {
-          toast(
-            <ToastNotification className='text-primary'>
-              <ToastNotificationMessage type='success'>
-                Producto añadido al carrito
-              </ToastNotificationMessage>
+          if (!isBuyingNow) {
+            toast(
+              <ToastNotification className='text-primary'>
+                <ToastNotificationMessage type='success'>
+                  Producto añadido al carrito
+                </ToastNotificationMessage>
 
-              <ToastNotificationButton to='/cart'>
-                Ir al carrito
-              </ToastNotificationButton>
-            </ToastNotification>
-          )
+                <ToastNotificationButton to='/cart'>
+                  Ir al carrito
+                </ToastNotificationButton>
+              </ToastNotification>
+            )
+          }
           dispatch(resetAddItemById())
         } else {
           <ToastNotification className='text-red-500'>
             <ToastNotificationMessage type='error'>
-              Error al eliminar producto
+              Error al añadir producto
             </ToastNotificationMessage>
           </ToastNotification>
         }
@@ -108,15 +114,26 @@ const BuyingOptions = ({ productId, quantity, stock }: BuyingOptionsProps) => {
     } catch {
       <ToastNotification className='text-red-500'>
         <ToastNotificationMessage type='error'>
-          Error al eliminar producto
+          Error al añadir producto
         </ToastNotificationMessage>
       </ToastNotification>
     }
   }
 
+  const handleBuyNow = async () => {
+    
+    await addToCart({ productId, quantity: 1 }, true)
+    navigate('/checkout')
+  }
+
   return (
     <div className='flex flex-col gap-2'>
-      <Button className='w-full cursor-not-allowed'>Comprar ahora</Button>
+      <Button
+        className='w-full'
+        onClick={handleBuyNow}
+      >
+        Comprar ahora
+      </Button>
 
       <Button
         className='w-full btn'

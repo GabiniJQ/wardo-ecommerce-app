@@ -73,8 +73,3 @@ export function getErrorMessage(error: unknown) {
   
   return message
 }
-
-// Calculate checkout prices
-export function getCheckoutPrices() {
-  
-}

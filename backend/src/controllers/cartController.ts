@@ -1,4 +1,3 @@
-import Product from '../models/productModel.js'
 import User from '../models/userModel.js'
 import { CartDb, CartItemDb } from '../types/cartTypes.js'
 import { UserDocument } from '../types/userTypes.js'
@@ -82,6 +81,27 @@ export const removeItemCartById = asyncHandler(async (req: Request, res: Respons
 
   res.status(200).json({ message: 'Producto eliminado exitosamente', items: updatedItems})
 
+})
+
+export const clearUserCart = asyncHandler(async(req: Request, res: Response) => {
+  const { userId } = req.params
+
+  if (!userId) {
+    res.status(404)
+    throw new Error('ID del usuario requerida.')
+  }
+
+  const user = await User.findById(userId)
+
+  if (!user) {
+    res.status(404)
+    throw new Error('Usuario no encontrado')
+  }
+
+  user.cart = []
+  await user.save()
+
+  res.status(200).json({ message: 'Carrito reiniciado exitosamente' })  
 })
 
 export const updateItemById = asyncHandler(async (req: Request, res: Response) => {

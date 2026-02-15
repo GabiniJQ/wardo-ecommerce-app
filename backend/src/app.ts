@@ -13,6 +13,7 @@ import pingRoutes from './routes/pingRoutes.js'
 import { corsOptions } from './config/cors.js'
 import paymentRoutes from './routes/paymentRoutes.js'
 import webhookRoutes from './routes/webhookRoutes.js'
+import orderRoutes from './routes/orderRoutes.js'
 
 dotenv.config()
 
@@ -38,6 +39,7 @@ app.use('/api/products', productsRoutes)
 app.use('/api/cart', cartRoutes)
 app.use('/api/payments', paymentRoutes)
 app.use('/api/webhooks', webhookRoutes)
+app.use('/api/orders', orderRoutes)
 app.use('/api/ping', pingRoutes)
 app.use(errorHandler)
 

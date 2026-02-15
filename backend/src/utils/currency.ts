@@ -32,11 +32,11 @@ export function toSmallestUnit(amount: number, currency: string): number {
 
   // Zero-decimal currencies: return as-is (no multiplication)
   if (ZERO_DECIMAL_CURRENCIES.includes(upperCurrency)) {
-    return Math.round(amount)
+    return Number(amount.toFixed(0))
   }
 
   // Standard currencies: multiply by 100
-  return Math.round(amount * 100)
+  return amount * 100
 }
 
 /**

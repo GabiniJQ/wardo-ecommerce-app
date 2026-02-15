@@ -1,3 +1,4 @@
+import { DELIVERY_FEE } from '@/consts/deliveryFee'
 import { selectCartTotal } from '@/features/cart/cartSelectors'
 import { Button } from '@/shared/components/ui/button'
 import { formattedPrice } from '@/shared/utils/utils'
@@ -9,10 +10,12 @@ const CheckoutForm = () => {
   const [message, setMessage] = useState<string | undefined>('')
   const [isLoading, setIsLoading] = useState(false)
 
+
   const stripe = useStripe()
   const elements = useElements()
 
   const cartItemsTotal = useSelector(selectCartTotal)
+  
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -22,7 +25,6 @@ const CheckoutForm = () => {
     }
 
     setIsLoading(true)
-
     const { error } = await stripe.confirmPayment({
       elements,
       confirmParams: {
@@ -34,6 +36,8 @@ const CheckoutForm = () => {
       setMessage(error.message)
       setIsLoading(false)
     }
+
+    
   }
 
   return (
@@ -45,7 +49,7 @@ const CheckoutForm = () => {
         className='w-full py-6 rounded-md font-bold'
         type='submit'
       >
-        {isLoading ? 'PROCESANDO...' : `PAGAR ${formattedPrice(cartItemsTotal)}`}
+        {isLoading ? 'PROCESANDO...' : `PAGAR ${formattedPrice(cartItemsTotal + DELIVERY_FEE)}`}
       </Button>
       
     </form>

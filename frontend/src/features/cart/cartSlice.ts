@@ -15,7 +15,7 @@ const initialState: CartState = {
     isSuccess: false,
     isLoading: false,
     isError: false,
-  }
+  },
 }
 
 const syncWithLocalStorage = (items: CartItem[]) => {
@@ -59,6 +59,14 @@ export const removeItemCart = createAsyncThunk('cart/removeItemCart',
     } catch (error) {
       rejectWithValue(error)
     }
+  }
+)
+
+export const clearUserCart = createAsyncThunk('cart/clearUserCart',
+  async (userId: string
+  ) => {
+    const res = await api.delete(`/cart/clear/${userId}`)
+    return { message: res.data.response }
   }
 )
 
@@ -203,6 +211,12 @@ const cartSlice = createSlice({
           }
         }
         syncWithLocalStorage(state.items)
+      })
+      .addCase(clearUserCart.fulfilled, (state, action) => {
+        if (action.payload) {
+          state.items = []
+          syncWithLocalStorage(state.items)
+        }
       })
   }
 })

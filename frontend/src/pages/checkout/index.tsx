@@ -12,6 +12,7 @@ import { AxiosResponse } from 'axios'
 import { PaymentIntentResponse } from '@/shared/types/paymentTypes'
 import api from '@/lib/axios'
 import CheckoutForm from '@/pages/checkout/CheckoutForm'
+import { useNavigate } from 'react-router'
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
@@ -22,6 +23,8 @@ const CheckoutPage = () => {
   const cartItems = useSelector(selectCartItems)
   const mainAddress = useSelector(selectMainAddress)
   const customerEmail = useSelector((state: RootState) => state.auth.user?.email)
+
+  const navigate = useNavigate()
 
   // StripeElement config
   const appearance: Appearance = {
@@ -35,6 +38,12 @@ const CheckoutPage = () => {
     },
   }
   const loader = 'auto'
+
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      navigate('/cart')
+    }
+  }, [cartItems, navigate])
 
   useEffect(() => {
     // Prevent intent creating on re-render (3 guards)

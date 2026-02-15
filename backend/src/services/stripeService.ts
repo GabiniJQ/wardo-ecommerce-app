@@ -6,6 +6,9 @@ import { AppError } from '../types/appError'
 import { CartItemDb } from '../types/cartTypes'
 import { IOrderItem } from '../types/orderTypes'
 import { toSmallestUnit } from '../utils/currency'
+import getDiscountedPrice from '../utils/getDiscountedPrice'
+import getBasePrice from '../utils/getBasePrice'
+import { DELIVERY_FEE } from '../consts/deliveryFee'
 
 export class StripeService {
   /**
@@ -76,19 +79,24 @@ export class StripeService {
         )
       }
 
-      const itemTotal = product.price * item.quantity
-      totalAmount += itemTotal
+      // Calculate product subtotal price with discount applied
+      const itemSubtotal = Number(getDiscountedPrice(product.price, product.discountPercentage))
+      const itemtotal = Number((itemSubtotal * item.quantity))
+      totalAmount += itemtotal
 
       orderItems.push({
         productId: product._id.toString(),
         name: product.title,
-        price: product.price,
+        price: itemSubtotal, // Discount applied to price
         quantity: item.quantity,
       })
     }
+    
+    // Adding delivery fee COP placeholder
+    totalAmount += getBasePrice(DELIVERY_FEE, 'COP') 
 
     // Convert total amount to integer (Amount property requires smallest unit)
-    totalAmount = toSmallestUnit(totalAmount, currency)
+    totalAmount = toSmallestUnit(Number(totalAmount.toFixed(2)), currency)
 
     return { totalAmount, orderItems }
   }

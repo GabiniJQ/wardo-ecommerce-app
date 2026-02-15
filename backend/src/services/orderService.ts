@@ -2,6 +2,7 @@ import { Order } from '../models/orderModel'
 import Product from '../models/productModel'
 import { IOrder, OrderStatus } from '../types/orderTypes'
 import Stripe from 'stripe'
+import { fromSmallestUnit } from '../utils/currency'
 
 export class OrderService {
   /**
@@ -13,11 +14,12 @@ export class OrderService {
   ): Promise<IOrder> {
     const metadata = paymentIntent.metadata
     const items = metadata.items ? JSON.parse(metadata.items) : []
+    const currency = 'usd'
 
     const order = await Order.create({
       user: userId,
       items,
-      totalAmount: paymentIntent.amount,
+      totalAmount: fromSmallestUnit(paymentIntent.amount, currency),
       currency: paymentIntent.currency,
       status: OrderStatus.PENDING,
       paymentIntentId: paymentIntent.id,
