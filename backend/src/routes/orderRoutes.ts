@@ -1,5 +1,5 @@
 import express from 'express'
-import { getOrderByPaymentIntent } from '../controllers/orderController'
+import { getOrderByPaymentIntent } from '../controllers/orderController.js'
 
 const orderRoutes = express.Router()
 
