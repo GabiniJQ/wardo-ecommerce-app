@@ -13,6 +13,7 @@ import { PaymentIntentResponse } from '@/shared/types/paymentTypes'
 import api from '@/lib/axios'
 import CheckoutForm from '@/pages/checkout/CheckoutForm'
 import { useNavigate } from 'react-router'
+import { ROUTES } from '@/consts/routes'
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
@@ -23,6 +24,7 @@ const CheckoutPage = () => {
   const cartItems = useSelector(selectCartItems)
   const mainAddress = useSelector(selectMainAddress)
   const customerEmail = useSelector((state: RootState) => state.auth.user?.email)
+  const user = useSelector((state: RootState) => state.auth.user)
 
   const navigate = useNavigate()
 
@@ -38,6 +40,11 @@ const CheckoutPage = () => {
     },
   }
   const loader = 'auto'
+
+  // Redirect if no user logged in
+  useEffect(() => {
+    if (!user?._id) navigate(ROUTES.LOGIN)
+  }, [user, navigate])
 
   useEffect(() => {
     if (cartItems.length === 0) {
