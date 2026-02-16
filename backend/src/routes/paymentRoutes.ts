@@ -1,6 +1,6 @@
 import express from 'express'
 import { paymentController } from '../controllers/paymentController.js'
-import { validateCreatePaymentIntent } from '../middlewares/validateRequest'
+import { validateCreatePaymentIntent } from '../middlewares/validateRequest.js'
 
 const paymentRoutes = express.Router()
 
