@@ -1,4 +1,3 @@
-import { CONVERSION_RATE } from '../consts/conversionRate.js'
 import { ErrorResponse } from '../middlewares/errorMiddleware.js'
 import Product from '../models/productModel.js'
 import { PaginatedSearchResult, ProductDb, SearchFilters, SearchQueryParams } from '../types/productTypes.js'

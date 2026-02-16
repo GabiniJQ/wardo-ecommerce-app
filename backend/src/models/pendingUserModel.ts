@@ -1,4 +1,4 @@
-import mongoose from "mongoose"
+import mongoose from 'mongoose'
 
 const pendingUserSchema = new mongoose.Schema(
   {
@@ -26,12 +26,12 @@ const pendingUserSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 )
 
 pendingUserSchema.index(
   { verificationCodeExpiresAt: 1 },
-  { expireAfterSeconds: 0 }
+  { expireAfterSeconds: 0 },
 )
 
 export const PendingUser = mongoose.model('pending_user', pendingUserSchema)

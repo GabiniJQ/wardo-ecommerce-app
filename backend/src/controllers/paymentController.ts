@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-import { stripeService } from '../services/stripeService'
-import { orderService } from '../services/orderService'
+import { stripeService } from '../services/stripeService.js'
+import { orderService } from '../services/orderService.js'
 import {
   CreatePaymentIntentRequest,
   PaymentIntentResponse,
-} from '../types/paymentTypes'
+} from '../types/paymentTypes.js'
 
 export class PaymentController {
   /**

@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
-import { stripeService } from '../services/stripeService'
-import { orderService } from '../services/orderService'
-import { OrderStatus } from '../types/orderTypes'
+import { stripeService } from '../services/stripeService.js'
+import { orderService } from '../services/orderService.js'
+import { OrderStatus } from '../types/orderTypes.js'
 import Stripe from 'stripe'
 import chalk from 'chalk'
 
@@ -22,6 +22,7 @@ export class WebhookController {
         sig,
         process.env.STRIPE_WEBHOOK_SECRET!,
       )
+
       console.log(chalk.blue(`Webhook received: ${event.type}`))
 
       // Handle different event types

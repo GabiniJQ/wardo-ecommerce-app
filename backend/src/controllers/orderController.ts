@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import asyncHandler from 'express-async-handler'
-import { Order } from '../models/orderModel'
-import getProductPrice from '../utils/getProductPrice'
+import { Order } from '../models/orderModel.js'
+import getProductPrice from '../utils/getProductPrice.js'
 
 export const getOrderByPaymentIntent = asyncHandler(
   async (req: Request, res: Response) => {

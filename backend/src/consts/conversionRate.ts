@@ -1,4 +1,4 @@
-import { Currency } from '../types/currency';
+import { Currency } from '../types/currency.js'
 
 export const CONVERSION_RATE: Record<Currency, number> = {
   COP: 3900,

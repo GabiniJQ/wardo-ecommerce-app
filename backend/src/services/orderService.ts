@@ -1,8 +1,8 @@
-import { Order } from '../models/orderModel'
-import Product from '../models/productModel'
-import { IOrder, OrderStatus } from '../types/orderTypes'
+import { Order } from '../models/orderModel.js'
+import Product from '../models/productModel.js'
+import { IOrder, OrderStatus } from '../types/orderTypes.js'
 import Stripe from 'stripe'
-import { fromSmallestUnit } from '../utils/currency'
+import { fromSmallestUnit } from '../utils/currency.js'
 
 export class OrderService {
   /**
