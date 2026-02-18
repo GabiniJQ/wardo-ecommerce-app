@@ -20,6 +20,7 @@ dotenv.config()
 const PORT = process.env.PORT || 5000
 const app = express()
 
+app.use(cookieParser())
 app.use(cors(corsOptions))
 
 // Body parser (except for webhooks)
@@ -31,7 +32,6 @@ app.use((req, res, next) => {
   }
 })
 
-app.use(cookieParser())
 app.use(express.urlencoded({ extended: false }))
 
 app.use('/api/users', customerRoutes, adminRoutes)

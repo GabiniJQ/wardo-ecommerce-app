@@ -505,7 +505,6 @@ export const loginDemo = asyncHandler(async (req: Request, res: Response) => {
   await user.save()
 
   generateTokenAndSetCookie(res, user._id)
-  console.log('✅ Cookie set successfully')
   
   res.status(200).json({
     mesage: 'Usuario demo ha iniciado sesión',

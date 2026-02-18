@@ -9,7 +9,6 @@ const allowedOrigins = [
 export const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
     console.log('📍 Request origin:', origin) // Check your Render logs
-    console.log('✅ Allowed origins:', allowedOrigins)
     if (!origin) {
       console.log('⚠️ No origin header - allowing')
       return callback(null, true)
@@ -28,4 +27,6 @@ export const corsOptions: CorsOptions = {
     callback(error)
   },
   credentials: true,
+  exposedHeaders: ['Set-Cookie'], 
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }

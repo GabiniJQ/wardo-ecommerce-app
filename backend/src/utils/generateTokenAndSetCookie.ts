@@ -20,6 +20,9 @@ export const generateTokenAndSetCookie = (
       maxAge: 7 * 24 * 60 * 60 * 1000,
       path: '/',
     })
+    console.log('token set', token)
+    const setCookieHeader = res.getHeader('Set-Cookie')
+    console.log('🍪 Set-Cookie header:', setCookieHeader)
 
     return token
   } else {
