@@ -314,7 +314,6 @@ export const changeAddress = createAsyncThunk('auth/changeAddress',
     try {
       const res = await api.put(`/users/change-address/${userId}`, address)
       const newAddresses = res.data.addresses as Address[]
-      console.log('res :', newAddresses)
       
       return { newAddresses }
     } catch (error) {
@@ -529,6 +528,9 @@ export const authSlice = createSlice({
         localStorage.setItem('user', JSON.stringify(
           formatUserLocalStorage(action.payload)
         ))
+        console.log('🔐 Login successful')
+        console.log('📝 Cookies:', document.cookie)
+        console.log('🌐 Current domain:', window.location.hostname)
       })
       .addCase(loginDemo.rejected, (state, action) => {
         state.loginDemo.isLoading = false
