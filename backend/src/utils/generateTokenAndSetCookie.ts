@@ -1,8 +1,11 @@
 import { Response } from 'express'
 import jwt from 'jsonwebtoken'
-import mongoose from 'mongoose' 
+import mongoose from 'mongoose'
 
-export const generateTokenAndSetCookie = (res: Response, userId: mongoose.Types.ObjectId) => {
+export const generateTokenAndSetCookie = (
+  res: Response,
+  userId: mongoose.Types.ObjectId,
+) => {
   const isProduction = process.env.NODE_ENV === 'production'
 
   if (process.env.JWT_SECRET) {
@@ -15,6 +18,7 @@ export const generateTokenAndSetCookie = (res: Response, userId: mongoose.Types.
       secure: isProduction,
       sameSite: isProduction ? 'none' : 'lax',
       maxAge: 7 * 24 * 60 * 60 * 1000,
+      path: '/',
     })
 
     return token

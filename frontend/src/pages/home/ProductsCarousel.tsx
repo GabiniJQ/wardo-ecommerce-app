@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import {
   Carousel,
   CarouselContent,
@@ -39,7 +39,6 @@ const ProductsCarousel = ({
   basis,
   limit = 10,
 }: Props) => {
-  const [isButtonShown, setIsButtonShown] = useState<boolean | null>(false)
 
   // Dispatch functions
   const dispatch = useDispatch<AppDispatch>()
@@ -72,12 +71,6 @@ const ProductsCarousel = ({
     <div
       className={cn('flex flex-col gap-4'
         , className)}
-      onMouseEnter={() =>
-        setIsButtonShown((prevButtonShown) => !prevButtonShown)
-      } // pause on hover
-      onMouseLeave={() =>
-        setIsButtonShown((prevButtonShown) => !prevButtonShown)
-      }
     >
       <div className='line-clamp-1'>
         <h1 className='subtitle'>{header}</h1>
@@ -87,7 +80,7 @@ const ProductsCarousel = ({
         opts={{ dragFree: true }}
         className='w-full h-full'
       >
-        <CarouselContent className='-ml-4 p-4 h-full'>
+        <CarouselContent className=''>
           {products.map((product: Product) => {
             const { category, _id, slug } = product
             const productPath = `${formatCategoryURL(category)}/${slug}/${_id}`
@@ -98,7 +91,7 @@ const ProductsCarousel = ({
               >
                 <Link
                   to={productPath}
-                  className='size-full p-4 block bg-white rounded-xl hover:shadow-lg hover:shadow-black/10 z-50 transition'
+                  className='size-full p-4 block border bg-white rounded-xl hover:shadow-lg hover:shadow-black/10 z-50 transition'
                 >
                   <ProductCard
                     product={product}
@@ -115,8 +108,8 @@ const ProductsCarousel = ({
           })}
         </CarouselContent>
 
-        <CarouselNext isButtonShown={isButtonShown} className='translate-x-5 text-primary z-50'/>
-        <CarouselPrevious isButtonShown={isButtonShown} className='-translate-x-5 text-primary z-50'/>
+        <CarouselNext isButtonShown className=' text-primary z-50'/>
+        <CarouselPrevious isButtonShown className='- text-primary z-50'/>
       </Carousel>
     </div>
   )

@@ -26,6 +26,10 @@ import CheckoutPage from '@/pages/checkout'
 import SuccessPage from '@/pages/checkout/successPage'
 
 function App() {
+  if (import.meta.env.DEV || window.location.search.includes('debug')) {
+    import('eruda').then((eruda) => eruda.default.init())
+  }
+
   return (
     <Routes>
       <Route element={<Layout />}>
@@ -37,21 +41,26 @@ function App() {
         <Route path={ROUTES.MY_ACCOUNT}>
           <Route element={<MyAccountPage />}>
             <Route index element={<AccountSettingsList />} />
-            <Route path={ROUTES.ACCOUNT_INFO} element={<AccountInformationPage />} />
+            <Route
+              path={ROUTES.ACCOUNT_INFO}
+              element={<AccountInformationPage />}
+            />
             <Route path={ROUTES.ORDERS} element={<OrdersPage />} />
 
             <Route path={ROUTES.ADDRESSES}>
               <Route index element={<AddressesPage />} />
-              <Route path={ROUTES.ADDRESSES_ADD} element={<AddressAddPage />}/>
-              <Route path={ROUTES.ADDRESSES_EDIT} element={<AddressEditPage />}/>
+              <Route path={ROUTES.ADDRESSES_ADD} element={<AddressAddPage />} />
+              <Route
+                path={ROUTES.ADDRESSES_EDIT}
+                element={<AddressEditPage />}
+              />
             </Route>
-            
+
             <Route path={ROUTES.CARDS} element={<CardsPage />} />
           </Route>
         </Route>
         <Route path={ROUTES.CHECKOUT} element={<CheckoutPage />} />
         <Route path={ROUTES.SUCCESS} element={<SuccessPage />} />
-        
       </Route>
 
       <Route element={<AuthLayout />}>
@@ -61,7 +70,10 @@ function App() {
         <Route element={<ForgotPasswordLayout />}>
           <Route path={ROUTES.FORGOT_PASSWORD}>
             <Route index element={<ForgotPassWordPage />} />
-            <Route path={ROUTES.RESET_PASSWORD}  element={<ResetPasswordPage />} />
+            <Route
+              path={ROUTES.RESET_PASSWORD}
+              element={<ResetPasswordPage />}
+            />
           </Route>
         </Route>
       </Route>

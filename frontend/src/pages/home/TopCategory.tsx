@@ -3,18 +3,12 @@ import ProductsCarousel from '@/pages/home/ProductsCarousel'
 
 const TopCategory = () => {
   return (
-    <div className='relative grid grid-cols-2 gap-8'>
+    <div className='relative'>
       <ProductsCarousel
         className='w-full rounded-xl'
         header='Relacionado con tus búsquedas...'
         category={CATEGORIES.PORTATILES.ORIGINAL}
-        basis='lg:basis-1/2'
-      />
-      <ProductsCarousel
-        className='w-full'
-        header='Productos en tendencia'
-        basis='lg:basis-1/2'
-        category={CATEGORIES.DECORACION_DE_HOGAR.ORIGINAL}
+        basis='sm:basis-1/2 md:basis-1/3 lg:basis-1/5'
       />
     </div>
   )
