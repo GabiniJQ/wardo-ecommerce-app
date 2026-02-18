@@ -484,9 +484,6 @@ export const addAddress = asyncHandler(async (req: Request, res: Response) => {
 export const loginDemo = asyncHandler(async (req: Request, res: Response) => {
   const email = process.env.DEMO_EMAIL
   const password = process.env.DEMO_PASSWORD || ''
-  console.log('🌍 Request origin:', req.headers.origin)
-  console.log('🔑 Setting cookie for origin:', req.headers.origin)
-  
 
   const user = await User.findOne({ email })
   if (!user) {

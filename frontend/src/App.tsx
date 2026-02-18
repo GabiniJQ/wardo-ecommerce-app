@@ -29,9 +29,6 @@ function App() {
   if (import.meta.env.DEV || window.location.search.includes('debug')) {
     import('eruda').then((eruda) => eruda.default.init())
   }
-  console.log('🔐 Login successful')
-        console.log('📝 Cookies:', document.cookie)
-        console.log('🌐 Current domain:', window.location.hostname)
 
   return (
     <Routes>

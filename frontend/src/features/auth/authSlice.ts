@@ -528,9 +528,6 @@ export const authSlice = createSlice({
         localStorage.setItem('user', JSON.stringify(
           formatUserLocalStorage(action.payload)
         ))
-        console.log('🔐 Login successful')
-        console.log('📝 Cookies:', document.cookie)
-        console.log('🌐 Current domain:', window.location.hostname)
       })
       .addCase(loginDemo.rejected, (state, action) => {
         state.loginDemo.isLoading = false
