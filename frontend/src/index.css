@@ -166,6 +166,10 @@ h1 {
   @apply bg-gradient-to-b from-white from-10% to-secondary to-80%;
 }
 
+@utility gradient-promo-card {
+  @apply bg-linear-to-r from-[#366FFF] via-[#69E4FF] to-[#EDBEFF]
+}
+
 @utility shadow-card {
   @apply shadow-sm shadow-gray-500;
 }

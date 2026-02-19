@@ -69,11 +69,11 @@ const ProductsCarousel = ({
 
   return (
     <div
-      className={cn('flex flex-col gap-4'
+      className={cn('flex flex-col gap-6'
         , className)}
     >
       <div className='line-clamp-1'>
-        <h1 className='subtitle'>{header}</h1>
+        <h1 className='text-2xl font-medium xl:text-3xl'>{header}</h1>
       </div>
 
       <Carousel

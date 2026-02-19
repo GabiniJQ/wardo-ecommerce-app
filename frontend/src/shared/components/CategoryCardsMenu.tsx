@@ -7,7 +7,7 @@ const CategoryCardsMenu = ({ className, asChild }: { className?: string, asChild
   const categories = Object.values(CATEGORIES)
 
   return (
-    <ul className={cn('grid grid-cols-3 gap-1 w-[500px] sm:grid-cols-2 sm:gap-2', className)}>
+    <ul className={cn('grid grid-cols-3 gap-2 w-[500px] sm:grid-cols-2 sm:gap-2', className)}>
       {categories.map((category) => {
         const href = `/${category.ORIGINAL}`
         return (

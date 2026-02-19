@@ -8,7 +8,7 @@ import TopCategory from '@/pages/home/TopCategory'
 import { CATEGORIES } from '@/consts/productCategories'
 import { Separator } from '@/shared/components/ui/separator'
 import { MdStars } from 'react-icons/md'
-import { HiFire, HiSearch, HiShieldCheck, HiTruck } from 'react-icons/hi'
+import { HiFire, HiSearch } from 'react-icons/hi'
 import { GroceryPromo, WatchesPromo } from '@/pages/home/CategoryBanner'
 import CategoryCardsMenu from '@/shared/components/CategoryCardsMenu'
 
@@ -20,7 +20,7 @@ const HomePage = () => {
       <MainCarousel />
 
       {/* Benefits banner */}
-      <div className='flex justify-evenly items-center bg-primary/40 text-blue-dark font-bold py-2 h-12 2xl:max-w-[1920px] 2xl:mx-auto'>
+      {/* <div className='flex justify-evenly items-center bg-primary/40 text-blue-dark font-bold py-2 h-12 2xl:max-w-[1920px] 2xl:mx-auto'>
         <div className='hidden sm:flex sm:items-center sm:gap-2'>
           <HiFire className='size-4 sm:size-8' />
           <p className='text-sm'>Productos en tendencia</p>
@@ -42,14 +42,14 @@ const HomePage = () => {
           <HiTruck className='size-[14px] sm:size-8' />
           <a className='text-xs leading-0'>Primer envío gratis</a>
         </div>
-      </div>
+      </div> */}
 
       {/* Page body */}
       <div className='max-w-[1440px] mx-auto'>
         <div className=' bg-white'>
           {/* MOBILE: Category cards section */}
           {isMobile && (
-            <div className='flex flex-col gap-6 px-4 py-10'>
+            <div className='flex flex-col gap-6 px-4 py-4'>
               <h2 className='subtitle text-primary self-center'>
                 Buscar por categoría
               </h2>
@@ -67,9 +67,9 @@ const HomePage = () => {
               </div>
             )}
 
-            {/* Desktop: Related and popular section  Mobile: Category carousel*/}
+            {/* Desktop: Related section  Mobile: Category carousel*/}
             <section className='relative p-4 bg-white sm:p-6'>
-              <div className='size-full py-20  sm:rounded-none sm:shadow-none'>
+              <div className='size-full sm:rounded-none sm:shadow-none'>
                 {isMobile ? (
                   <CategoryMobile
                     header='Ofertas populares 🔥'
@@ -94,20 +94,11 @@ const HomePage = () => {
             </div>
 
             {/* Brand showcase */}
-            <section className='grid gap-4 px-4 py-4 sm:py-10 sm:pb-20 sm:grid-cols-2 lg:grid-cols-4 2xl:px-10'>
-              <Showcase
-                brand='Oster'
-                phrase='Los pioneros en electrodomésticos'
-              />
-              <Showcase brand='Ikea' phrase='Decora con lo más elegante' />
-              <Showcase
-                brand='Jumbo'
-                phrase='Provisiónate con alimentos de calidad'
-              />
-              <Showcase
-                brand='Carrefour'
-                phrase='Consigue la canasta familiar más económica'
-              />
+            <section className='grid gap-4 px-4 py-4 grid-cols-2 md:p-20 lg:grid-cols-4 lg:p-6'>
+              <Showcase brand='Oster' />
+              <Showcase brand='Ikea' />
+              <Showcase brand='Jumbo' />
+              <Showcase brand='Carrefour' />
             </section>
 
             {/* Separator categories showcase */}
@@ -128,7 +119,7 @@ const HomePage = () => {
                 <>
                   <div className='px-4 py-10 2xl:px-10'>
                     <ProductsCarousel
-                      basis='sm:basis-1/4 lg:basis-1/6'
+                      basis='sm:basis-1/3 lg:basis-1/6'
                       header='Comestibles'
                       category={CATEGORIES.COMESTIBLES.ORIGINAL}
                     />
@@ -136,7 +127,7 @@ const HomePage = () => {
 
                   <div className='px-4 py-10 2xl:px-10'>
                     <ProductsCarousel
-                      basis='sm:basis-1/4 lg:basis-1/6'
+                      basis='sm:basis-1/3 lg:basis-1/6'
                       header='Accesorios de cocina'
                       category={CATEGORIES.ACCESORIOS_DE_COCINA.ORIGINAL}
                     />

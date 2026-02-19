@@ -9,10 +9,9 @@ import { Link } from 'react-router'
 
 type ShowcaseProps = {
   brand: string
-  phrase: string
 }
 
-const Showcase = ({ brand, phrase }: ShowcaseProps) => {
+const Showcase = ({ brand }: ShowcaseProps) => {
   const showcaseData = useSelector((state: RootState) => state.products.filteredResults.showcase[brand])
   
   const { products = [], isLoading = false, isError = false } = showcaseData || {}
@@ -50,16 +49,15 @@ const Showcase = ({ brand, phrase }: ShowcaseProps) => {
   }
 
   return (
-    <div className='flex flex-col h-min p-4 rounded-2xl border shadow-sm bg-white '>  
-      <div className='relative flex flex-col gap-1'>
-        <h3 className='font-medium line-clamp-2 min-h-[50px]'>{phrase}</h3>
+    <div className='flex flex-col p-4 rounded-2xl border bg-white '>  
+      <div className='relative flex flex-col gap-1 items-center justify-center'>
         
-        <div className='relative w-full'>
-          <BrandBadge brand={brand}/>
+        <div className='relative flex items-center justify-center'>
+          <BrandBadge brand={brand} className='flex items-center justify-center'/>
         </div>
       </div>
 
-      <div className='flex items-center justify-center h-3/5'>
+      <div className='flex flex-1 items-center justify-center h-3/5'>
         <ShowcaseMainItem image={mainImage} product={mainProduct} />
       </div>
 

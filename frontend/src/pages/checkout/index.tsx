@@ -2,7 +2,6 @@ import { RootState } from '@/app/store'
 import { selectMainAddress } from '@/features/checkout/checkoutSelectors'
 import CheckoutSummary from '@/pages/cart/CheckoutSummary'
 import CartItemList from '@/shared/components/CartItemList'
-import formatAdressLine from '@/shared/utils/formatAddressLine'
 import { Elements } from '@stripe/react-stripe-js'
 import { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -14,17 +13,19 @@ import api from '@/lib/axios'
 import CheckoutForm from '@/pages/checkout/CheckoutForm'
 import { useNavigate } from 'react-router'
 import { ROUTES } from '@/consts/routes'
+import AddressContainer from '@/pages/checkout/AddressContainer'
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY)
 
 const CheckoutPage = () => {
   const [clientSecret, setClientSecret] = useState('')
   const [paymentIntentCreated, setPaymentIntentCreated] = useState(false)
-
+  console.log(paymentIntentCreated)
   const cartItems = useSelector(selectCartItems)
   const mainAddress = useSelector(selectMainAddress)
   const customerEmail = useSelector((state: RootState) => state.auth.user?.email)
-  const user = useSelector((state: RootState) => state.auth.user)
+  const { user } = useSelector((state: RootState) => state.auth)
+  const isChecked = useSelector((state: RootState) => state.auth.checkAuth.isChecked)
 
   const navigate = useNavigate()
 
@@ -43,8 +44,8 @@ const CheckoutPage = () => {
 
   // Redirect if no user logged in
   useEffect(() => {
-    if (!user?._id) navigate(ROUTES.LOGIN)
-  }, [user, navigate])
+    if (isChecked && !user?._id) navigate(ROUTES.LOGIN)
+  }, [user, navigate, isChecked])
 
   useEffect(() => {
     if (cartItems.length === 0) {
@@ -55,7 +56,7 @@ const CheckoutPage = () => {
   useEffect(() => {
     // Prevent intent creating on re-render (3 guards)
     if (paymentIntentCreated) return 
-    if (cartItems.length < 0 || !mainAddress) return
+    if (cartItems.length < 1 || !mainAddress) return
     const urlParams = new URLSearchParams(window.location.search)
     if (urlParams.get('payment_intent')) return
 
@@ -75,22 +76,11 @@ const CheckoutPage = () => {
     setPaymentIntentCreated(true)
   }, [cartItems, customerEmail, mainAddress, paymentIntentCreated])
 
-  if (!mainAddress) return
   return (
     <div className='grid gap-6 p-4 max-w-[1440px] md:grid-cols-2 xl:mx-auto'>
       <div className='grid gap-6 '>
         {/* Address container */}
-        <div className='flex flex-col gap-1 p-4 border border-primary rounded-sm'>
-          <h2>Enviar a <span className='text-primary'>{mainAddress.fullName}</span></h2>
-
-          <p className='text-sm'>{formatAdressLine(mainAddress)}</p>
-
-          <div>
-            <p className='text-xs text-gray-500 italic'>¿No es la ubicación que quieres?
-              Cámbiala en la barra de navegación superior.
-            </p>
-          </div>
-        </div>
+        <AddressContainer />
 
         {/* Cart items with summary */}
         <div className='flex flex-col gap-6 border p-4 bg-accent rounded-md xl:p-6'>
@@ -104,7 +94,7 @@ const CheckoutPage = () => {
       {/* Stripe element */}
         {clientSecret && (
           <Elements stripe={stripePromise} options={{ clientSecret, appearance , loader }}>
-            <CheckoutForm />
+            <CheckoutForm setPaymentIntentCreated={setPaymentIntentCreated} />
           </Elements>
         )}
     </div>
