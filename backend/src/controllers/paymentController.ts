@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
+import asyncHandler from 'express-async-handler'
 import { stripeService } from '../services/stripeService.js'
 import { orderService } from '../services/orderService.js'
 import {
@@ -6,82 +7,58 @@ import {
   PaymentIntentResponse,
 } from '../types/paymentTypes.js'
 
-export class PaymentController {
-  /**
-   * Create payment intent
-   */
-  async createPaymentIntent(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
-    try {
-      const data: CreatePaymentIntentRequest = req.body
+export const createPaymentIntent = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const data: CreatePaymentIntentRequest = req.body
 
-      // Create payment intent with Stripe
-      const paymentIntent = await stripeService.createPaymentIntent(data)
-
-      // Create order in database
-      const order = await orderService.createOrder(paymentIntent, req.user?._id)
-
-      const response: PaymentIntentResponse = {
-        clientSecret: paymentIntent.client_secret!,
-        amount: paymentIntent.amount,
-        currency: paymentIntent.currency,
-        orderId: order._id.toString(),
-      }
-
-      res.status(200).json(response)
-    } catch (error) {
-      console.log(error)
-      next(error)
+    if (!data) {
+      res.status(400)
+      throw new Error('Información de pago no encontrada')
     }
-  }
 
-  /**
-   * Get payment intent details
-   */
-  async getPaymentIntent(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
-    try {
-      const { paymentIntentId } = req.params
-
-      const paymentIntent =
-        await stripeService.retrievePaymentIntent(paymentIntentId)
-
-      res.status(200).json(paymentIntent)
-    } catch (error) {
-      next(error)
+    if (!data.customerEmail || !data.items || !data.shippingAddress) {
+      res.status(400)
+      throw new Error('Información de pago no válida')
     }
-  }
 
-  /**
-   * Cancel payment intent
-   */
-  async cancelPaymentIntent(
-    req: Request,
-    res: Response,
-    next: NextFunction,
-  ): Promise<void> {
-    try {
-      const { paymentIntentId } = req.params
+    const paymentIntent = await stripeService.createPaymentIntent(data)
 
-      const paymentIntent =
-        await stripeService.cancelPaymentIntent(paymentIntentId)
+    const order = await orderService.createOrder(paymentIntent, req.user?._id)
 
-      await orderService.updateOrderStatus(paymentIntentId, 'cancelled' as any)
-
-      res.status(200).json({
-        message: 'Payment cancelled successfully',
-        paymentIntent,
-      })
-    } catch (error) {
-      next(error)
+    const response: PaymentIntentResponse = {
+      clientSecret: paymentIntent.client_secret!,
+      amount: paymentIntent.amount,
+      currency: paymentIntent.currency,
+      orderId: order._id.toString(),
     }
-  }
-}
 
-export const paymentController = new PaymentController()
+    res.status(200).json(response)
+  },
+)
+
+export const getPaymentIntent = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const { paymentIntentId } = req.params
+
+    const paymentIntent =
+      await stripeService.retrievePaymentIntent(paymentIntentId)
+
+    res.status(200).json(paymentIntent)
+  },
+)
+
+export const cancelPaymentIntent = asyncHandler(
+  async (req: Request, res: Response): Promise<void> => {
+    const { paymentIntentId } = req.params
+
+    const paymentIntent =
+      await stripeService.cancelPaymentIntent(paymentIntentId)
+
+    await orderService.updateOrderStatus(paymentIntentId, 'cancelled' as any)
+
+    res.status(200).json({
+      message: 'Payment cancelled successfully',
+      paymentIntent,
+    })
+  },
+)

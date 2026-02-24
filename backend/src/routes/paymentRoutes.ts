@@ -1,5 +1,9 @@
 import express from 'express'
-import { paymentController } from '../controllers/paymentController.js'
+import {
+  cancelPaymentIntent,
+  createPaymentIntent,
+  getPaymentIntent,
+} from '../controllers/paymentController.js'
 import { validateCreatePaymentIntent } from '../middlewares/validateRequest.js'
 
 const paymentRoutes = express.Router()
@@ -7,17 +11,14 @@ const paymentRoutes = express.Router()
 paymentRoutes.post(
   '/create-payment-intent',
   validateCreatePaymentIntent,
-  paymentController.createPaymentIntent.bind(paymentController),
+  createPaymentIntent,
 )
 
-paymentRoutes.get(
-  '/payment-intent/:paymentIntentId',
-  paymentController.getPaymentIntent.bind(paymentController),
-)
+paymentRoutes.get('/payment-intent/:paymentIntentId', getPaymentIntent)
 
 paymentRoutes.post(
   '/cancel-payment-intent/:paymentIntentId',
-  paymentController.cancelPaymentIntent.bind(paymentController),
+  cancelPaymentIntent,
 )
 
 export default paymentRoutes

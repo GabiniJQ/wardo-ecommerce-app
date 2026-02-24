@@ -35,7 +35,7 @@ const Showcase = ({ brand }: ShowcaseProps) => {
 
   if (products.length === 0 || isLoading || isError) {
     return (
-      <div className='showcase bg-white min-h-[500px] w-full p-4 rounded-2xl border shadow-sm'>
+      <div className='showcase bg-white min-h-[350px] w-full p-4 rounded-2xl border shadow-sm'>
         <Skeleton className='h-3/4 w-full' />
 
         <div className='flex items-center justify-center gap-2 h-1/4 bg-white p-4'>

@@ -68,7 +68,7 @@ const orderSchema = new Schema<IOrder>(
   },
 )
 
-orderSchema.index({ paymentIntentId: 1 })
+
 orderSchema.index({ user: 1, createdAt: -1 })
 orderSchema.index({ status: 1 })
 
