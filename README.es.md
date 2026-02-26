@@ -1,137 +1,170 @@
 # 🛒 Wardo - Plataforma E-commerce Full-Stack
 
-## 🌍 Idiomas Disponibles
-- 🇪🇸 Español (este archivo)
-- 🇬🇧 [English version](README.md)
+## 🌍 Idiomas disponibles
+
+* 🇬🇧 [English](README.md)
+* 🇪🇸 Español (este archivo)
 
 ---
 
-## 📋 Descripción General
+## 📋 Descripción general
 
-Wardo es una **aplicación de e-commerce de nivel producción** construida para demostrar prácticas de desarrollo full-stack de nivel empresarial. Este proyecto exhibe arquitectura web moderna, procesamiento seguro de pagos y patrones escalables de gestión de estado.
+Wardo es una **aplicación e-commerce de nivel productivo** construida para demostrar prácticas avanzadas de desarrollo full-stack a nivel empresarial. El proyecto muestra una arquitectura web moderna, procesamiento de pagos seguro, patrones escalables de manejo de estado y un **flujo de desarrollo containerizado**.
 
-**Demo en Vivo:** [Wardo Demo](https://wardo.vercel.app/) *(Alojado en tier gratuito de Render - la carga inicial puede tomar ~30s)*
+**Demo en vivo:** [Wardo Demo](https://wardo.vercel.app/) *(Alojado en Render free tier — la carga inicial puede tardar ~30s)*
 
-## 🎥 Vista Previa de la Demo
+## 🎥 Vista previa del demo
+
 ![Demo GIF](./Demo.gif)
 
----
-
-## 🎯 Logros Técnicos Clave
-
-### 💳 **Procesamiento Seguro de Pagos**
-- ✅ **Integración de Pagos con Stripe** (Payment Element, Stripe.js)
-  - Confirmación de pagos exclusivamente en backend para prevenir manipulación del lado del cliente
-  - Implementación compatible con PCI SAQ-A usando elementos alojados por Stripe
-  - Personalización del estilo del Payment Element para consistencia de marca
-  - Infraestructura de webhooks para eventos `payment_intent.succeeded` y `payment_intent.failed`
-  - Manejo integral de errores con mensajes de respaldo amigables para el usuario
-
-### 🔐 **Sistema de Autenticación Empresarial**
-- Autenticación basada en JWT con **patrón de access/refresh token**
-  - Access tokens almacenados en memoria (Redux)
-  - Refresh tokens en cookies HTTP-only para protección XSS
-- **Control de Acceso Basado en Roles (RBAC)** con roles `user` y `admin`
-- Rutas protegidas en frontend y backend
-- Flujo automático de renovación de tokens
-
-### 🏗️ **Gestión Avanzada de Estado**
-- **Redux Toolkit** con arquitectura de slices orientada a dominio
-  - `createAsyncThunk` para operaciones asíncronas (auth, productos, sincronización de carrito)
-  - Manejo centralizado de errores vía estado global de errores
-  - Estrategia de caché del lado del cliente para mejorar el rendimiento
-
-### ⚡ **Optimizaciones de Rendimiento**
-- Lazy loading de React para code splitting (ruta de checkout)
-- Indexación en MongoDB en campos de alta consulta (nombre de producto, categoría, ID de usuario)
-- Planificado: Capa de caché de respuestas API
+▶️ **Ver demo completo (1 min):** [Video Demo](https://github.com/user-attachments/assets/60486783-7661-4de7-a171-e31893f1fa79)
 
 ---
 
-## 🛠️ Stack Tecnológico
+## 🎯 Logros técnicos clave
+
+### 💳 **Procesamiento de pagos seguro**
+
+* ✅ **Integración con Stripe** (Payment Element, Stripe.js)
+
+  * Confirmación de pagos exclusivamente desde el backend para evitar manipulaciones en el cliente
+  * Implementación compatible con PCI SAQ-A usando componentes alojados por Stripe
+  * Estilización personalizada del Payment Element para mantener consistencia de marca
+  * Infraestructura de webhooks para eventos `payment_intent.succeeded` y `payment_intent.failed`
+  * Manejo integral de errores con mensajes claros para el usuario
+
+### 🔐 **Sistema de autenticación empresarial**
+
+* Autenticación basada en JWT con **patrón access/refresh token**
+
+  * Access tokens almacenados en memoria (Redux)
+  * Refresh tokens en cookies HTTP-only para protección contra XSS
+* **Control de acceso basado en roles (RBAC)** con roles `user` y `admin`
+* Rutas protegidas tanto en frontend como en backend
+* Flujo automático de renovación de tokens
+
+### 🏗️ **Gestión avanzada de estado**
+
+* **Redux Toolkit** con arquitectura de slices orientada al dominio
+
+  * `createAsyncThunk` para operaciones asíncronas (auth, productos, sincronización del carrito)
+  * Manejo centralizado de errores mediante un estado global
+  * Estrategia de caché en cliente para mejorar el rendimiento
+
+### ⚡ **Optimizaciones de rendimiento**
+
+* Lazy loading en React para división de código (ruta de checkout)
+* Indexación en MongoDB sobre campos de alta consulta (nombre de producto, categoría, ID de usuario)
+* Planeado: capa de caché para respuestas de la API
+
+### 🐳 **Flujo de desarrollo containerizado**
+
+* Entorno de desarrollo local dockerizado usando **Docker Compose**
+* Orquestación de múltiples servicios (frontend, backend, base de datos)
+* Hot reload habilitado mediante Docker Compose Watch
+* Herramientas consistentes entre entornos sin conflictos de dependencias locales
+
+---
+
+## 🛠️ Stack tecnológico
 
 ### **Frontend**
-- **React 19** + **TypeScript** (arquitectura de componentes con tipado seguro)
-- **Redux Toolkit** (gestión de estado global con async thunks)
-- **TailwindCSS** + **shadcn/ui** (biblioteca de componentes moderna y accesible)
-- **React Router v7** (enrutamiento del lado del cliente con rutas protegidas)
-- **Zod** (validación de esquemas en tiempo de ejecución)
-- **Stripe.js** + **Payment Element** (UI de pagos compatible con PCI)
+
+* **React 19** + **TypeScript** (arquitectura de componentes con tipado seguro)
+* **Redux Toolkit** (gestión de estado global con thunks asíncronos)
+* **TailwindCSS** + **shadcn/ui** (biblioteca de componentes moderna y accesible)
+* **React Router v7** (enrutamiento del lado del cliente con rutas protegidas)
+* **Zod** (validación de esquemas en tiempo de ejecución)
+* **Stripe.js** + **Payment Element** (UI de pagos compatible con PCI)
 
 ### **Backend**
-- **Node.js** + **Express.js** (arquitectura API RESTful)
-- **MongoDB** + **Mongoose** (modelado de datos NoSQL)
-- **JWT** (autenticación sin estado)
-- **Stripe API** (procesamiento de pagos)
-- **Mailtrap** (integración de servicio de correo electrónico)
 
-### **Patrones de Arquitectura**
-- Clase de error personalizada (`AppError`) con middleware centralizado de errores
-- Estrategia de indexación de base de datos para optimización de consultas
-- Gestión de configuración basada en entornos (dev, sandbox, production)
+* **Node.js** + **Express.js** (arquitectura de API REST)
+* **MongoDB** + **Mongoose** (modelado de datos NoSQL)
+* **JWT** (autenticación sin estado)
+* **Stripe API** (procesamiento de pagos)
+* **Mailtrap** (integración de servicio de correo)
+
+### **DevOps y herramientas**
+
+* **Docker & Docker Compose Watch** (entorno de desarrollo containerizado)
+
+### **Patrones de arquitectura**
+
+* Clase de error personalizada (`AppError`) con middleware centralizado
+* Estrategia de indexación en base de datos para optimización de consultas
+* Configuración basada en entornos (dev, sandbox, production)
 
 ---
 
 ## 🚀 Funcionalidades
 
 ### **Implementadas**
-- ✅ Registro de usuarios y autenticación con flujo de JWT refresh
-- ✅ Rutas protegidas con autorización basada en roles
-- ✅ Catálogo de productos con filtrado por categoría
-- ✅ Carrito de compras persistente con sincronización en backend
-- ✅ Sistema de gestión de múltiples direcciones
-- ✅ **Integración de pagos con Stripe** con Payment Element
-- ✅ Gestión de cuenta y actualizaciones de perfil
 
-### **En Desarrollo**
-- 🔄 Integración OAuth 2.0 (Google Sign-In)
-- 🔄 Historial de pedidos con búsqueda/filtrado
-- 🔄 Panel de administración (gestión de productos/pedidos)
-- 🔄 Actualizaciones optimistas de UI para operaciones de carrito
+* ✅ Registro y autenticación de usuarios con flujo de refresh tokens
+* ✅ Rutas protegidas con autorización basada en roles
+* ✅ Catálogo de productos con filtrado por categoría
+* ✅ Carrito persistente con sincronización backend
+* ✅ Sistema de gestión de múltiples direcciones
+* ✅ **Integración de pagos con Stripe** usando Payment Element
+* ✅ Gestión de cuenta y actualización de perfil
 
----
+### **En desarrollo**
 
-## 📊 Métricas del Proyecto
-
-- **Tamaño del Código:** ~12,000-15,000 líneas de código
-- **Línea de Tiempo de Desarrollo:** 3-4 meses (tiempo parcial)
-- **Colecciones de Base de Datos:** 3 modelos principales con referencias relacionales
-- **Endpoints API:** Más de 20 endpoints RESTful
+* 🔄 Integración OAuth 2.0 (Google Sign-In)
+* 🔄 Historial de órdenes con búsqueda y filtros
+* 🔄 Panel de administración (gestión de productos y órdenes)
+* 🔄 Actualizaciones optimistas del carrito
 
 ---
 
-## 🔧 Instalación y Configuración
+## 📊 Métricas del proyecto
 
-### Requisitos Previos
-- Node.js 20+
-- Instancia de MongoDB
-- Cuenta de Stripe (modo de prueba)
+* **Tamaño del código:** ~12,000–15,000 líneas
+* **Duración del desarrollo:** 3–4 meses (tiempo parcial)
+* **Colecciones de base de datos:** 3 modelos principales con referencias relacionales
+* **Endpoints de API:** 20+ endpoints REST
 
-### 1. Clonar Repositorio
+---
+
+## 🔧 Instalación y configuración
+
+Wardo puede ejecutarse mediante una configuración tradicional con Node.js o utilizando un entorno de desarrollo opcional con Docker.
+
+### Requisitos (sin Docker)
+
+* Node.js 20+
+* Instancia de MongoDB
+* Cuenta de Stripe (modo test)
+
+### 1. Clonar el repositorio
+
 ```bash
 git clone https://github.com/GabiniJQ/wardo-ecommerce-app.git
 cd wardo-ecommerce-app
 ```
 
-### 2. Configuración de Entorno
+### 2. Configuración de variables de entorno
 
 **Backend `.env`:**
+
 ```env
-MONGODB_URI=tu_cadena_de_conexión_mongodb
-JWT_ACCESS_SECRET=tu_secreto_de_access
-JWT_REFRESH_SECRET=tu_secreto_de_refresh
-STRIPE_SECRET_KEY=tu_clave_secreta_stripe
-STRIPE_WEBHOOK_SECRET=tu_secreto_webhook
+MONGODB_URI=your_mongodb_connection_string
+JWT_ACCESS_SECRET=your_access_secret
+JWT_REFRESH_SECRET=your_refresh_secret
+STRIPE_SECRET_KEY=your_stripe_secret_key
+STRIPE_WEBHOOK_SECRET=your_webhook_secret
 ```
 
 **Frontend `.env`:**
+
 ```env
 VITE_API_URL=http://localhost:5000
-VITE_STRIPE_PUBLISHABLE_KEY=tu_clave_publicable_stripe
-VITE_RECAPTCHA_SITE_LOCALHOST_KEY=clave_google_captcha
+VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
+VITE_RECAPTCHA_SITE_LOCALHOST_KEY=google_captcha_key
 ```
 
-### 3. Instalar y Ejecutar
+### 3. Instalar y ejecutar (sin Docker)
 
 ```bash
 # Backend
@@ -147,60 +180,92 @@ npm run dev
 
 ---
 
-## 🧪 Estrategia de Testing (Planificado)
+## 🐳 Entorno de desarrollo con Docker (opcional)
 
-- **Tests Unitarios:** Jest para reducers de Redux y funciones utilitarias
-- **Tests de Integración:** Flujos de autenticación y procesamiento de pagos
-- **Tests E2E:** Playwright/Cypress para flujo completo de checkout
+Wardo incluye un **entorno de desarrollo opcional con Docker** diseñado para simplificar la configuración local y garantizar consistencia entre equipos.
+
+Este setup está pensado **exclusivamente para desarrollo** y replica el flujo tradicional con Node.js utilizando hot reload y volúmenes montados.
+La containerización para producción se abordará en una etapa posterior.
+
+### Servicios
+
+* Frontend (React + Vite)
+* Backend (Node.js + Express)
+* MongoDB
+
+### Ejecutar con Docker
+
+```bash
+docker compose up --build
+```
+
+### Acceso
+
+* Frontend: [http://localhost:5173](http://localhost:5173)
+* Backend API: [http://localhost:5000](http://localhost:5000)
+
+> Puedes alternar libremente entre flujos con Docker o sin Docker según tu preferencia.
 
 ---
 
-## 🏆 Desafíos Técnicos Resueltos
+## 🧪 Estrategia de testing (en desarrollo)
 
-### **Arquitectura de Flujo de Pago Seguro**
-Diseñé un sistema de confirmación de pagos centrado en backend que:
-- Previene la manipulación de pagos del lado del cliente
-- Sincroniza el estado de pedidos entre base de datos y Stripe
-- Maneja casos extremos (cargos duplicados, fallos de red)
-- Mantiene estándares de cumplimiento PCI
-
-### **Implementación de JWT Refresh Token**
-Construí un mecanismo de renovación de tokens sin interrupciones con:
-- Renovación automática de tokens en segundo plano
-- Almacenamiento seguro en cookies HTTP-only
-- Manejo de condiciones de carrera para solicitudes concurrentes
-
-### **Consistencia de Estado Asíncrono**
-Gestioné flujos asíncronos complejos a través de múltiples slices de Redux mientras mantenía la integridad de datos y prevenía la desincronización de estado.
+* **Tests unitarios:** Jest para reducers de Redux y utilidades
+* **Tests de integración:** Flujos de autenticación y pagos
+* **Tests E2E:** Playwright/Cypress para el flujo completo de checkout
 
 ---
 
-## 📈 Hoja de Ruta
+## 🏆 Retos técnicos resueltos
 
-- [ ] Implementar pipeline CI/CD (GitHub Actions)
-- [ ] Añadir suite de tests integral (objetivo de cobertura 80%+)
-- [ ] Monitoreo de rendimiento con infraestructura de logging
-- [ ] Capa de caché avanzada (Redis)
-- [ ] Exploración de arquitectura de microservicios
+### **Arquitectura segura de pagos**
+
+Diseño de un flujo de confirmación de pagos centrado en el backend que:
+
+* Evita manipulaciones del lado del cliente
+* Sincroniza el estado de órdenes entre la base de datos y Stripe
+* Maneja casos límite (cargos duplicados, fallos de red)
+* Mantiene estándares de cumplimiento PCI
+
+### **Implementación de refresh tokens con JWT**
+
+Construcción de un mecanismo fluido de renovación de tokens con:
+
+* Renovación automática en segundo plano
+* Almacenamiento seguro en cookies HTTP-only
+* Manejo de condiciones de carrera en solicitudes concurrentes
+
+### **Consistencia de estado asíncrono**
+
+Gestión de flujos asíncronos complejos entre múltiples slices de Redux manteniendo la integridad de los datos y evitando desincronizaciones.
+
+---
+
+## 📈 Roadmap
+
+* [ ] Implementar pipeline CI/CD (GitHub Actions)
+* [ ] Monitoreo de rendimiento con infraestructura de logging
+* [ ] Capa avanzada de caché (Redis)
+* [ ] Exploración de arquitectura de microservicios
 
 ---
 
 ## 🧑‍💻 Autor
 
-**Jose Gabriel Quintana Guardo**  
-Desarrollador Full-Stack | Especialista en E-commerce y Sistemas de Pago
+**Jose Gabriel Quintana Guardo**
+Desarrollador Full-Stack
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Conectar-blue)](https://www.linkedin.com/in/joseguardoq/)  
-[![Portfolio](https://img.shields.io/badge/Portfolio-Ver-green)](https://josequintana.vercel.app/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/joseguardoq/)
+[![Portfolio](https://img.shields.io/badge/Portfolio-View-green)](https://josequintana.vercel.app/)
 
-*Construido como una demostración integral de prácticas modernas de desarrollo full-stack, con énfasis en seguridad, escalabilidad y calidad de código listo para producción.*
+*Construido como una demostración integral de prácticas modernas de desarrollo full-stack, con énfasis en seguridad, escalabilidad y calidad de código lista para producción.*
 
 ---
 
 ## 📄 Licencia
 
-Este proyecto es de código abierto y está disponible bajo la [Licencia MIT](LICENSE).
+Este proyecto es open source y está disponible bajo la licencia [MIT](LICENSE).
 
 ---
 
-**Nota:** Este es un proyecto educativo que demuestra prácticas de desarrollo de nivel producción. Aunque es completamente funcional, utiliza el modo de prueba de Stripe y alojamiento en tier gratuito.
+**Nota:** Este es un proyecto educativo que demuestra prácticas de desarrollo a nivel productivo. Aunque es totalmente funcional, utiliza Stripe en modo test y servicios de hosting en free tier.

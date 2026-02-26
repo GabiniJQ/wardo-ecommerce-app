@@ -1,122 +1,153 @@
 # 🛒 Wardo - Full-Stack E-commerce Platform
 
 ## 🌍 Available Languages
-- 🇬🇧 English (this file)
-- 🇪🇸 [Versión en español](README.es.md)
+
+* 🇬🇧 English (this file)
+* 🇪🇸 [Versión en español](README.es.md)
 
 ---
 
 ## 📋 Overview
 
-Wardo is a **production-grade e-commerce application** built to demonstrate enterprise-level full-stack development practices. This project showcases modern web architecture, secure payment processing, and scalable state management patterns.
+Wardo is a **production-grade e-commerce application** built to demonstrate enterprise-level full-stack development practices. This project showcases modern web architecture, secure payment processing, scalable state management patterns, and a **containerized development workflow**.
 
-**Live Demo:** [Wardo Demo](https://wardo.vercel.app/) *(Hosted on Render free tier - initial load may take ~30s)*
+**Live Demo:** [Wardo Demo](https://wardo.vercel.app/) *(Hosted on Render free tier — initial load may take ~30s)*
 
 ## 🎥 Demo Preview
+
 ![Demo GIF](./Demo.gif)
+
+▶️ **Watch full demo (1 min):** [Video Demo](https://github.com/user-attachments/assets/60486783-7661-4de7-a171-e31893f1fa79)
 
 ---
 
 ## 🎯 Key Technical Achievements
 
 ### 💳 **Secure Payment Processing**
-- ✅ **Stripe Payment Integration** (Payment Element, Stripe.js)
-  - Backend-only payment confirmation to prevent client-side tampering
-  - PCI SAQ-A compliant implementation using Stripe-hosted elements
-  - Custom Payment Element styling for brand consistency
-  - Webhook infrastructure for `payment_intent.succeeded` and `payment_intent.failed` events
-  - Comprehensive error handling with user-friendly fallback messaging
+
+* ✅ **Stripe Payment Integration** (Payment Element, Stripe.js)
+
+  * Backend-only payment confirmation to prevent client-side tampering
+  * PCI SAQ-A compliant implementation using Stripe-hosted elements
+  * Custom Payment Element styling for brand consistency
+  * Webhook infrastructure for `payment_intent.succeeded` and `payment_intent.failed` events
+  * Comprehensive error handling with user-friendly fallback messaging
 
 ### 🔐 **Enterprise Authentication System**
-- JWT-based auth with **access/refresh token pattern**
-  - Access tokens stored in memory (Redux)
-  - Refresh tokens in HTTP-only cookies for XSS protection
-- **Role-Based Access Control (RBAC)** with `user` and `admin` roles
-- Protected routes on both frontend and backend
-- Automatic token refresh flow
+
+* JWT-based auth with **access/refresh token pattern**
+
+  * Access tokens stored in memory (Redux)
+  * Refresh tokens in HTTP-only cookies for XSS protection
+* **Role-Based Access Control (RBAC)** with `user` and `admin` roles
+* Protected routes on both frontend and backend
+* Automatic token refresh flow
 
 ### 🏗️ **Advanced State Management**
-- **Redux Toolkit** with domain-driven slice architecture
-  - `createAsyncThunk` for async operations (auth, products, cart sync)
-  - Centralized error handling via global error state
-  - Client-side caching strategy for improved performance
+
+* **Redux Toolkit** with domain-driven slice architecture
+
+  * `createAsyncThunk` for async operations (auth, products, cart sync)
+  * Centralized error handling via global error state
+  * Client-side caching strategy for improved performance
 
 ### ⚡ **Performance Optimizations**
-- React lazy loading for code splitting (checkout route)
-- MongoDB indexing on high-query fields (product name, category, user ID)
-- Planned: API response caching layer
+
+* React lazy loading for code splitting (checkout route)
+* MongoDB indexing on high-query fields (product name, category, user ID)
+* Planned: API response caching layer
+
+### 🐳 **Containerized Development Workflow**
+
+* Dockerized local development environment using **Docker Compose**
+* Multi-service orchestration (frontend, backend, database)
+* Hot reload enabled via Docker Compose Watch
+* Consistent tooling across environments without local dependency conflicts
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### **Frontend**
-- **React 19** + **TypeScript** (type-safe component architecture)
-- **Redux Toolkit** (global state management with async thunks)
-- **TailwindCSS** + **shadcn/ui** (modern, accessible component library)
-- **React Router v7** (client-side routing with protected routes)
-- **Zod** (runtime schema validation)
-- **Stripe.js** + **Payment Element** (PCI-compliant payment UI)
+
+* **React 19** + **TypeScript** (type-safe component architecture)
+* **Redux Toolkit** (global state management with async thunks)
+* **TailwindCSS** + **shadcn/ui** (modern, accessible component library)
+* **React Router v7** (client-side routing with protected routes)
+* **Zod** (runtime schema validation)
+* **Stripe.js** + **Payment Element** (PCI-compliant payment UI)
 
 ### **Backend**
-- **Node.js** + **Express.js** (RESTful API architecture)
-- **MongoDB** + **Mongoose** (NoSQL data modeling)
-- **JWT** (stateless authentication)
-- **Stripe API** (payment processing)
-- **Mailtrap** (email service integration)
+
+* **Node.js** + **Express.js** (RESTful API architecture)
+* **MongoDB** + **Mongoose** (NoSQL data modeling)
+* **JWT** (stateless authentication)
+* **Stripe API** (payment processing)
+* **Mailtrap** (email service integration)
+
+### **DevOps & Tooling**
+
+* **Docker & Docker Compose Watch** (containerized development environment)
 
 ### **Architecture Patterns**
-- Custom error class (`AppError`) with centralized error middleware
-- Database indexing strategy for query optimization
-- Environment-based configuration management (dev, sandbox, production)
+
+* Custom error class (`AppError`) with centralized error middleware
+* Database indexing strategy for query optimization
+* Environment-based configuration management (dev, sandbox, production)
 
 ---
 
 ## 🚀 Features
 
 ### **Implemented**
-- ✅ User registration and authentication with JWT refresh flow
-- ✅ Protected routes with role-based authorization
-- ✅ Product catalog with category filtering
-- ✅ Persistent shopping cart with backend synchronization
-- ✅ Multi-address management system
-- ✅ **Stripe payment integration** with Payment Element
-- ✅ Account management and profile updates
+
+* ✅ User registration and authentication with JWT refresh flow
+* ✅ Protected routes with role-based authorization
+* ✅ Product catalog with category filtering
+* ✅ Persistent shopping cart with backend synchronization
+* ✅ Multi-address management system
+* ✅ **Stripe payment integration** with Payment Element
+* ✅ Account management and profile updates
 
 ### **In Development**
-- 🔄 OAuth 2.0 integration (Google Sign-In)
-- 🔄 Order history with search/filtering
-- 🔄 Admin dashboard (product/order management)
-- 🔄 Optimistic UI updates for cart operations
+
+* 🔄 OAuth 2.0 integration (Google Sign-In)
+* 🔄 Order history with search/filtering
+* 🔄 Admin dashboard (product/order management)
+* 🔄 Optimistic UI updates for cart operations
 
 ---
 
 ## 📊 Project Metrics
 
-- **Codebase Size:** ~12,000-15,000 lines of code
-- **Development Timeline:** 3-4 months (part-time)
-- **Database Collections:** 3 core models with relational references
-- **API Endpoints:** 20+ RESTful endpoints
+* **Codebase Size:** ~12,000–15,000 lines of code
+* **Development Timeline:** 3–4 months (part-time)
+* **Database Collections:** 3 core models with relational references
+* **API Endpoints:** 20+ RESTful endpoints
 
 ---
 
 ## 🔧 Installation & Setup
 
-### Prerequisites
-- Node.js 20+
-- MongoDB instance
-- Stripe account (test mode)
+You can run Wardo using either a traditional Node.js setup or an optional Dockerized development environment.
+
+### Prerequisites (Non-Docker)
+
+* Node.js 20+
+* MongoDB instance
+* Stripe account (test mode)
 
 ### 1. Clone Repository
+
 ```bash
 git clone https://github.com/GabiniJQ/wardo-ecommerce-app.git
 cd wardo-ecommerce-app
-
 ```
 
 ### 2. Environment Configuration
 
 **Backend `.env`:**
+
 ```env
 MONGODB_URI=your_mongodb_connection_string
 JWT_ACCESS_SECRET=your_access_secret
@@ -126,13 +157,14 @@ STRIPE_WEBHOOK_SECRET=your_webhook_secret
 ```
 
 **Frontend `.env`:**
+
 ```env
 VITE_API_URL=http://localhost:5000
 VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 VITE_RECAPTCHA_SITE_LOCALHOST_KEY=google_captcha_key
 ```
 
-### 3. Install & Run
+### 3. Install & Run (Without Docker)
 
 ```bash
 # Backend
@@ -148,50 +180,82 @@ npm run dev
 
 ---
 
-## 🧪 Testing Strategy (Planned)
+## 🐳 Dockerized Development Environment (Optional)
 
-- **Unit Tests:** Jest for Redux reducers and utility functions
-- **Integration Tests:** Auth flows and payment processing
-- **E2E Tests:** Playwright/Cypress for complete checkout flow
+Wardo includes an **optional Dockerized development environment** designed to simplify local setup and ensure consistency across machines.
+
+This setup is intended **exclusively for development** and mirrors the local Node.js workflow using hot reload and bind mounts.
+Production containerization is intentionally excluded at this stage.
+
+### Services
+
+* Frontend (React + Vite)
+* Backend (Node.js + Express)
+* MongoDB
+
+### Run with Docker
+
+```bash
+docker compose up --build
+```
+
+### Access
+
+* Frontend: [http://localhost:5173](http://localhost:5173)
+* Backend API: [http://localhost:5000](http://localhost:5000)
+
+> You can switch freely between Docker and non-Docker workflows depending on your preference.
+
+---
+
+## 🧪 Testing Strategy (In development)
+
+* **Unit Tests:** Jest for Redux reducers and utility functions
+* **Integration Tests:** Auth flows and payment processing
+* **E2E Tests:** Playwright/Cypress for complete checkout flow
 
 ---
 
 ## 🏆 Technical Challenges Solved
 
 ### **Secure Payment Flow Architecture**
+
 Designed a backend-first payment confirmation system that:
-- Prevents client-side payment tampering
-- Synchronizes order state across database and Stripe
-- Handles edge cases (duplicate charges, network failures)
-- Maintains PCI compliance standards
+
+* Prevents client-side payment tampering
+* Synchronizes order state across database and Stripe
+* Handles edge cases (duplicate charges, network failures)
+* Maintains PCI compliance standards
 
 ### **JWT Refresh Token Implementation**
+
 Built a seamless token refresh mechanism with:
-- Automatic background token renewal
-- Secure HTTP-only cookie storage
-- Race condition handling for concurrent requests
+
+* Automatic background token renewal
+* Secure HTTP-only cookie storage
+* Race condition handling for concurrent requests
 
 ### **Async State Consistency**
+
 Managed complex async flows across multiple Redux slices while maintaining data integrity and preventing state desynchronization.
 
 ---
 
 ## 📈 Roadmap
 
-- [ ] Implement CI/CD pipeline (GitHub Actions)
-- [ ] Add comprehensive test suite (80%+ coverage target)
-- [ ] Performance monitoring with logging infrastructure
-- [ ] Advanced caching layer (Redis)
-- [ ] Microservices architecture exploration
+* [ ] Implement CI/CD pipeline (GitHub Actions)
+* [ ] Performance monitoring with logging infrastructure
+* [ ] Advanced caching layer (Redis)
+* [ ] Microservices architecture exploration
 
 ---
 
 ## 🧑‍💻 Author
 
-**Jose Gabriel Quintana Guardo**  
-Full-Stack Developer | E-commerce & Payment Systems Specialist
+**Jose Gabriel Quintana Guardo**
+Full-Stack Developer
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/joseguardoq/)  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-blue)](https://www.linkedin.com/in/joseguardoq/)
 [![Portfolio](https://img.shields.io/badge/Portfolio-View-green)](https://josequintana.vercel.app/)
 
 *Built as a comprehensive demonstration of modern full-stack development practices, with emphasis on security, scalability, and production-ready code quality.*

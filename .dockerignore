@@ -1,0 +1,39 @@
+# Node modules
+**/node_modules
+**/npm-debug.log
+
+# Gitd
+**/.git
+**/.gitignore
+
+# Docker
+**/.docker
+**/Dockerfile
+**/docker-compose*.yaml
+
+# Environment files
+**/.env.local
+**/.env*.local
+
+# IDE
+**/.vscode
+**/.idea
+**/*.swp
+**/*.swo
+
+# OS
+**/.DS_Store
+**/Thumbs.db
+
+# Build outputs
+**/dist
+**/build
+**/.next
+
+# Testing
+**/coverage
+**/.nyc_output
+
+# Logs
+**/logs
+**/*.log

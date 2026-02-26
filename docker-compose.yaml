@@ -1,0 +1,68 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      target: development
+    container_name: wardo-backend
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    networks:
+      - wardo-network
+    develop:
+      watch:
+        - action: sync
+          path: ./backend/src
+          target: /app/src
+          ignore:
+            - node_modules/
+        - action: rebuild
+          path: ./backend/package.json
+
+  frontend:
+    build:
+      context: ./frontend
+      target: development
+    container_name: wardo-frontend
+    env_file:
+      - ./frontend/.env
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - wardo-network
+    develop:
+      watch:
+        - action: sync
+          path: ./frontend/src
+          target: /app/src
+          ignore:
+            - node_modules/
+        - action: sync
+          path: ./frontend/public
+          target: /app/public
+        - action: rebuild
+          path: ./frontend/package.json
+
+  mongo:
+    image: mongo:7
+    container_name: wardo-mongo
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_DATABASE=wardo
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - wardo-network
+
+volumes:
+  mongo-data:
+
+networks:
+  wardo-network:
+    driver: bridge
